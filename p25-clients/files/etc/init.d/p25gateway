@@ -1,0 +1,21 @@
+#!/bin/sh /etc/rc.common
+# "new(er)" style init script
+# Look at /lib/functions/service.sh on a running system for explanations of what other SERVICE_
+# options you can use, and when you might want them.
+ 
+START=99
+APP=P25Gateway
+SERVICE_WRITE_PID=1
+SERVICE_DAEMONIZE=1
+LOG_PATH=/var/log/mmdvm
+
+start() {
+    [ -d $LOG_PATH ] || mkdir -m 0775 -p $LOG_PATH
+    ubus -t 60 wait_for network.interface network.wireless 2>/dev/null
+    
+    service_start /usr/sbin/$APP
+}
+ 
+stop() {
+    service_stop /usr/sbin/$APP
+}

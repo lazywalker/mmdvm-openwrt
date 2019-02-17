@@ -1,0 +1,19 @@
+--- /dev/null
++++ b/Makefile
+@@ -0,0 +1,16 @@
++.ysf-gateway:
++	make -C YSFGateway
++
++.ysf-parrot:
++	make -C YSFParrot
++
++all: .ysf-gateway .ysf-parrot
++
++clean:
++	make -C YSFGateway clean
++	make -C YSFParrot clean
++
++distclean:
++	make -C YSFGateway distclean
++	make -C YSFParrot distclean
++

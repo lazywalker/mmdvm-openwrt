@@ -1,0 +1,19 @@
+--- /dev/null
++++ b/Makefile
+@@ -0,0 +1,16 @@
++.p25-gateway:
++	make -C P25Gateway
++
++.p25-parrot:
++	make -C P25Parrot
++
++all: .p25-gateway .p25-parrot
++
++clean:
++	make -C P25Gateway clean
++	make -C P25Parrot clean
++
++distclean:
++	make -C P25Gateway distclean
++	make -C P25Parrot distclean
++
