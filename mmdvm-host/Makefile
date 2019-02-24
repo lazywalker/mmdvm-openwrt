@@ -25,7 +25,7 @@ define Package/mmdvm-host
 	CATEGORY:=Network
 	TITLE:=MMDVM Host
 	URL:=https://github.com/g4klx/MMDVMHost/
-	DEPENDS:=+libpthread +libstdcpp
+	DEPENDS:=+libpthread +libstdcpp +ysf-clients +p25-clients
 endef
 
 define Package/mmdvm-host/description
