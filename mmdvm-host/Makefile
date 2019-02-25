@@ -22,7 +22,7 @@ include $(INCLUDE_DIR)/package.mk
 
 define Package/mmdvm-host
 	SECTION:=net
-	CATEGORY:=Network
+	CATEGORY:=MMDVM
 	TITLE:=MMDVM Host
 	URL:=https://github.com/g4klx/MMDVMHost/
 	DEPENDS:=+libpthread +libstdcpp +ysf-clients +p25-clients

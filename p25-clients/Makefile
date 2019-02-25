@@ -22,7 +22,7 @@ include $(INCLUDE_DIR)/package.mk
 
 define Package/p25-clients
 	SECTION:=net
-	CATEGORY:=Network
+	CATEGORY:=MMDVM
 	TITLE:=MMDVM P25Clients
 	URL:=$(PKG_SOURCE_URL)
 	DEPENDS:=+libpthread +libstdcpp

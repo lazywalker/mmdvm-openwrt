@@ -22,7 +22,7 @@ include $(INCLUDE_DIR)/package.mk
 
 define Package/ysf-clients
 	SECTION:=net
-	CATEGORY:=Network
+	CATEGORY:=MMDVM
 	TITLE:=MMDVM YSFClients
 	URL:=$(PKG_SOURCE_URL)
 	DEPENDS:=+libpthread +libstdcpp
