@@ -1,0 +1,57 @@
+<%#
+Copyright 2019 BD7MQB (bd7mqb@qq.com)
+This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2
+-%>
+
+<%+header%>
+<style type="text/css">
+	select[readonly],
+	textarea[readonly]
+	{
+		width: 100%;
+		height: 450px;
+		border: 1px solid #cccccc;
+		padding: 5px;
+		font-size: 12px;
+		font-family: monospace;
+		resize: none;
+		pointer-events: auto;
+		cursor: auto;
+	}
+</style>
+
+<script type="text/javascript">
+//<![CDATA[
+	var n = 1;
+	function log_update()
+	{
+		XHR.get('<%=luci.dispatcher.build_url("mmdvm", "logread")%>/' + n, null,
+		function(x)
+		{
+			if (!x)
+			{
+				return;
+			}
+			var view = document.getElementById("view_id");
+			var lines = x.responseText.split(/\r?\n|\r/).length;
+			if(lines >1) {
+				view.value += x.responseText + "\n";
+				n += lines;
+				view.scrollTop = view.scrollHeight;
+			}
+		});
+	}
+	window.onload = log_update();
+	setInterval(log_update, 3000);
+	
+//]]>
+</script>
+<h2 name="content"><%:Live Log%></h2>
+<div class="cbi-map">
+	<div class="cbi-section">
+		<div class="cbi-section-descr"><%:The MMDVM related logs.%></div>
+		<textarea id="view_id" readonly="readonly" wrap="off" value=""></textarea>
+	</div>
+</div>
+
+<%+footer%>
