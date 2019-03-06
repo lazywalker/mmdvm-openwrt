@@ -2,23 +2,24 @@
 Copyright 2019 BD7MQB (bd7mqb@qq.com)
 This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2
 -%>
+<% css = [[
+
+select[readonly],
+textarea[readonly]
+{
+	width: 100%;
+	height: 450px;
+	border: 1px solid #cccccc;
+	padding: 5px;
+	font-size: 12px;
+	font-family: monospace;
+	resize: none;
+	pointer-events: auto;
+	cursor: auto;
+}
+]] -%>
 
 <%+header%>
-<style type="text/css">
-	select[readonly],
-	textarea[readonly]
-	{
-		width: 100%;
-		height: 450px;
-		border: 1px solid #cccccc;
-		padding: 5px;
-		font-size: 12px;
-		font-family: monospace;
-		resize: none;
-		pointer-events: auto;
-		cursor: auto;
-	}
-</style>
 
 <script type="text/javascript">
 //<![CDATA[
@@ -50,7 +51,7 @@ This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2
 <div class="cbi-map">
 	<div class="cbi-section">
 		<div class="cbi-section-descr"><%:The MMDVM related logs.%></div>
-		<textarea id="view_id" readonly="readonly" wrap="off" value=""></textarea>
+		<textarea id="view_id" readonly="readonly" wrap="off" value="">Loading...</textarea>
 	</div>
 </div>
 

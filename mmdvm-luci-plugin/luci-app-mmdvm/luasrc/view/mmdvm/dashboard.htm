@@ -2,29 +2,22 @@
 Copyright 2019 BD7MQB (bd7mqb@qq.com)
 This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2
 -%>
-
+<link rel="stylesheet" href="<%=resource%>/mmdvm.css?v=git-19.051.55698-76cf653">
+<% css = [[
+]] -%>
 <%+header%>
-<style type="text/css">
-	select[readonly],
-	textarea[readonly]
-	{
-		width: 100%;
-		height: 450px;
-		border: 1px solid #cccccc;
-		padding: 5px;
-		font-size: 12px;
-		font-family: monospace;
-		resize: none;
-		pointer-events: auto;
-		cursor: auto;
-	}
-</style>
-<h2 name="content"><%:MMDVM Dashboard%></h2>
-
-<div class="cbi-map">
-	<div class="cbi-section">
-		<div class="cbi-section-descr"><%:======TODO=======%></div>
-	</div>
+<div id="lh">
+<% luci.template.render( "mmdvm/lastheard", {lastheard = lastheard} ) %>
 </div>
-
+<script type="text/javascript">
+//<![CDATA[
+	XHR.poll(1.5, '<%=luci.dispatcher.build_url("mmdvm", "lastheard")%>', null,
+	function(x) {
+		if (!x) {
+			return;
+		}
+		document.getElementById("lh").innerHTML = x.responseText;
+	});
+//]]>
+</script>
 <%+footer%>
