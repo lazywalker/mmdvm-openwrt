@@ -4,8 +4,8 @@ This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2
 -%>
 <table border="0">
     <tr>
-        <th align="left"><div class="macrosectiontext"><a href="<%=luci.dispatcher.build_url("mmdvm", "livedisplay")%>" class="item-content item-link">Live Caller</a></div></th>
-        <th align="right">
+        <th align="left" width="200px"><div class="macrosectiontext"><a href="<%=luci.dispatcher.build_url("mmdvm", "livedisplay")%>" class="item-content item-link">Live Caller</a></div></th>
+        <th align="right" width="200px">
         <% 
         local lh = lastheard[1]
         if string.find(lh.callsign, "/") then
