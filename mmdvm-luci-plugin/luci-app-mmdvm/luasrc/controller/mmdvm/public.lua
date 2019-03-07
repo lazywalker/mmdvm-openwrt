@@ -20,6 +20,8 @@ function index()
 	entry({"mmdvm", "log"}, template("mmdvm/logread"), _("Live Log"), 20).leaf = true
 	entry({"mmdvm", "logread"}, call("action_logread"), nil).leaf = true
 	entry({"mmdvm", "lastheard"}, call("action_lastheard"), nil).leaf = true
+	entry({"mmdvm", "livedisplay"}, template("mmdvm/livedisplay"))
+
 end
 
 function action_logread(n)

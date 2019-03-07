@@ -2,10 +2,11 @@
 Copyright 2019 BD7MQB (bd7mqb@qq.com)
 This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2
 -%>
-<link rel="stylesheet" href="<%=resource%>/mmdvm.css?v=1dc80c8">
 <% css = [[
-]] -%>
+]] 
+-%>
 <%+header%>
+<link rel="stylesheet" href="<%=resource%>/mmdvm.css?v=1dc80c9">
 <div id="lh">
 <% luci.template.render("mmdvm/lastheard", {lastheard = lastheard} ) %>
 </div>
@@ -21,4 +22,4 @@ This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2
 	});
 //]]>
 </script>
-<%+footer%>
+<% luci.template.render("mmdvm/footer")%>
