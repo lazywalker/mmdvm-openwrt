@@ -2,12 +2,12 @@
 Copyright 2019 BD7MQB (bd7mqb@qq.com)
 This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2
 -%>
-<link rel="stylesheet" href="<%=resource%>/mmdvm.css?v=git-19.051.55698-76cf653">
+<link rel="stylesheet" href="<%=resource%>/mmdvm.css?v=1dc80c8">
 <% css = [[
 ]] -%>
 <%+header%>
 <div id="lh">
-<% luci.template.render( "mmdvm/lastheard", {lastheard = lastheard} ) %>
+<% luci.template.render("mmdvm/lastheard", {lastheard = lastheard} ) %>
 </div>
 <script type="text/javascript">
 //<![CDATA[
@@ -16,6 +16,7 @@ This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2
 		if (!x) {
 			return;
 		}
+
 		document.getElementById("lh").innerHTML = x.responseText;
 	});
 //]]>

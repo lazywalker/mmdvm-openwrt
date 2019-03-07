@@ -4,12 +4,13 @@ This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2
 -%>
 <table>
 <tr>
-	<th><%:Time%></th>
-	<th><%:Mode%></th>
+	<th class="auto-display"><%:Time%></th>
+	<th class="auto-display2"><%:Mode%></th>
+	<th class="auto-display3"><%:M%></th>
 	<th><%:Callsign%></th>
 	<th><%:Target%></th>
-	<th><%:Src%></th>
-	<th><%:Duration%></th>
+	<th class="auto-display2"><%:Src%></th>
+	<th><%:Dur%></th>
 	<th><%:Loss%></th>
 	<th><%:BER%></th>
 </tr>
@@ -46,14 +47,15 @@ else
 end
 %>
 <tr>
-	<td><%=lh.timestamp%></td>
-	<td><%=lh.mode%></td>
+	<td class="auto-display"><%=lh.timestamp%></td>
+	<td class="auto-display2"><%=lh.mode%></td>
+	<td class="auto-display3"><%=string.sub(lh.mode, 1, 1)%></td>
 	<td><a href="http://www.qrz.com/db/<%=lh.callsign%>" target="_blank"><%=lh.callsign%></a></td>
 	<td><%=lh.target%></td>
 	<% if lh.source == "RF" then %>
-	<td style="background:#1d1;">RF</td>
+	<td style="background:#1d1;" class="auto-display2">RF</td>
 	<% else %>
-	<td><%=lh.source%></td>
+	<td class="auto-display2"><%=lh.source%></td>
 	<% end %>
 	<% if not lh.duration then %>
 	<td style="background:#f33;">TX</td><td></td><td></td>
