@@ -47,6 +47,7 @@ local function get_hearlist(loglines)
 			if string.find(logline, "BS_Dwn_Act") or
 				string.find(logline, "invalid access") or
 				string.find(logline, "received RF header for wrong repeater") or
+				string.find(logline, "Error returned") or
 				string.find(logline, "unable to decode the network CSBK") or
 				string.find(logline, "overflow in the DMR slot RF queue") or
 				string.find(logline, "non repeater RF header received") or
