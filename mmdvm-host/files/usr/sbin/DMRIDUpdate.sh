@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/bin/sh
 
 ###############################################################################
 #
@@ -93,7 +93,7 @@ fi
 
 # Generate new file
 #curl 'https://www.radioid.net/static/users.csv' 2>/dev/null | sed -e 's/[[:space:]]\+/ /g' > ${DMRIDFILE}
-curl http://registry.dstar.su/dmr/DMRIds.php > ${DMRIDFILE}
+wget -O ${DMRIDFILE} http://registry.dstar.su/dmr/DMRIds.php
 
 # Restart MMDVMHost
 #eval ${RESTARTCOMMAND}

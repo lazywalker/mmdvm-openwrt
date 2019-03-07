@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/bin/sh
 
 ###############################################################################
 #
@@ -86,6 +86,6 @@ then
 fi
 
 # Generate YSFHosts.txt file
-curl https://register.ysfreflector.de/export_csv.php > ${YSFHOSTS}
+wget -O ${YSFHOSTS} https://register.ysfreflector.de/export_csv.php 
 
 exit 0

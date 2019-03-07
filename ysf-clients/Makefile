@@ -10,7 +10,7 @@ include $(TOPDIR)/rules.mk
 PKG_NAME:=ysf-clients
 PKG_REV:=HEAD
 PKG_VERSION:=1.0.1
-PKG_RELEASE:=$(shell git rev-parse --short HEAD)
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
 PKG_SOURCE_URL:=https://github.com/lazywalker/YSFClients
