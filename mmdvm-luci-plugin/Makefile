@@ -6,7 +6,7 @@ include $(INCLUDE_DIR)/version.mk
 
 PKG_NAME:=mmdvm-luci-plugin
 PKG_VERSION:=1.0.1
-PKG_RELEASE:=1
+PKG_RELEASE:=3
 # PKG_BUILD_DEPENDS:=base-files
 # PKG_FILE_DEPENDS:=
 PKG_LICENSE:=GPL-2.0

@@ -16,13 +16,14 @@ module "luci.model.mmdvm"
 function get_mmdvm_log()
 	local logtxt
 	local lines
-	local cmd = "egrep -h \"from|end|watchdog|lost\" /var/log/mmdvm/MMDVM-%s.log | tail -n250" % {os.date("%Y-%m-%d")}
-	logtxt = util.trim(util.exec(cmd))
+	local logfile = "/var/log/mmdvm/MMDVM-%s.log" % {os.date("%Y-%m-%d")}
+	
+	logtxt = util.trim(util.exec("egrep -h \"from|end|watchdog|lost\" %s | tail -n250" % {logfile}))
 	lines = util.split(logtxt, "\n")
 
 	if #lines < 20 then
-		cmd = "egrep -h \"from|end|watchdog|lost\" /var/log/mmdvm/MMDVM-%s.log | tail -n250" % {os.date("%Y-%m-%d", os.time()-24*60*60)}
-		logtxt = logtxt .. "\n" .. util.trim(util.exec(cmd))
+		logfile = "/var/log/mmdvm/MMDVM-%s.log" % {os.date("%Y-%m-%d", os.time()-24*60*60)}
+		logtxt = logtxt .. "\n" .. util.trim(util.exec("egrep -h \"from|end|watchdog|lost\" %s | tail -n250" % {logfile}))
 
 		lines = util.split(logtxt, "\n")
 	end

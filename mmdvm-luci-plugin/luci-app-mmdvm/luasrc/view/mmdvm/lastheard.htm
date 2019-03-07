@@ -8,10 +8,11 @@ This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2
         <th align="right" width="200px">
         <% 
         local lh = lastheard[1]
-        if string.find(lh.callsign, "/") then
-            lh.callsign = string.sub(lh.callsign, 1, string.find(lh.callsign, "/")-1)
-        elseif string.find(lh.callsign, "-") then
-            lh.callsign = string.sub(lh.callsign, 1, string.find(lh.callsign, "-")-1)
+        local callsign = lh.callsign
+        if string.find(callsign, "/") then
+            callsign = string.sub(callsign, 1, string.find(callsign, "/")-1)
+        elseif string.find(callsign, "-") then
+        callsign = string.sub(callsign, 1, string.find(callsign, "-")-1)
         end
 
         -- lh.name = luci.util.exec("grep -w %s /etc/mmdvm/DMRIds.dat | awk '{print $3, $4}'| head -1" % {lh.callsign})
@@ -19,7 +20,7 @@ This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2
             local tg = tonumber(string.sub(lh.target, 4))
             if tg > 90 then
         %>
-            <div class="macrosectiontext"><a href="https://hose.brandmeister.network/<%=tg%>" target="_blank" class="link external"><i class="f7-icons size-10">volume</i></a></div>
+            <div class="macrosectiontext"><a href="https://hose.brandmeister.network/<%=tg%>" target="_blank" class="link external"><i class="f7-icons">volume</i></a></div>
         <% 
             end
         end 
@@ -28,7 +29,7 @@ This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2
         </tr>
     <tr>
         <td class="lh_detail_callsign">
-            <p class="callsign"><%=lh.callsign%></p>
+            <p class="callsign"><%=callsign%></p>
         </td>
         <td class="lh_detail_callsign">
             <p>Name: Unknown Who</p>
@@ -53,8 +54,6 @@ This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2
         </td>
     </tr>
 </table>
-      
-<p>&nbsp;</p>
 <h2><%:Gateway Activity%></h2>
 <div id="lh">
 <% luci.template.render("mmdvm/lh", {lastheard = lastheard} ) %>
