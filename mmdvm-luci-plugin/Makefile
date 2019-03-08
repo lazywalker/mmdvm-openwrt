@@ -5,8 +5,8 @@ include $(TOPDIR)/rules.mk
 include $(INCLUDE_DIR)/version.mk
 
 PKG_NAME:=mmdvm-luci-plugin
-PKG_VERSION:=1.0.1
-PKG_RELEASE:=3
+PKG_VERSION:=1.0.2
+PKG_RELEASE:=1
 # PKG_BUILD_DEPENDS:=base-files
 # PKG_FILE_DEPENDS:=
 PKG_LICENSE:=GPL-2.0
@@ -24,7 +24,7 @@ define Package/mmdvm-luci-plugin
 	CATEGORY:=MMDVM
 	#SUBMENU:=Misc
 	TITLE:=MMDVM's LuCI plugins.
-	DEPENDS:=+luci +mmdvm-host
+	DEPENDS:=+luci +mmdvm-host +libubus-lua +libubox-lua
 	#VERSION:=$(PKG_RELEASE)-$(REVISION)
 endef
 
@@ -66,5 +66,12 @@ define Package/mmdvm-luci-plugin/install
 	$(call Package/common/install,$(1),luci-app-mmdvm)
 endef
 
+define Package/mmdvm-luci-plugin/postinst
+#!/bin/sh
+if [ -e /etc/openwrt_release ]; then
+	[ -f /etc/init.d/dmrid ] && /etc/init.d/dmrid enable || :
+fi
+exit 0
+endef
 
 $(eval $(call BuildPackage,mmdvm-luci-plugin))

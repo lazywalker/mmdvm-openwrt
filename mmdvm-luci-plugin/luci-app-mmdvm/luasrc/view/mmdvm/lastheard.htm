@@ -2,6 +2,7 @@
 Copyright 2019 BD7MQB (bd7mqb@qq.com)
 This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2
 -%>
+<%  if #lastheard > 0 then %>
 <table border="0">
     <tr>
         <th align="left" width="200px"><div class="macrosectiontext"><a href="<%=luci.dispatcher.build_url("mmdvm", "livedisplay")%>" class="item-content item-link">Live Caller</a></div></th>
@@ -15,7 +16,10 @@ This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2
         callsign = string.sub(callsign, 1, string.find(callsign, "-")-1)
         end
 
-        -- lh.name = luci.util.exec("grep -w %s /etc/mmdvm/DMRIds.dat | awk '{print $3, $4}'| head -1" % {lh.callsign})
+        local user = luci.util.ubus("dmrid", "get_by_callsign", {callsign = callsign}) or {
+            name="Unknown", city="Somewhere", country="Nowhere"
+        }
+
         if string.find(lh.mode, "DMR") then
             local tg = tonumber(string.sub(lh.target, 4))
             if tg > 90 then
@@ -32,9 +36,9 @@ This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2
             <p class="callsign"><%=callsign%></p>
         </td>
         <td class="lh_detail_callsign">
-            <p>Name: Unknown Who</p>
-            <p>City: Somewhere</p>
-            <p>Country: Nowhere</p>
+            <p>Name: <%=user.name%></p>
+            <p>City: <%=user.city%></p>
+            <p>Country: <%=user.country%></p>
         </td>
         </tr>
     <tr>
@@ -54,6 +58,7 @@ This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2
         </td>
     </tr>
 </table>
+<% end %>
 <h2><%:Gateway Activity%></h2>
 <div id="lh">
 <% luci.template.render("mmdvm/lh", {lastheard = lastheard} ) %>

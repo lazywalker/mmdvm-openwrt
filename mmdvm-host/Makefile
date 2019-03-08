@@ -1,7 +1,7 @@
 #
 # Copyright (C) 2008-2011 OpenWrt.org
 #
-# This is free software, licensed under the GNU General Public License v2.
+# This is free software, licensed under the GNU General Public License v2.0
 # See /LICENSE for more information.
 #
 
@@ -10,7 +10,7 @@ include $(TOPDIR)/rules.mk
 PKG_NAME:=mmdvm-host
 PKG_REV:=HEAD
 PKG_VERSION:=1.0.2
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
 PKG_SOURCE_URL:=https://github.com/lazywalker/MMDVMHost
@@ -18,6 +18,7 @@ PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
 PKG_SOURCE_VERSION:=$(PKG_REV)
 PKG_SOURCE_PROTO:=git
 PKG_LICENSE:=GPL-2.0
+PKG_MAINTAINER:=BD7MQB <bd7mqb@qq.com>
 
 include $(INCLUDE_DIR)/package.mk
 

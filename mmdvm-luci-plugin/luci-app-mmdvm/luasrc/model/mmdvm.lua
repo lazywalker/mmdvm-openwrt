@@ -60,7 +60,7 @@ local function get_hearlist(loglines)
 				break
 			end
 
-			local mode = string.sub(logline, 28, string.find(logline, ",")-1)
+			local mode = string.sub(logline, 28, (string.find(logline, ",") or 0)-1)
 
 			if string.find(logline, "end of") 
 				or string.find(logline, "watchdog has expired")
