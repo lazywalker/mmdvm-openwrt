@@ -104,8 +104,9 @@ local function load_users(dmrid_file)
         local country = tokens[5]
 
         _users[callsign] = {
-            id = id,
-            callsign = callsign,
+			-- emiting id and callsign to reduce memory usage
+            -- id = id,
+            -- callsign = callsign,
             name = name,
             city = city,
             country = country
