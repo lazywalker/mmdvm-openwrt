@@ -85,7 +85,7 @@ local function get_hearlist(loglines)
 				end
 
 				-- if RF-Packet, no LOSS would be reported, so BER is in LOSS position
-				if string.find(loss, "BER") == 1 then
+				if string.find(loss or "", "BER") == 1 then
 					ber = string.trim(string.sub(loss, 6))
 					loss = "0"
 					-- TODO: RSSI
