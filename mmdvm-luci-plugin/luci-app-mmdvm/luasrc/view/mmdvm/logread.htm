@@ -6,21 +6,30 @@ This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2
 <link rel="stylesheet" href="<%=resource%>/mmdvm.css?v=1dc80c9">
 <script type="text/javascript">
 //<![CDATA[
-	var n = 1;
+	var pos = {pos:1};
+	
 	function log_update() {
-		XHR.poll(3, '<%=luci.dispatcher.build_url("mmdvm", "logread")%>/' + n, null,
+		XHR.poll(3, '<%=luci.dispatcher.build_url("mmdvm", "logread")%>', pos,
 		function(x) {
+			this.p = pos;
 			if (!x) {
 				return;
 			}
 			var view = document.getElementById("livelog");
 			var lines = x.responseText.split(/\r?\n|\r/).length;
+			var n = this.p.pos;
+
 			if(lines >1) {
-				view.value += x.responseText + "\n";
+				if(n == 1) {
+					view.value = x.responseText + "\n";
+				} else {
+					view.value += x.responseText + "\n";
+				}
 				n += lines;
 				view.scrollTop = view.scrollHeight;
 			}
-		});
+			this.p.pos = n;
+		}, true);
 	}
 	window.onload = log_update();
 //]]>

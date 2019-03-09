@@ -24,12 +24,12 @@ function index()
 
 end
 
-function action_logread(n)
-	if not n then n = 1 end
-
+function action_logread()
+	local n = luci.http.formvalue("pos") or 1
 	local content
 	local cmd = "tail -n +%s /var/log/mmdvm/MMDVM-%s.log" % {n, os.date("%Y-%m-%d")}
 	content = util.trim(util.exec(cmd))
+	
 	http.write(content)
 end
 
