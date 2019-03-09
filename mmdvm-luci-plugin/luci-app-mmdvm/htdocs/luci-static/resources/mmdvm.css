@@ -113,9 +113,9 @@ h2 { font-size: 16px;}
   
 .lh_detail_callsign {
     font-family: 'enhanced_led_board-7regular', Arial, sans-serif; 
-    color:#000; background-color: #FFCC00;
+    color:#202020; background-color: #FFCC00;
 }
-.lh_detail_callsign p.callsign {color: #000; font-size: 22px; font-weight: bold; margin-top: 15px; margin-bottom: 15px;text-align: center}
+.lh_detail_callsign p.callsign {color: #202020; font-size: 22px; font-weight: bold; margin-top: 15px; margin-bottom: 15px;text-align: center}
 .lh_detail_callsign p {margin: 0px; font-size: 11px; text-align: left;}
 .lh_detail {
     font-family: 'enhanced_led_board-7regular', Arial, sans-serif; 
@@ -126,7 +126,7 @@ h2 { font-size: 16px;}
 
 #livecall { height: 100%;}
 #livecall td{
-    color: #300004;
+    color: #202020;
     font-family: 'enhanced_led_board-7regular', Arial, sans-serif; background-color: #d38032;
 }
 #livecall p {
@@ -134,6 +134,10 @@ h2 { font-size: 16px;}
     width: 200px;
 }
 #livecall label.callsign { font-size: 10vw; font-weight: bold; margin-top: 15px; margin-bottom: 15px;text-align: center}
+#livecall A:link {text-decoration: none; color: #202020; }
+#livecall A:visited {text-decoration: none; color: #202020; }
+#livecall A:hover {text-decoration: none; color: #202020; }
+#livecall A:active {text-decoration: none; color: #202020; }
 
 .macrosectiontext
 {
@@ -159,7 +163,7 @@ h2 { font-size: 16px;}
 }
 @media screen and (orientation: portrait){
     #livecall { display: none; }
-    #lc { background:url("icons/rotate-device.png"); background-repeat:no-repeat; background-position: center;}
+    #lc { background:url("icons/rotate-device.png"); background-repeat:no-repeat; background-position: center; background-size: 30vw;}
 }
 
 @media screen and (orientation: landscape){
