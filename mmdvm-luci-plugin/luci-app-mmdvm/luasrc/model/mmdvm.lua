@@ -92,13 +92,9 @@ local function get_hearlist(loglines)
 				else
 					loss = string.trim(string.sub(loss, 1, -14))
 					if count_tokens >= 5 then
-						ber = string.trim(string.sub(linetokens[5], 6, -2))
+						ber = string.trim(string.sub(linetokens[5] or "", 6, -2))
 					end
 				end
-
-				-- table.insert(headlist, loss)
-				-- table.insert(headlist, ber)
-				-- table.insert(headlist, duration)
 
 	--[[]
 
