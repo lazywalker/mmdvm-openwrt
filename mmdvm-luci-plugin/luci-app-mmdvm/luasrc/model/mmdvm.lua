@@ -101,7 +101,7 @@ local function get_hearlist(loglines)
 					loss = "0"
 					-- TODO: RSSI
 				else
-					loss = string.trim(string.sub(loss, 1, -14))
+					loss = string.trim(string.sub(loss or "", 1, -14))
 					if count_tokens >= 5 then
 						ber = string.trim(string.sub(linetokens[5] or "", 6, -2))
 					end

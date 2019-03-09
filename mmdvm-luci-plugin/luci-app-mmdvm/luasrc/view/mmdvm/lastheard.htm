@@ -43,16 +43,20 @@ This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2
         </tr>
     <tr>
         <td class="lh_detail">
-            <p>Source: <%=lh.source%></p>
+            <p>Source - <%=lh.source%></p>
             <p><%=lh.mode%> - <%=lh.target%></p>
         </td>
         <td class="lh_detail">
         <p>
         <% if lh.duration then %>
-        Duration: <%=lh.duration%>s<br />
-        Loss: <%="%0.1f" % {lh.loss} %>% &nbsp;&nbsp; BER: <%="%0.1f" % {lh.ber}%>%
-        <% else %>
-        <span>Transmiting ...</span>
+        <p>Duration <%=lh.duration%>s</p>
+        <p>Loss <%="%0.1f" % {lh.loss} %>% &nbsp;&nbsp; BER <%="%0.1f" % {lh.ber}%>%</p>
+        <% else 
+            local mmdvm = require("luci.model.mmdvm")
+            local t = os.time() - mmdvm.s2t(lh.timestamp)
+        %>
+        <p>Duration <%=t%>s</p>
+        <p>Transmiting ...</p>
         <% end %>
         </p>
         </td>

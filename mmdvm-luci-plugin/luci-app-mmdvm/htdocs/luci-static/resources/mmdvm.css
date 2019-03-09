@@ -119,11 +119,10 @@ h2 { font-size: 16px;}
 .lh_detail_callsign p {margin: 0px; font-size: 11px; text-align: left;}
 .lh_detail {
     font-family: 'enhanced_led_board-7regular', Arial, sans-serif; 
-    color:#fff; background-color: #000;
+    color:#fff; background-color: #202020;
     text-align: left;
 }
 .lh_detail p {margin: 0px; font-size: 10px;}
-.lh_detail span {color: #f33}
 
 #livecall { height: 100%;}
 #livecall td{
