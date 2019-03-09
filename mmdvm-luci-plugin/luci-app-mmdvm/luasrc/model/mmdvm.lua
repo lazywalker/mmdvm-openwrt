@@ -13,6 +13,17 @@ local tonumber  = tonumber
 
 module "luci.model.mmdvm"
 
+function s2t(strtime)
+    local year = string.sub(strtime, 1, 4)
+    local month = string.sub(strtime, 6, 7)
+    local day = string.sub(strtime, 9, 10)
+    local hour = string.sub(strtime, 12, 13)
+    local minute = string.sub(strtime, 15, 16)
+	local second = string.sub(strtime, 18, 19)
+
+	return os.time({day=day, month=month, year=year, hour=hour, min=minute, sec=second})
+end
+
 function get_mmdvm_log()
 	local logtxt
 	local lines

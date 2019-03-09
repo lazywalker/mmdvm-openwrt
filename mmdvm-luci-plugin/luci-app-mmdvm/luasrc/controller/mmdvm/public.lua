@@ -20,8 +20,8 @@ function index()
 	entry({"mmdvm", "log"}, template("mmdvm/logread"), _("Live Log"), 20).leaf = true
 	entry({"mmdvm", "logread"}, call("action_logread"), nil).leaf = true
 	entry({"mmdvm", "lastheard"}, call("action_lastheard"), nil).leaf = true
-	entry({"mmdvm", "livedisplay"}, template("mmdvm/livedisplay"))
-
+	entry({"mmdvm", "livecall"}, call("action_livecall"))
+	entry({"mmdvm", "lc"}, call("action_lc"))
 end
 
 function action_logread()
@@ -35,10 +35,20 @@ end
 
 function action_dashboard()
 	local lastheard = mmdvm.get_lastheard()
-	luci.template.render("mmdvm/dashboard", {lastheard = lastheard} )
+	luci.template.render("mmdvm/dashboard", {lastheard = lastheard})
 end
 
 function action_lastheard()
 	local lastheard = mmdvm.get_lastheard()
-	luci.template.render("mmdvm/lastheard", {lastheard = lastheard} )
+	luci.template.render("mmdvm/lastheard", {lastheard = lastheard})
+end
+
+function action_livecall()
+	local lastheard = mmdvm.get_lastheard()
+	luci.template.render("mmdvm/livecall", {lastheard = lastheard})
+end
+
+function action_lc()
+	local lastheard = mmdvm.get_lastheard()
+	luci.template.render("mmdvm/lc", {lastheard = lastheard})
 end

@@ -6,7 +6,7 @@ This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2
 ]] 
 -%>
 <%+header%>
-<link rel="stylesheet" href="<%=resource%>/mmdvm.css?v=1dc80b1">
+<link rel="stylesheet" href="<%=resource%>/mmdvm.css?v=1dc8ab1">
 <div id="lh">
 <% luci.template.render("mmdvm/lastheard", {lastheard = lastheard} ) %>
 </div>
@@ -14,7 +14,7 @@ This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2
 //<![CDATA[
 	XHR.poll(1.5, '<%=luci.dispatcher.build_url("mmdvm", "lastheard")%>', null,
 	function(x) {
-		if (!x) {
+		if (!x || !x.responseText || x.responseText == "") {
 			return;
 		}
 

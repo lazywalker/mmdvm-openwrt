@@ -121,11 +121,20 @@ h2 { font-size: 16px;}
     font-family: 'enhanced_led_board-7regular', Arial, sans-serif; 
     color:#fff; background-color: #000;
     text-align: left;
-    font-weight: bold;
 }
 .lh_detail p {margin: 0px; font-size: 10px;}
-.lh_detail span {color: red}
+.lh_detail span {color: #f33}
 
+#livecall { height: 100%;}
+#livecall td{
+    color: #300004;
+    font-family: 'enhanced_led_board-7regular', Arial, sans-serif; background-color: #d38032;
+}
+#livecall p {
+    font-size: 3vw; text-align: left; margin: 1.8vw;
+    width: 200px;
+}
+#livecall label.callsign { font-size: 10vw; font-weight: bold; margin-top: 15px; margin-bottom: 15px;text-align: center}
 
 .macrosectiontext
 {
@@ -148,4 +157,11 @@ h2 { font-size: 16px;}
 }
 @media screen and (min-width:321px){
     .auto-display3 { display:none; }
+}
+@media screen and (orientation: portrait){
+    #livecall { display: none; }
+    #lc { background:url("icons/rotate-device.png"); background-repeat:no-repeat; background-position: center;}
+}
+
+@media screen and (orientation: landscape){
 }

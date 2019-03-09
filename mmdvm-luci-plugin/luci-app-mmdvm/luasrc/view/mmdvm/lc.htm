@@ -1,0 +1,56 @@
+<%#
+Copyright 2019 BD7MQB (bd7mqb@qq.com)
+This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2
+-%>
+<%  if lastheard and #lastheard > 0 then %>
+<table id="livecall">
+        <% 
+        local lh = lastheard[1]
+        local callsign = lh.callsign
+        if string.find(callsign, "/") then
+            callsign = string.sub(callsign, 1, string.find(callsign, "/")-1)
+        elseif string.find(callsign, "-") then
+        callsign = string.sub(callsign, 1, string.find(callsign, "-")-1)
+        end
+
+        local user = luci.util.ubus("dmrid", "get_by_callsign", {callsign = callsign}) or {
+            name="Unknown", city="Somewhere", country="Nowhere"
+        }
+
+        %>
+    <tr>
+        <td>
+            <div id="back" onclick="javascript:history.back();"><<</div>
+            <label class="callsign"><%=callsign%></label>
+        </td>
+        <td width="40%">
+            <p><%=user.name or "Unknown"%></p>
+            <p><%=user.city or "Somewhere"%></p>
+            <p><%=user.country or "Nowhere"%></p>
+        </td>
+        </tr>
+    <tr>
+        <td height="40%">
+            <p>Source - <%=string.upper(lh.source)%></p>
+            <p><%=lh.mode%> - <%=lh.target%></p>
+            <p>M - D/P/Y</p>
+        </td>
+        <td>
+        <p>
+        <% if lh.duration then %>
+        <p>Duration <%=lh.duration%>s</p>
+        <p>Loss <%="%0.1f" % {lh.loss} %>%</p>
+        <p>BER <%="%0.1f" % {lh.ber}%>%</p>
+        <% else 
+            local mmdvm = require("luci.model.mmdvm")
+            local t = os.time() - mmdvm.s2t(lh.timestamp)
+        %>
+        <p>Duration <%=t%>s</p>
+        <p>Transmiting ...</p>
+        <p>&nbsp;</p>
+        <% end %>
+        </p>
+        </td>
+    </tr>
+</table>
+<% end %>

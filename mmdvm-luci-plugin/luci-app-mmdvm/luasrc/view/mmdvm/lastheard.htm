@@ -2,10 +2,10 @@
 Copyright 2019 BD7MQB (bd7mqb@qq.com)
 This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2
 -%>
-<%  if #lastheard > 0 then %>
+<%  if lastheard and #lastheard > 0 then %>
 <table border="0">
     <tr>
-        <th align="left" width="200px"><div class="macrosectiontext"><a href="<%=luci.dispatcher.build_url("mmdvm", "livedisplay")%>" class="item-content item-link">Live Caller</a></div></th>
+        <th align="left" width="200px"><div class="macrosectiontext"><a href="<%=luci.dispatcher.build_url("mmdvm", "livecall")%>" class="item-content item-link">Live Caller</a></div></th>
         <th align="right" width="200px">
         <% 
         local lh = lastheard[1]
@@ -36,9 +36,9 @@ This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2
             <p class="callsign"><%=callsign%></p>
         </td>
         <td class="lh_detail_callsign">
-            <p>Name: <%=user.name%></p>
-            <p>City: <%=user.city%></p>
-            <p>Country: <%=user.country%></p>
+            <p>Name: <%=user.name or "Unknown" %></p>
+            <p>City: <%=user.city or "Somewhere" %></p>
+            <p>Country: <%=user.country or "Nowhere" %></p>
         </td>
         </tr>
     <tr>

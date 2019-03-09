@@ -1,0 +1,35 @@
+<%#
+Copyright 2019 BD7MQB (bd7mqb@qq.com)
+This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2
+-%>
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+        <style type="text/css">
+        body {margin:0;padding:0}
+        #back {float: left; color:#000;margin-left: 5px;}
+        #lc {height: 100vh; width: 100vw;}
+        </style>
+		<script src="<%=resource%>/xhr.js?v=git-19.051.55698-76cf653"></script>
+        <link rel="stylesheet" href="<%=resource%>/mmdvm.css?v=2dc8ab3">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+	</head>
+	<body>
+    <div id="lc">
+        <% luci.template.render("mmdvm/lc", {lastheard = lastheard} ) %>
+    </div>
+    <script type="text/javascript">
+    //<![CDATA[
+        XHR.poll(1.5, '<%=luci.dispatcher.build_url("mmdvm", "lc")%>', null,
+        function(x) {
+            if (!x || !x.responseText || x.responseText == "") {
+                return;
+            }
+
+            document.getElementById("lc").innerHTML = x.responseText;
+        });
+    //]]>
+    </script>
+</body>
