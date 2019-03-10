@@ -7,6 +7,7 @@ local nfs = require "nixio.fs"
 local uci = require "luci.model.uci"
 local json = require "luci.jsonc"
 local os = os
+local io = io
 local table = table
 local string = string
 local tonumber  = tonumber
@@ -24,6 +25,11 @@ function s2t(strtime)
 	return os.time({day=day, month=month, year=year, hour=hour, min=minute, sec=second})
 end
 
+function file_exists(name)
+	local f = io.open(name,"r")
+	if f ~= nil then io.close(f) return true else return false end
+end
+
 function get_mmdvm_log()
 	local logtxt
 	local lines
@@ -31,12 +37,12 @@ function get_mmdvm_log()
 	
 	logtxt = util.trim(util.exec("egrep -h \"from|end|watchdog|lost\" %s | tail -n250" % {logfile}))
 	lines = util.split(logtxt, "\n")
-
 	if #lines < 20 then
 		logfile = "/var/log/mmdvm/MMDVM-%s.log" % {os.date("%Y-%m-%d", os.time()-24*60*60)}
-		logtxt = logtxt .. "\n" .. util.trim(util.exec("egrep -h \"from|end|watchdog|lost\" %s | tail -n250" % {logfile}))
-
-		lines = util.split(logtxt, "\n")
+		if file_exists(logfile) then
+			logtxt = logtxt .. "\n" .. util.trim(util.exec("egrep -h \"from|end|watchdog|lost\" %s | tail -n250" % {logfile}))
+			lines = util.split(logtxt, "\n")
+		end
 	end
 
 	table.sort(lines, function(a,b) return a>b end)

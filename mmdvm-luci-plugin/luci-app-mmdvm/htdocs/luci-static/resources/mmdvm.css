@@ -163,7 +163,7 @@ h2 { font-size: 16px;}
 }
 @media screen and (orientation: portrait){
     #livecall { display: none; }
-    #lc { background:url("icons/rotate-device.png"); background-repeat:no-repeat; background-position: center; background-size: 30vw;}
+    #lc { background:url("icons/rotate-device.png"); background-repeat:no-repeat; background-position: center; background-size: 20vw;}
 }
 
 @media screen and (orientation: landscape){
