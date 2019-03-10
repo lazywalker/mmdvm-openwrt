@@ -83,6 +83,7 @@ define Package/common/install
 	if [ -d $(2)/root ]; then \
 	  $(INSTALL_DIR) $(1)/; \
 	  cp -pR ./$(2)/root/* $(1)/; \
+		$(if $(CONFIG_LUCI_APP_MMDVM_SRCDIET),$(call SrcDiet,$(1)/),true); \
 	else true; fi
 	if [ -d $(2)/src ]; then \
 	  $(call Build/Install/Default) \
@@ -98,6 +99,8 @@ endef
 define Package/mmdvm-luci-plugin/postinst
 #!/bin/sh
 if [ -e /etc/openwrt_release ]; then
+	mv /usr/sbin/dmrid.lua /usr/sbin/dmrid
+	chmod +x /usr/sbin/dmrid
 	[ -f /etc/init.d/dmrid ] && /etc/init.d/dmrid enable || :
 fi
 exit 0
