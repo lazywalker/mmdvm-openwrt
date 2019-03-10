@@ -35,12 +35,12 @@ function get_mmdvm_log()
 	local lines
 	local logfile = "/var/log/mmdvm/MMDVM-%s.log" % {os.date("%Y-%m-%d")}
 	
-	logtxt = util.trim(util.exec("egrep -h \"from|end|watchdog|lost\" %s | tail -n250" % {logfile}))
+	logtxt = util.trim(util.exec("tail -n250 %s | egrep -h \"from|end|watchdog|lost\"" % {logfile}))
 	lines = util.split(logtxt, "\n")
 	if #lines < 20 then
 		logfile = "/var/log/mmdvm/MMDVM-%s.log" % {os.date("%Y-%m-%d", os.time()-24*60*60)}
 		if file_exists(logfile) then
-			logtxt = logtxt .. "\n" .. util.trim(util.exec("egrep -h \"from|end|watchdog|lost\" %s | tail -n250" % {logfile}))
+			logtxt = logtxt .. "\n" .. util.trim(util.exec("tail -n250 %s | egrep -h \"from|end|watchdog|lost\"" % {logfile}))
 			lines = util.split(logtxt, "\n")
 		end
 	end
