@@ -6,6 +6,6 @@
 # 
 
 opkg update
-opkg upgrade mmdvm mmdvm-luci mmdvm-luci-i18n-* mmdvm-host p25-clients ysf-clients
+opkg upgrade mmdvm mmdvm-luci mmdvm-luci-i18n-zh-cn mmdvm-host p25-clients ysf-clients
 
 # TODO: Hostfiles update goes here
