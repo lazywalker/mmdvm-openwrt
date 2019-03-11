@@ -86,6 +86,6 @@ then
 fi
 
 # Generate YSFHosts.txt file
-wget -O ${YSFHOSTS} https://register.ysfreflector.de/export_csv.php 
+wget -O ${YSFHOSTS} http://register.ysfreflector.de/export_csv.php 
 
 exit 0

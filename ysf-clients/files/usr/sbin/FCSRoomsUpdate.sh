@@ -6,4 +6,4 @@
 #                                                 #
 ###################################################
 
-wget -O /etc/mmdvm/FCSRooms.txt -q "https://github.com/g4klx/YSFClients/raw/master/YSFGateway/FCSRooms.txt"
+wget -O /etc/mmdvm/FCSRooms.txt -q "http://github.com/g4klx/YSFClients/raw/master/YSFGateway/FCSRooms.txt"
