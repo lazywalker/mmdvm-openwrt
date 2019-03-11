@@ -86,6 +86,8 @@ define Package/common/install
 	  $(INSTALL_DIR) $(1)/; \
 	  cp -pR ./$(2)/root/* $(1)/; \
 		$(if $(CONFIG_LUCI_APP_MMDVM_SRCDIET),$(call SrcDiet,$(1)/),true); \
+		mv $(1)/usr/sbin/dmrid.lua $(1)/usr/sbin/dmrid; \
+		chmod 750 $(1)/usr/sbin/dmrid; \
 	else true; fi
 	if [ -d $(2)/src ]; then \
 	  $(call Build/Install/Default) \
@@ -101,9 +103,6 @@ endef
 define Package/${PKG_NAME}postinst
 #!/bin/sh
 if [ -e /etc/openwrt_release ]; then
-	mv /usr/sbin/dmrid.lua /usr/sbin/dmrid
-	chmod 750 /usr/sbin/dmrid
-
 	[ -f /etc/init.d/dmrid ] && /etc/init.d/dmrid enable || :
 fi
 exit 0

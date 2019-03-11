@@ -33,16 +33,8 @@ endef
 
 define Package/${PKG_NAME}/install
 	$(CP) -a files/* $(1)/
-endef
-
-define Package/${PKG_NAME}/postinst
-#!/bin/sh
-if [ -e /etc/openwrt_release ]; then
-	mv /usr/sbin/mmdvm-update.sh /usr/sbin/mmdvm-update
-	chown root.root /usr/sbin/mmdvm-update
-	chmod 750 /usr/sbin/mmdvm-update
-fi
-exit 0
+	mv $(1)/usr/sbin/mmdvm-update.sh $(1)/usr/sbin/mmdvm-update
+	chmod 750 $(1)/usr/sbin/mmdvm-update
 endef
 
 $(eval $(call BuildPackage,${PKG_NAME}))
