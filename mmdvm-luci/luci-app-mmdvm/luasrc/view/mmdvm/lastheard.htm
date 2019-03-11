@@ -11,9 +11,9 @@ This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2.
         local lh = lastheard[1]
         local callsign = lh.callsign
         if string.find(callsign, "/") then
-            callsign = string.sub(callsign, 1, string.find(callsign, "/")-1)
+            callsign = string.sub(callsign, 1, string.find(callsign or "", "/")-1)
         elseif string.find(callsign, "-") then
-            callsign = string.sub(callsign, 1, string.find(callsign, "-")-1)
+            callsign = string.sub(callsign, 1, string.find(callsign or "", "-")-1)
         end
 
         local user = luci.util.ubus("dmrid", "get_by_callsign", {callsign = callsign}) or {
