@@ -1,3 +1,7 @@
+/*!
+Copyright 2019 BD7MQB <bd7mqb@qq.com>
+This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2.0
+ */
 table {
     vertical-align: middle;
     text-align: center;
@@ -77,6 +81,7 @@ h2 { font-size: 16px;}
     font-weight: normal;
     font-style: normal;
 }
+/*  */
 @font-face {
     font-family: 'Framework7 Icons';
     font-style: normal;
@@ -87,7 +92,7 @@ h2 { font-size: 16px;}
          url("fonts/Framework7Icons-Regular.woff2") format("woff2"),
          url("fonts/Framework7Icons-Regular.woff") format("woff"),
          url("fonts/Framework7Icons-Regular.ttf") format("truetype");
-  }
+}
   
 .f7-icons, .framework7-icons {
     font-family: 'Framework7 Icons';
@@ -139,17 +144,17 @@ h2 { font-size: 16px;}
 #livecall A:hover {text-decoration: none; color: #202020; }
 #livecall A:active {text-decoration: none; color: #202020; }
 
-.macrosectiontext
+.plaintext
 {
     position:relative;
     background-color:transparent;
 	font-size: 15px;
 }
 
-.macrosectiontext A:link {text-decoration: none; color: #FFFFFF;}
-.macrosectiontext A:visited {text-decoration: none; color: #FFFFFF;}
-.macrosectiontext A:hover {text-decoration: none; color: #FFFFFF;}
-.macrosectiontext A:active {text-decoration: none; color: #FFFFFF;}
+.plaintext A:link {text-decoration: none; color: #FFFFFF;}
+.plaintext A:visited {text-decoration: none; color: #FFFFFF;}
+.plaintext A:hover {text-decoration: none; color: #FFFFFF;}
+.plaintext A:active {text-decoration: none; color: #FFFFFF;}
 
 @media screen and (max-width:560px){
     .auto-display { display:none; }

@@ -1,11 +1,11 @@
 <%#
 Copyright 2019 BD7MQB <bd7mqb@qq.com>
-This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2
+This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2.0
 -%>
 <%  if lastheard and #lastheard > 0 then %>
 <table border="0">
     <tr>
-        <th align="left"><div class="macrosectiontext"><a href="<%=luci.dispatcher.build_url("mmdvm", "livecall")%>" class="item-content item-link">< Live Caller</a></div></th>
+        <th align="left"><div class="plaintext"><a href="<%=luci.dispatcher.build_url("mmdvm", "livecall")%>" class="item-content item-link">< <%:Live Caller%></a></div></th>
         <th align="right" width="45%">
         <% 
         local lh = lastheard[1]
@@ -13,7 +13,7 @@ This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2
         if string.find(callsign, "/") then
             callsign = string.sub(callsign, 1, string.find(callsign, "/")-1)
         elseif string.find(callsign, "-") then
-        callsign = string.sub(callsign, 1, string.find(callsign, "-")-1)
+            callsign = string.sub(callsign, 1, string.find(callsign, "-")-1)
         end
 
         local user = luci.util.ubus("dmrid", "get_by_callsign", {callsign = callsign}) or {
@@ -24,7 +24,7 @@ This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2
             local tg = tonumber(string.sub(lh.target, 4))
             if tg > 90 then
         %>
-            <div class="macrosectiontext"><a href="https://hose.brandmeister.network/<%=tg%>" target="_blank" class="link external"><i class="f7-icons">volume</i></a></div>
+            <div class="plaintext"><a href="https://hose.brandmeister.network/<%=tg%>" target="_blank" class="link external"><i class="f7-icons">volume</i></a></div>
         <% 
             end
         end 
