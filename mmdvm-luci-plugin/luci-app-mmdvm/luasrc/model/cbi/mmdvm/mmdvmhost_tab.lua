@@ -1,4 +1,4 @@
--- Copyright 2019 BD7MQB (bd7mqb@qq.com)
+-- Copyright 2019 BD7MQB <bd7mqb@qq.com>
 -- This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2
 
 local sys = require "luci.sys"
