@@ -11,7 +11,7 @@ DMRIDFILE_GZIP=/tmp/DMRIds.dat.gz
 
 # Full version
 # curl 'https://www.radioid.net/static/users.csv' 2>/dev/null | awk -F ',' '{print $1"\t"$2"\t"$3"\t"$4"\t"$6}'  > ${DMRIDFILE}
-wget -O ${DMRIDFILE_GZIP} http://pkg.openwrt.bd7mqb.com:8088/openwrt/radioid/DMRIds.dat.gz
+wget -O ${DMRIDFILE_GZIP} http://pkg.openwrt.bd7mqb.com:8088/radioid/DMRIds.dat.gz
 gzip -d ${DMRIDFILE_GZIP}
 mv ${DMRIDFILE_GZIP} ${DMRIDFILE}
 

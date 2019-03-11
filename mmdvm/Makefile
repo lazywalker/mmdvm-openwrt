@@ -20,7 +20,7 @@ define Package/${PKG_NAME}
 	CATEGORY:=MMDVM
 	TITLE:=MMDVM Suite
 	URL:=
-	DEPENDS:=+mmdvm-luci-plugin +mmdvm-host
+	DEPENDS:=+mmdvm-luci +mmdvm-host
 endef
 
 define Package/${PKG_NAME}/description

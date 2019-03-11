@@ -6,7 +6,7 @@
 include $(TOPDIR)/rules.mk
 include $(INCLUDE_DIR)/version.mk
 
-PKG_NAME:=mmdvm-luci-plugin
+PKG_NAME:=mmdvm-luci
 PKG_VERSION:=1.0.2
 PKG_RELEASE:=1
 GIT_REVISION:=$(shell git rev-parse --short HEAD)
@@ -30,7 +30,7 @@ LUCI_LANG.en=English
 LUCI_LANG.zh-cn=中文 (Chinese)
 
 define Package/${PKG_NAME}
-	SECTION:=net
+	SECTION:=mmdvm
 	CATEGORY:=MMDVM
 	#SUBMENU:=Misc
 	TITLE:=MMDVM's LuCI plugins.
@@ -42,14 +42,14 @@ endef
 define Package/${PKG_NAME}/config
 	config LUCI_APP_MMDVM
 	bool "luci-app-mmdvm"
-	depends on PACKAGE_mmdvm-luci-plugin
+	depends on PACKAGE_${PKG_NAME}
 	default y
 	help
 	  "LuCI plugin to configurate MMDVM Radio"
 
 	config LUCI_APP_MMDVM_SRCDIET
 	bool "Minify MMDVM Lua sources"
-	depends on PACKAGE_mmdvm-luci-plugin
+	depends on PACKAGE_${PKG_NAME}
 	default y
 	help
 	  "Minify Lua sources"
