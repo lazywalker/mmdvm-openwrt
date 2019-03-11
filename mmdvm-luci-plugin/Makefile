@@ -1,5 +1,7 @@
+#
 # Copyright 2019 BD7MQB (bd7mqb@qq.com)
 # This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2.0
+#
 
 include $(TOPDIR)/rules.mk
 include $(INCLUDE_DIR)/version.mk
@@ -23,7 +25,7 @@ HTDOCS = /www
 LUA_LIBRARYDIR = /usr/lib/lua
 LUCI_LIBRARYDIR = $(LUA_LIBRARYDIR)/luci
 
-define Package/mmdvm-luci-plugin
+define Package/${PKG_NAME}
 	SECTION:=net
 	CATEGORY:=MMDVM
 	#SUBMENU:=Misc
@@ -33,7 +35,7 @@ define Package/mmdvm-luci-plugin
 endef
 
 
-define Package/mmdvm-luci-plugin/config
+define Package/${PKG_NAME}/config
 	config LUCI_APP_MMDVM
 	bool "luci-app-mmdvm"
 	depends on PACKAGE_mmdvm-luci-plugin
@@ -92,18 +94,19 @@ define Package/common/install
 endef
 
 
-define Package/mmdvm-luci-plugin/install
+define Package/${PKG_NAME}/install
 	$(call Package/common/install,$(1),luci-app-mmdvm)
 endef
 
-define Package/mmdvm-luci-plugin/postinst
+define Package/${PKG_NAME}postinst
 #!/bin/sh
 if [ -e /etc/openwrt_release ]; then
 	mv /usr/sbin/dmrid.lua /usr/sbin/dmrid
-	chmod +x /usr/sbin/dmrid
+	chmod 750 /usr/sbin/dmrid
+
 	[ -f /etc/init.d/dmrid ] && /etc/init.d/dmrid enable || :
 fi
 exit 0
 endef
 
-$(eval $(call BuildPackage,mmdvm-luci-plugin))
+$(eval $(call BuildPackage,${PKG_NAME}))

@@ -1,8 +1,6 @@
 #
-# Copyright (C) 2008-2011 OpenWrt.org
-#
-# This is free software, licensed under the GNU General Public License v2.
-# See /LICENSE for more information.
+# Copyright 2019 BD7MQB (bd7mqb@qq.com)
+# This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2.0
 #
 
 include $(TOPDIR)/rules.mk
@@ -22,7 +20,7 @@ PKG_MAINTAINER:=BD7MQB <bd7mqb@qq.com>
 
 include $(INCLUDE_DIR)/package.mk
 
-define Package/ysf-clients
+define Package/${PKG_NAME}
 	SECTION:=net
 	CATEGORY:=MMDVM
 	TITLE:=MMDVM YSFClients
@@ -30,7 +28,7 @@ define Package/ysf-clients
 	DEPENDS:=+libpthread +libstdcpp
 endef
 
-define Package/ysf-clients/description
+define Package/${PKG_NAME}/description
 System Fusion network servers, including gateway and parrot.
 endef
 
@@ -43,18 +41,18 @@ MAKE_FLAGS +=\
         CFLAGS="$(TARGET_CFLAGS) $(TARGET_CPPFLAGS)" \
         LDFLAGS="$(TARGET_LDFLAGS)" \
 
-define Package/ysf-clients/install
+define Package/${PKG_NAME}/install
 	$(INSTALL_DIR) $(1)/usr/sbin
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/YSFGateway/YSFGateway $(1)/usr/sbin/
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/YSFParrot/YSFParrot $(1)/usr/sbin/
 	$(CP) -a files/* $(1)/
 endef
 
-define Package/ysf-clients/conffiles
+define Package/${PKG_NAME}/conffiles
 /etc/YSFGateway.ini
 endef
 
-define Package/ysf-clients/postinst
+define Package/${PKG_NAME}/postinst
 #!/bin/sh
 if [ -e /etc/openwrt_release ]; then
 	[ -f /etc/init.d/ysfgateway ] && /etc/init.d/ysfgateway enable || :
@@ -63,4 +61,4 @@ fi
 exit 0
 endef
 
-$(eval $(call BuildPackage,ysf-clients))
+$(eval $(call BuildPackage,${PKG_NAME}))

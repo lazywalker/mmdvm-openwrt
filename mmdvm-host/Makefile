@@ -1,8 +1,6 @@
 #
-# Copyright (C) 2008-2011 OpenWrt.org
-#
-# This is free software, licensed under the GNU General Public License v2.0
-# See /LICENSE for more information.
+# Copyright 2019 BD7MQB (bd7mqb@qq.com)
+# This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2.0
 #
 
 include $(TOPDIR)/rules.mk
@@ -22,7 +20,7 @@ PKG_MAINTAINER:=BD7MQB <bd7mqb@qq.com>
 
 include $(INCLUDE_DIR)/package.mk
 
-define Package/mmdvm-host
+define Package/${PKG_NAME}
 	SECTION:=net
 	CATEGORY:=MMDVM
 	TITLE:=MMDVM Host
@@ -30,7 +28,7 @@ define Package/mmdvm-host
 	DEPENDS:=+libpthread +libstdcpp +ysf-clients +p25-clients
 endef
 
-define Package/mmdvm-host/description
+define Package/${PKG_NAME}/description
 The host program for the MMDVM
 endef
 
@@ -48,17 +46,17 @@ MAKE_FLAGS +=\
     CFLAGS="$(TARGET_CFLAGS) $(TARGET_CPPFLAGS)" \
     LDFLAGS="$(TARGET_LDFLAGS)" \
 
-define Package/mmdvm-host/install
+define Package/${PKG_NAME}/install
 	$(INSTALL_DIR) $(1)/usr/sbin
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/MMDVMHost $(1)/usr/sbin/
 	$(CP) -a files/* $(1)/
 endef
 
-define Package/mmdvm-host/conffiles
+define Package/${PKG_NAME}/conffiles
 /etc/MMDVM.ini
 endef
 
-define Package/mmdvm-host/postinst
+define Package/${PKG_NAME}/postinst
 #!/bin/sh
 if [ -e /etc/openwrt_release ]; then
 	[ -f /etc/init.d/mmdvmhost ] && /etc/init.d/mmdvmhost enable || :
@@ -66,4 +64,4 @@ fi
 exit 0
 endef
 
-$(eval $(call BuildPackage,mmdvm-host))
+$(eval $(call BuildPackage,${PKG_NAME}))
