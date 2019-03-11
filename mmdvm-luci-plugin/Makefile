@@ -16,7 +16,6 @@ PKG_BUILD_DEPENDS:=
 PKG_CONFIG_DEPENDS += CONFIG_LUCI_APP_MMDVM_SRCDIET
 # PKG_FILE_DEPENDS:=
 PKG_LICENSE:=GPL-2.0
-
 PKG_MAINTAINER:=BD7MQB <bd7mqb@qq.com>
 
 include $(INCLUDE_DIR)/package.mk
@@ -24,6 +23,11 @@ include $(INCLUDE_DIR)/package.mk
 HTDOCS = /www
 LUA_LIBRARYDIR = /usr/lib/lua
 LUCI_LIBRARYDIR = $(LUA_LIBRARYDIR)/luci
+
+LUCI_LANGUAGES:=$(sort $(filter-out templates,$(notdir $(wildcard ./luci-app-mmdvm/po/*))))
+# Language code titles
+LUCI_LANG.en=English
+LUCI_LANG.zh-cn=中文 (Chinese)
 
 define Package/${PKG_NAME}
 	SECTION:=net
@@ -49,6 +53,11 @@ define Package/${PKG_NAME}/config
 	default y
 	help
 	  "Minify Lua sources"
+
+	menu "Translations"$(foreach lang,$(LUCI_LANGUAGES),
+    config LUCI_LANG_$(lang)
+	  tristate "$(shell echo '$(LUCI_LANG.$(lang))' | sed -e 's/^.* (\(.*\))$$/\1/') ($(lang))")
+  endmenu
 endef
 
 define Build/Compile
@@ -108,4 +117,44 @@ fi
 exit 0
 endef
 
-$(eval $(call BuildPackage,${PKG_NAME}))
+LUCI_BUILD_PACKAGES := $(PKG_NAME)
+
+define LuciTranslation
+  define Package/$(PKG_NAME)-i18n-$(1)
+    SECTION:=net
+    CATEGORY:=MMDVM
+    TITLE:=$(PKG_NAME) - $(1) translation
+    HIDDEN:=1
+    DEFAULT:=LUCI_LANG_$(1)||(ALL&&m)
+    DEPENDS:=+$(PKG_NAME)
+    PKGARCH:=all
+  endef
+
+  define Package/$(PKG_NAME)-i18n-$(1)/description
+    Translation for $(PKG_NAME) - $(LUCI_LANG.$(1))
+  endef
+
+  define Package/$(PKG_NAME)-i18n-$(1)/install
+	$$(INSTALL_DIR) $$(1)/etc/uci-defaults
+	echo "uci set luci.languages.$(subst -,_,$(1))='$(LUCI_LANG.$(1))'; uci commit luci" \
+		> $$(1)/etc/uci-defaults/$(PKG_NAME)-i18n-$(1)
+	$$(INSTALL_DIR) $$(1)$(LUCI_LIBRARYDIR)/i18n
+	$(foreach po,$(wildcard ./luci-app-mmdvm/po/$(1)/*.po), \
+		po2lmo $(po) \
+			$$(1)$(LUCI_LIBRARYDIR)/i18n/$(basename $(notdir $(po))).$(1).lmo;)
+  endef
+
+  define Package/$(PKG_NAME)-i18n-$(1)/postinst
+	[ -n "$$$${IPKG_INSTROOT}" ] || {
+		(. /etc/uci-defaults/$(PKG_NAME)-i18n-$(1)) && rm -f /etc/uci-defaults/$(PKG_NAME)-i18n-$(1)
+		exit 0
+	}
+  endef
+
+  LUCI_BUILD_PACKAGES += $(PKG_NAME)-i18n-$(1)
+
+endef
+
+$(foreach lang,$(LUCI_LANGUAGES),$(eval $(call LuciTranslation,$(lang))))
+$(foreach pkg,$(LUCI_BUILD_PACKAGES),$(eval $(call BuildPackage,$(pkg))))
+#$(eval $(call BuildPackage,${PKG_NAME}))

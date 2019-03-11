@@ -1,0 +1,83 @@
+msgid ""
+msgstr "Content-Type: text/plain; charset=UTF-8"
+
+msgid "Advanced"
+msgstr "高级模式"
+
+msgid "BER"
+msgstr "误码"
+
+msgid "Callsign"
+msgstr "呼号"
+
+msgid "Dashboard"
+msgstr "面板"
+
+msgid "Dur"
+msgstr "时长"
+
+msgid "Edit MMDVM.ini"
+msgstr "编辑MMDVM.ini"
+
+msgid "Edit P25Gateway.ini"
+msgstr "编辑P25Gateway.ini"
+
+msgid "Edit YSFGateway.ini"
+msgstr "编辑YSFGateway.ini"
+
+msgid "Gateway Activity"
+msgstr "通联记录"
+
+msgid "Input file not found, please check your configuration."
+msgstr ""
+
+msgid "Live Caller"
+msgstr "仪表盘"
+
+msgid "Live Log"
+msgstr "日志"
+
+msgid "Local RF"
+msgstr "本地呼叫"
+
+msgid "Loss"
+msgstr "丢失"
+
+msgid "M"
+msgstr ""
+
+msgid "MMDVM"
+msgstr ""
+
+msgid "Mode"
+msgstr "模式"
+
+msgid "Please edit this file directly in a terminal session."
+msgstr "请直接在命令行模式下编辑此文件"
+
+msgid "Save & Reload Service"
+msgstr "保存并重启服务"
+
+msgid "Src"
+msgstr "源"
+
+msgid "Target"
+msgstr "目标"
+
+msgid "The file size is too large for online editing in LuCI (&ge; 100 KB)."
+msgstr "文件太大，无法在线编辑 (&ge; 100 KB)."
+
+msgid "This form allows you to modify the .ini file of the MMDVMHost (%s)."
+msgstr "你可以在这里直接编辑 MMDVMHost 的配置文件 (%s)."
+
+msgid "This form allows you to modify the .ini file of the P25Gateway (%s)."
+msgstr "你可以在这里直接编辑 P25Gateway 的配置文件 (%s)."
+
+msgid "This form allows you to modify the .ini file of the YSFGateway (%s)."
+msgstr "你可以在这里直接编辑 YSFGateway 的配置文件 (%s)."
+
+msgid "Time"
+msgstr "时间"
+
+msgid "View Logfile"
+msgstr "查看实时日志"

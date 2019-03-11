@@ -5,7 +5,7 @@
 
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=mmdvm-suite
+PKG_NAME:=mmdvm
 PKG_VERSION:=1.0.0
 PKG_RELEASE:=1
 GIT_REVISION:=$(shell git rev-parse --short HEAD)

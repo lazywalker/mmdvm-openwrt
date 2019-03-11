@@ -1,0 +1,83 @@
+msgid ""
+msgstr "Content-Type: text/plain; charset=UTF-8"
+
+msgid "Advanced"
+msgstr ""
+
+msgid "BER"
+msgstr ""
+
+msgid "Callsign"
+msgstr ""
+
+msgid "Dashboard"
+msgstr ""
+
+msgid "Dur"
+msgstr ""
+
+msgid "Edit MMDVM.ini"
+msgstr ""
+
+msgid "Edit P25Gateway.ini"
+msgstr ""
+
+msgid "Edit YSFGateway.ini"
+msgstr ""
+
+msgid "Gateway Activity"
+msgstr ""
+
+msgid "Input file not found, please check your configuration."
+msgstr ""
+
+msgid "Live Caller"
+msgstr ""
+
+msgid "Live Log"
+msgstr ""
+
+msgid "Local RF"
+msgstr ""
+
+msgid "Loss"
+msgstr ""
+
+msgid "M"
+msgstr ""
+
+msgid "MMDVM"
+msgstr ""
+
+msgid "Mode"
+msgstr ""
+
+msgid "Please edit this file directly in a terminal session."
+msgstr ""
+
+msgid "Save & Reload Service"
+msgstr ""
+
+msgid "Src"
+msgstr ""
+
+msgid "Target"
+msgstr ""
+
+msgid "The file size is too large for online editing in LuCI (&ge; 100 KB)."
+msgstr ""
+
+msgid "This form allows you to modify the .ini file of the MMDVMHost (%s)."
+msgstr ""
+
+msgid "This form allows you to modify the .ini file of the P25Gateway (%s)."
+msgstr ""
+
+msgid "This form allows you to modify the .ini file of the YSFGateway (%s)."
+msgstr ""
+
+msgid "Time"
+msgstr ""
+
+msgid "View Logfile"
+msgstr ""
