@@ -10,10 +10,13 @@ This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2.
         <% 
         local lh = lastheard[1]
         local callsign = lh.callsign
-        if string.find(callsign, "/") then
-            callsign = string.sub(callsign, 1, string.find(callsign or "", "/")-1)
-        elseif string.find(callsign, "-") then
-            callsign = string.sub(callsign, 1, string.find(callsign or "", "-")-1)
+
+        if not tonumber(callsign) then 
+            if string.find(callsign, "/") then
+                callsign = string.sub(callsign, 1, string.find(callsign, "/")-1)
+            elseif string.find(callsign, "-") then
+                callsign = string.sub(callsign, 1, string.find(callsign, "-")-1)
+            end
         end
 
         local user = luci.util.ubus("dmrid", "get_by_callsign", {callsign = callsign}) or {
@@ -22,7 +25,7 @@ This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2.
 
         if string.find(lh.mode, "DMR") then
             local tg = tonumber(string.sub(lh.target, 4))
-            if tg > 90 then
+            if tg and tg > 90 then
         %>
             <div class="plaintext"><a href="https://hose.brandmeister.network/<%=tg%>" target="_blank" class="link external"><i class="f7-icons">volume</i></a></div>
         <% 

@@ -25,18 +25,21 @@ function s2t(strtime)
 	return os.time({day=day, month=month, year=year, hour=hour, min=minute, sec=second})
 end
 
-function file_exists(name)
-	local f = io.open(name,"r")
-	if f ~= nil then io.close(f) return true else return false end
+function file_exists(fname)
+	return nxo.fs.stat(fname, 'type') == 'reg'
 end
 
+
 function get_mmdvm_log()
-	local logtxt
-	local lines
+	local logtxt = ""
+	local lines = {}
 	local logfile = "/var/log/mmdvm/MMDVM-%s.log" % {os.date("%Y-%m-%d")}
 	
-	logtxt = util.trim(util.exec("tail -n250 %s | egrep -h \"from|end|watchdog|lost\"" % {logfile}))
-	lines = util.split(logtxt, "\n")
+	if file_exists(logfile) then
+		logtxt = util.trim(util.exec("tail -n250 %s | egrep -h \"from|end|watchdog|lost\"" % {logfile}))
+		lines = util.split(logtxt, "\n")
+	end
+
 	if #lines < 20 then
 		logfile = "/var/log/mmdvm/MMDVM-%s.log" % {os.date("%Y-%m-%d", os.time()-24*60*60)}
 		if file_exists(logfile) then
@@ -48,6 +51,7 @@ function get_mmdvm_log()
 	table.sort(lines, function(a,b) return a>b end)
 
 	return lines
+	
 end
 
 local function get_hearlist(loglines)
