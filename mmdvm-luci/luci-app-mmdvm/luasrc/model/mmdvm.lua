@@ -26,7 +26,8 @@ function s2t(strtime)
 end
 
 function file_exists(fname)
-	return nxo.fs.stat(fname, 'type') == 'reg'
+	-- return nxo.fs.stat(fname, 'type') == 'reg'
+	return nxo.fs.access(fname)
 end
 
 
