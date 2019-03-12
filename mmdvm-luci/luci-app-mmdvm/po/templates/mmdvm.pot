@@ -43,9 +43,6 @@ msgstr ""
 msgid "Loss"
 msgstr ""
 
-msgid "M"
-msgstr ""
-
 msgid "MMDVM"
 msgstr ""
 

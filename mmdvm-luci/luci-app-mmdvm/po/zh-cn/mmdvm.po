@@ -43,9 +43,6 @@ msgstr "本地呼叫"
 msgid "Loss"
 msgstr "丢失"
 
-msgid "M"
-msgstr ""
-
 msgid "MMDVM"
 msgstr ""
 
