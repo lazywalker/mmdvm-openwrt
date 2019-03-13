@@ -37,7 +37,7 @@ endef
 
 define Package/${PKG_NAME}/postinst
 #!/bin/sh
-mv /usr/lib/lua/luci/dispatcher.lua /usr/lib/lua/luci/dispatcher.lua_origin
+mv /usr/lib/lua/luci/dispatcher.lua /usr/lib/lua/luci/dispatcher.lua.origin
 mv /usr/lib/lua/luci/dispatcher.lua.mod /usr/lib/lua/luci/dispatcher.lua
 
 rm -rf /tmp/luci-*
@@ -46,7 +46,7 @@ endef
 
 define Package/${PKG_NAME}/prerm
 #!/bin/sh
-mv /usr/lib/lua/luci/dispatcher.lua_origin /usr/lib/lua/luci/dispatcher.lua
+mv /usr/lib/lua/luci/dispatcher.lua.origin /usr/lib/lua/luci/dispatcher.lua
 rm -rf /tmp/luci-*
 
 exit 0
