@@ -2,7 +2,7 @@
 -- This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2
 
 local nxo = require "nixio"
-local util  = require("luci.util")
+local util  = require "luci.util"
 local nfs = require "nixio.fs"
 local uci = require "luci.model.uci"
 local json = require "luci.jsonc"
@@ -11,6 +11,7 @@ local io = io
 local table = table
 local string = string
 local tonumber  = tonumber
+local print = print
 
 module "luci.model.mmdvm"
 
@@ -30,6 +31,10 @@ function file_exists(fname)
 	return nxo.fs.access(fname)
 end
 
+function log(msg)
+	msg = string.format("mmdvm: %s", msg)
+	util.ubus("log", "write", {event = msg})
+end
 
 function get_mmdvm_log()
 	local logtxt = ""
@@ -95,8 +100,8 @@ local function get_hearlist(loglines)
 				local count_tokens = (linetokens and #linetokens) or 0
 
 				if string.find(logline, "RF user has timed out") then
-					duration = "TOut"
-					ber = "??"
+					duration = "-1"
+					ber = "-1"
 				else
 					if count_tokens >= 3 then
 						duration = string.trim(string.sub(linetokens[3], 1, string.find(linetokens[3], " ")))
@@ -108,13 +113,15 @@ local function get_hearlist(loglines)
 
 				-- if RF-Packet, no LOSS would be reported, so BER is in LOSS position
 				if string.find(loss or "", "BER") == 1 then
-					ber = string.trim(string.sub(loss, 6))
+					ber = string.trim(string.sub(loss, 6, 8))
+
 					loss = "0"
 					-- TODO: RSSI
 				else
 					loss = string.trim(string.sub(loss or "", 1, -14))
 					if count_tokens >= 5 then
 						ber = string.trim(string.sub(linetokens[5] or "", 6, -2))
+						
 					end
 				end
 
