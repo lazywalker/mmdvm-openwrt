@@ -564,24 +564,24 @@ if#t==0 then
 return context.tree
 end
 -- >>>>> patch begin
-if path[3] == "firewall" or
-	path[3] == "iptables" or
-	path[3] == "network" or
-	path[3] == "dhcp" or
-	path[3] == "hosts" or
-	path[3] == "routes" or
-	path[3] == "startup" or
-	path[3] == "dmesg" or
-	path[3] == "leds" or
+if t[3] == "firewall" or
+	t[3] == "iptables" or
+	t[3] == "network" or
+	t[3] == "dhcp" or
+	t[3] == "hosts" or
+	t[3] == "routes" or
+	t[3] == "startup" or
+	t[3] == "dmesg" or
+	t[3] == "leds" or
 
 	-- even more
-	-- path[3] == "syslog" or
-	-- path[3] == "processes" or
-	-- path[3] == "system" or
-	-- path[3] == "admin" or
-	-- path[3] == "packages" or
-	-- path[3] == "crontab" or
-	path[3] == "diagnostics"
+	-- t[3] == "syslog" or
+	-- t[3] == "processes" or
+	-- t[3] == "system" or
+	-- t[3] == "admin" or
+	-- t[3] == "packages" or
+	-- t[3] == "crontab" or
+	-- t[3] == "diagnostics"
 
 	then return {}
 end
