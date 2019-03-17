@@ -1,9 +1,8 @@
 -- Copyright 2019 BD7MQB <bd7mqb@qq.com>
--- This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2
+-- This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2.0
 
 local util  = require "luci.util"
 local fs = require "nixio.fs"
--- local uci = require("luci.model.uci").cursor()
 local json = require "luci.jsonc"
 local os = os
 local io = io
@@ -22,6 +21,8 @@ module "luci.model.mmdvm"
 MMDVMHOST_CONFFILE = "/etc/MMDVM.ini"
 YSFGATEWAY_CONFFILE = "/etc/YSFGateway.ini"
 P25GATEWAY_CONFFILE = "/etc/P25Gateway.ini"
+UCI_CONFFILE = "/etc/config/mmdvm"
+
 
 --- Returns a table containing all the data from the INI file.
 --@param fileName The name of the INI file to parse. [string]
@@ -53,6 +54,8 @@ function ini_load(fileName)
 		end
 	end
 	file:close();
+	-- Last Last modification timestamp
+	data[".mtime"] = fs.stat(fileName, "mtime")
 	return data;
 end
 
@@ -65,53 +68,83 @@ function ini_save(fileName, data)
 	local file = assert(io.open(fileName, 'w+b'), 'Error loading file :' .. fileName);
 	local contents = '';
 	for section, param in pairs(data) do
-		contents = contents .. ('[%s]\n'):format(section);
-		for key, value in pairs(param) do
-			contents = contents .. ('%s=%s\n'):format(key, tostring(value));
+		if section ~= ".mtime" then
+			contents = contents .. ('[%s]\n'):format(section);
+			for key, value in pairs(param) do
+				contents = contents .. ('%s=%s\n'):format(key, tostring(value));
+			end
+			contents = contents .. '\n';
 		end
-		contents = contents .. '\n';
 	end
 	file:write(contents);
 	file:close();
 end
 
-
 --- Ini to uci synchornize
+--- When ini file is updated manualy, the uci file will be sync by running this function
+-- @params muci uci instance, typically ref of a Map.uci at cbi
 function ini2uci(muci)
 	-- http.write_json(conf)
-	local conf_setions_needed = {'General', 'Info', 'Modem', 'DMR', 'System Fusion', 'P25',
-							'DMR Network', 'System Fusion Network', 'P25 Network'
-						}
-	local conf_updated = false
+	local mmdvmhost_conf_setions_needed = {
+			General = {"Callsign", "Id", "Duplex", "NetModeHang", "RFModeHang"}, 
+			Info = {"RXFrequency", "TXFrequency", "Latitude", "Longitude", "Power", "Height", "Location", "Description", "URL"}, 
+			Modem = {"Port", "RXOffset", "TXOffset", "RSSIMappingFile"}, 
+			DMR = {"Enable", "ColorCode", "SelfOnly", "DumpTAData"}, 
+			DMR_Network = {"Address"}, 
+			System_Fusion = {"Enable", "SelfOnly"}, 
+			System_Fusion_Network = {"Enable"},
+			P25 = {"Enable", "NAC", "SelfOnly", "OverrideUIDCheck"},
+			P25_Network = {"Enable"}
+		}
+	local updated = false
 	local mmdvmhost_conf = ini_load(MMDVMHOST_CONFFILE)
 	local ysfgateway_conf = ini_load(YSFGATEWAY_CONFFILE)
 	local p25gateway_conf = ini_load(P25GATEWAY_CONFFILE)
 
 	-- initialize /etc/config/mmdvm
 	-- mmdvmhost
-	for _, section in ipairs(conf_setions_needed) do
-		if mmdvmhost_conf[section] then
-			local sename = section:gsub(" ", "_")
-			local se = muci:get_all("mmdvm", sename)
-			if not se or se[".type"] ~= "mmdvmhost" then
-				muci:section("mmdvm", "mmdvmhost", sename, mmdvmhost_conf[section])
-				conf_updated = true
+	local uci_mtime = fs.stat(UCI_CONFFILE, "mtime")
+	for section, options in pairs(mmdvmhost_conf_setions_needed) do
+		local sename = section:gsub("_", " ")
+		if mmdvmhost_conf[sename] then
+			for _, option in ipairs(options) do
+				if not muci:get("mmdvm", section, option) or mmdvmhost_conf[".mtime"] > uci_mtime then
+					local o = {[option] = mmdvmhost_conf[sename][option]}
+					muci:section("mmdvm", "mmdvmhost", section, o)
+					log(("init %s/mmdvmhost/%s/%s"):format(UCI_CONFFILE, section, json.stringify(o)))
+					updated = true
+				end
 			end
 		end
 	end
-	
+	--
+	-- ysfgateway
 	local sename = "Network"
-	if not muci:get("mmdvm", "YSFG_Network") and ysfgateway_conf[sename] then
-		muci:section("mmdvm", "ysfgateway", "YSFG_Network", ysfgateway_conf[sename])
-		conf_updated = true
+	local section = "YSFG_Network"
+	local options = {"Startup", "InactivityTimeout", "Revert"}
+	for _, option in ipairs(options) do
+		if not muci:get("mmdvm", section, option) or ysfgateway_conf[".mtime"] > uci_mtime then
+			local o = {[option] = ysfgateway_conf[sename][option]}
+			muci:section("mmdvm", "ysfgateway", section, o)
+			log(("init %s/ysfgateway/%s/%s"):format(UCI_CONFFILE, section, json.stringify(o)))
+			updated = true
+		end
 	end
-	if not muci:get("mmdvm", "P25G_Network") and p25gateway_conf[sename] then
-		muci:section("mmdvm", "p25gateway", "P25G_Network", p25gateway_conf[sename])
-		conf_updated = true
+	--
+	-- p25gateway
+	local sename = "Network"
+	local section = "P25G_Network"
+	local options = {"Startup", "InactivityTimeout", "Revert"}
+	for _, option in ipairs(options) do
+		if not muci:get("mmdvm", section, option) or p25gateway_conf[".mtime"] > uci_mtime then
+			local o = {[option] = p25gateway_conf[sename][option]}
+			muci:section("mmdvm", "p25gateway", section, o)
+			log(("init %s/p25gateway/%s/%s"):format(UCI_CONFFILE, section, json.stringify(o)))
+			updated = true
+		end
 	end
 	
-	-- TODO: update /etc/config/mmdvm by checking timestamp of files
-	if conf_updated then
+	if updated then
 		muci:save("mmdvm")
 		muci:commit("mmdvm")
 	end	
@@ -221,7 +254,7 @@ function get_p25_list()
 end
 
 function log(msg)
-	msg = string.format("mmdvm: %s", msg)
+	msg = ("mmdvm: %s"):format(msg)
 	util.ubus("log", "write", {event = msg})
 end
 

@@ -1,3 +1,6 @@
+-- Copyright 2019 BD7MQB <bd7mqb@qq.com>
+-- This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2.0
+
 local sys   = require "luci.sys"
 local fs    = require "nixio.fs"
 local json = require "luci.jsonc"
@@ -19,7 +22,7 @@ m.on_after_commit = function(self)
 	end
 end
 
--- Initialize uci file using ini if needed
+-- Initialize uci file using ini if needed, MUST called at the fist run.
 mmdvm.ini2uci(m.uci)
 
 --
@@ -33,13 +36,10 @@ o = s:option(Value, "Callsign", translate("Callsign"), translate("Your Callsign 
 o = s:option(Value, "Id", translate("ID"), translate("Your DmrId or DmrId + <abbr title=\"ex. 460713301\">2 digitals</abbr>"))
 o.optional    = true
 o.datatype    = "uinteger"
+
 o = s:option(ListValue, "Duplex", translate("Duplex/Simplex"), translate("Duplex or Simplex mode"))
 o:value("1", "Duplex")
 o:value("0", "Simplex")
-
--- function o.write(self, section, value)
--- 	Value.write(self, section, value)
--- end
 
 o = s:option(Value, "NetModeHang", translate("NetModeHang"), translate("Seconds waiting between 2 modes from <abbr title=\"transmision from network\">Net</abbr>"))
 o.datatype    = "uinteger"
@@ -60,7 +60,12 @@ o.optional    = true
 o.datatype    = "uinteger"
 o = s:option(Value, "Latitude", translate("Latitude"), translate("e.g. 22.10 N"))
 o = s:option(Value, "Longitude", translate("Longitude"), translate("e.g. 114.3 E"))
-o = s:option(Value, "Height", translate("Height"), translate("e.g. 110m"))
+o = s:option(Value, "Height", translate("Height"), translate("e.g. 110 Meters"))
+o.optional    = true
+o.datatype    = "uinteger"
+o = s:option(Value, "Power", translate("TXPower"), translate("e.g. 1 Watt"))
+o.optional    = true
+o.datatype    = "uinteger"
 o = s:option(Value, "Location", translate("Location"))
 o = s:option(Value, "Description", translate("Description"))
 o = s:option(Value, "URL", translate("URL"))

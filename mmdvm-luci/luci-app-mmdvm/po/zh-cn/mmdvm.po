@@ -167,6 +167,9 @@ msgstr "请直接在命令行模式下编辑此文件"
 msgid "Port"
 msgstr "端口"
 
+msgid "TXPower"
+msgstr "功率"
+
 msgid "RFModeHang"
 msgstr "射频模式保留时间"
 
@@ -261,8 +264,11 @@ msgstr "你的呼号（大写字母）"
 msgid "Your DmrId or DmrId + <abbr title=\"ex. 460713301\">2 digitals</abbr>"
 msgstr "你的DmrId，也可以在DmrId后面附加两位数字加以区分不同的设备"
 
-msgid "e.g. 110m"
-msgstr "比如 110m"
+msgid "e.g. 1 Watt"
+msgstr "比如 1瓦"
+
+msgid "e.g. 110 Meters"
+msgstr "比如 110米"
 
 msgid "e.g. 114.3 E"
 msgstr "比如 114.3 E"

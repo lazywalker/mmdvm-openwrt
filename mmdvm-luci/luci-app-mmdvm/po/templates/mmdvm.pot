@@ -141,7 +141,7 @@ msgstr ""
 msgid "Only the callsign you entered above shall pass in YSF mode"
 msgstr ""
 
-msgid "Only vaild IDs shall pass on RF transmition"
+msgid "Only vaild IDs shall pass on RF transmition by unchecked this"
 msgstr ""
 
 msgid "OverrideUIDCheck"
@@ -205,6 +205,9 @@ msgstr ""
 msgid "TXOffset"
 msgstr ""
 
+msgid "TXPower"
+msgstr ""
+
 msgid "Target"
 msgstr ""
 
@@ -253,7 +256,10 @@ msgstr ""
 msgid "Your DmrId or DmrId + <abbr title=\"ex. 460713301\">2 digitals</abbr>"
 msgstr ""
 
-msgid "e.g. 110m"
+msgid "e.g. 1 Watt"
+msgstr ""
+
+msgid "e.g. 110 Meters"
 msgstr ""
 
 msgid "e.g. 114.3 E"
