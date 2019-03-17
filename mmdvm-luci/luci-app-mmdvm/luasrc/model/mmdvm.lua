@@ -1,10 +1,9 @@
 -- Copyright 2019 BD7MQB <bd7mqb@qq.com>
 -- This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2
 
-local nxo = require "nixio"
 local util  = require "luci.util"
-local nfs = require "nixio.fs"
-local uci = require "luci.model.uci"
+local fs = require "nixio.fs"
+-- local uci = require("luci.model.uci").cursor()
 local json = require "luci.jsonc"
 local os = os
 local io = io
@@ -12,9 +11,150 @@ local table = table
 local string = string
 local tonumber  = tonumber
 local print = print
+local type = type
+local assert = assert
+local pairs = pairs
+local ipairs = ipairs
+local tostring = tostring
 
 module "luci.model.mmdvm"
 
+MMDVMHOST_CONFFILE = "/etc/MMDVM.ini"
+YSFGATEWAY_CONFFILE = "/etc/YSFGateway.ini"
+P25GATEWAY_CONFFILE = "/etc/P25Gateway.ini"
+
+--- Returns a table containing all the data from the INI file.
+--@param fileName The name of the INI file to parse. [string]
+--@return The table containing all data from the INI file. [table]
+function ini_load(fileName)
+	assert(type(fileName) == 'string', 'Parameter "fileName" must be a string.');
+	local file = assert(io.open(fileName, 'r'), 'Error loading file : ' .. fileName);
+	local data = {};
+	local section;
+	for line in file:lines() do
+		local tempSection = line:match('^%[([^%[%]]+)%]$');
+		if(tempSection)then
+			section = tonumber(tempSection) and tonumber(tempSection) or tempSection;
+			data[section] = data[section] or {};
+		end
+		local param, value = line:match('^([%w|_]+)%s-=%s-(.+)$');
+		if(param and value ~= nil)then
+			if(tonumber(value))then
+				value = tonumber(value);
+			elseif(value == 'true')then
+				value = true;
+			elseif(value == 'false')then
+				value = false;
+			end
+			if(tonumber(param))then
+				param = tonumber(param);
+			end
+			data[section][param] = value;
+		end
+	end
+	file:close();
+	return data;
+end
+
+--- Saves all the data from a table to an INI file.
+--@param fileName The name of the INI file to fill. [string]
+--@param data The table containing all the data to store. [table]
+function ini_save(fileName, data)
+	assert(type(fileName) == 'string', 'Parameter "fileName" must be a string.');
+	assert(type(data) == 'table', 'Parameter "data" must be a table.');
+	local file = assert(io.open(fileName, 'w+b'), 'Error loading file :' .. fileName);
+	local contents = '';
+	for section, param in pairs(data) do
+		contents = contents .. ('[%s]\n'):format(section);
+		for key, value in pairs(param) do
+			contents = contents .. ('%s=%s\n'):format(key, tostring(value));
+		end
+		contents = contents .. '\n';
+	end
+	file:write(contents);
+	file:close();
+end
+
+
+--- Ini to uci synchornize
+function ini2uci(muci)
+	-- http.write_json(conf)
+	local conf_setions_needed = {'General', 'Info', 'Modem', 'DMR', 'System Fusion', 'P25',
+							'DMR Network', 'System Fusion Network', 'P25 Network'
+						}
+	local conf_updated = false
+	local mmdvmhost_conf = ini_load(MMDVMHOST_CONFFILE)
+	local ysfgateway_conf = ini_load(YSFGATEWAY_CONFFILE)
+	local p25gateway_conf = ini_load(P25GATEWAY_CONFFILE)
+
+	-- initialize /etc/config/mmdvm
+	-- mmdvmhost
+	for _, section in ipairs(conf_setions_needed) do
+		if mmdvmhost_conf[section] then
+			local sename = section:gsub(" ", "_")
+			local se = muci:get_all("mmdvm", sename)
+			if not se or se[".type"] ~= "mmdvmhost" then
+				muci:section("mmdvm", "mmdvmhost", sename, mmdvmhost_conf[section])
+				conf_updated = true
+			end
+		end
+	end
+	
+	local sename = "Network"
+	if not muci:get("mmdvm", "YSFG_Network") and ysfgateway_conf[sename] then
+		muci:section("mmdvm", "ysfgateway", "YSFG_Network", ysfgateway_conf[sename])
+		conf_updated = true
+	end
+	if not muci:get("mmdvm", "P25G_Network") and p25gateway_conf[sename] then
+		muci:section("mmdvm", "p25gateway", "P25G_Network", p25gateway_conf[sename])
+		conf_updated = true
+	end
+	
+	-- TODO: update /etc/config/mmdvm by checking timestamp of files
+	if conf_updated then
+		muci:save("mmdvm")
+		muci:commit("mmdvm")
+	end	
+end
+
+--- Uci to ini synchornize
+--@param changes as [["set","Info","Latitude","22.1"],["set","Info","Longitude","114.3"],["set","Modem","RXOffset","100"],["set","Info","Latitude","22.10"],["set","Info","Longitude","114.30"],["set","P25G_Network","InactivityTimeout","15"]]
+function uci2ini(changes)
+	local mmdvmhost_conf = ini_load(MMDVMHOST_CONFFILE)
+	local ysfgateway_conf = ini_load(YSFGATEWAY_CONFFILE)
+	local p25gateway_conf = ini_load(P25GATEWAY_CONFFILE)
+	local mmdvmhost_changed = false
+
+	for _, change in ipairs(changes) do
+		local action = change[1]
+		local section = change[2]:gsub("_", " ")
+		local option = change[3]
+		local value = change[4]
+
+		if action == "set" then
+			if section == "YSFG Network" then
+				ysfgateway_conf["Network"][option] = value
+				ini_save(YSFGATEWAY_CONFFILE, ysfgateway_conf)
+				log("YSFGateway.ini update - " .. json.stringify(change))
+			elseif section == "P25G Network" then
+				p25gateway_conf["Network"][option] = value
+				ini_save(P25GATEWAY_CONFFILE, p25gateway_conf)
+				log("P25GGateway.ini update - " .. json.stringify(change))
+			else
+				mmdvmhost_conf[section][option] = value
+				ini_save(MMDVMHOST_CONFFILE, mmdvmhost_conf)
+				log("MMDVM.ini update - " .. json.stringify(change))
+
+				mmdvmhost_changed = true
+			end
+		end
+	end
+
+	return mmdvmhost_changed
+end
+
+--- String to time
+--@param strtime time string in yyyy-mm-dd HH:MM:ss
 function s2t(strtime)
     local year = string.sub(strtime, 1, 4)
     local month = string.sub(strtime, 6, 7)
@@ -27,8 +167,57 @@ function s2t(strtime)
 end
 
 function file_exists(fname)
-	-- return nxo.fs.stat(fname, 'type') == 'reg'
-	return nxo.fs.access(fname)
+	-- return fs.stat(fname, 'type') == 'reg'
+	return fs.access(fname)
+end
+
+function get_bm_list()
+	local hostfile = "/etc/mmdvm/BMMasters.txt"
+	local file = assert(io.open(hostfile, 'r'), 'Error loading file : ' .. hostfile);
+	local data = {};
+	for line in file:lines() do
+		local tokens = line:split(",")
+		table.insert(data, {tokens[1], tokens[2], tokens[4]})
+	end
+
+	return data
+end
+
+function get_ysf_list()
+	local hostfile = "/etc/mmdvm/YSFHosts.txt"
+	local file = assert(io.open(hostfile, 'r'), 'Error loading file : ' .. hostfile);
+	local data = {};
+	for line in file:lines() do
+		local tokens = line:split(";")
+		table.insert(data, {tokens[1], tokens[2]})
+	end
+
+	return data
+end
+
+local function _get_p25_list(hostfile)
+	local file = assert(io.open(hostfile, 'r'), 'Error loading file : ' .. hostfile);
+	local data = {};
+	for line in file:lines() do
+		if line:trim() ~= "" and line:byte(1) ~= 35 then -- the # char
+			local tokens = line:split("%s+", nil, true)
+			table.insert(data, {tokens[1], tokens[2]})
+		end
+	end
+
+	return data
+end
+
+function get_p25_list()
+	local hostfile = "/etc/mmdvm/P25Hosts.txt"
+	local hostfile_private = "/etc/mmdvm/P25Hosts_private.txt"
+
+	local data = _get_p25_list(hostfile)
+	for _, d in ipairs(_get_p25_list(hostfile_private)) do
+		table.insert(data, {d[1], d[2] .. " - private"})
+	end
+
+	return data
 end
 
 function log(msg)
@@ -43,14 +232,14 @@ function get_mmdvm_log()
 	
 	if file_exists(logfile) then
 		logtxt = util.trim(util.exec("tail -n250 %s | egrep -h \"from|end|watchdog|lost\"" % {logfile}))
-		lines = util.split(logtxt, "\n")
+		lines = logtxt:split("\n")
 	end
 
 	if #lines < 20 then
 		logfile = "/var/log/mmdvm/MMDVM-%s.log" % {os.date("%Y-%m-%d", os.time()-24*60*60)}
 		if file_exists(logfile) then
 			logtxt = logtxt .. "\n" .. util.trim(util.exec("tail -n250 %s | egrep -h \"from|end|watchdog|lost\"" % {logfile}))
-			lines = util.split(logtxt, "\n")
+			lines = logtxt:split("\n")
 		end
 	end
 
@@ -96,7 +285,7 @@ local function get_hearlist(loglines)
 				or string.find(logline, "RF user has timed out")
 				or string.find(logline, "transmission lost")
 			then
-				local linetokens = util.split(logline, ", ")
+				local linetokens = logline:split(", ")
 				local count_tokens = (linetokens and #linetokens) or 0
 
 				if string.find(logline, "RF user has timed out") then
