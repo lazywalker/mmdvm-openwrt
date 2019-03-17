@@ -1,6 +1,5 @@
 local sys   = require "luci.sys"
 local fs    = require "nixio.fs"
-local conf  = require "luci.config"
 local json = require "luci.jsonc"
 
 local m, s, o = ...
@@ -9,11 +8,10 @@ local mmdvm = require("luci.model.mmdvm")
 local http  = require("luci.http")
 -- local conffile = uci:get("mmdvm", "mmdvmhost", "conf") or "/etc/MMDVM.ini"
 
-m = Map("mmdvm", translate("MMDVM Configurations"), translate("Here you can configure the basic aspects of your device like its callsign or the operating modes."))
+m = Map("mmdvm", translate("MMDVM Configuration"), translate("Here you can configure the basic aspects of your device like its callsign or the operating modes."))
 m.on_after_commit = function(self)
 	if self.changed then	-- changes ?
         changes = self.uci:changes("mmdvm")
-        -- mmdvm.log(json.stringify(changes))
         -- if MMDVM.ini changed?
         if mmdvm.uci2ini(changes) then
             sys.call("env -i /etc/init.d/mmdvmhost restart >/dev/null")
@@ -54,10 +52,10 @@ o.datatype    = "uinteger"
 s = m:section(NamedSection, "Info", "mmdvmhost", translate("Infomation Settings"), translate("Those infomation will show up at brandmeister.network if you enable DMR mode"))
 s.anonymous   = true
 
-o = s:option(Value, "RXFrequency", translate("RXFrequency"), translate("Use the format <abbr title=\"the Unit is Hz\">434500000</abbr> without unit Hz"))
+o = s:option(Value, "RXFrequency", translate("RXFrequency"), translate("Use the format <abbr title=\"the Unit is Hz\">434500000</abbr>, in Hz"))
 o.optional    = true
 o.datatype    = "uinteger"
-o = s:option(Value, "TXFrequency", translate("TXFrequency"), translate("Use the same format as RXFrequency, must different from RXFrequency if Duplex"))
+o = s:option(Value, "TXFrequency", translate("TXFrequency"), translate("Use the same format as RXFrequency"))
 o.optional    = true
 o.datatype    = "uinteger"
 o = s:option(Value, "Latitude", translate("Latitude"), translate("e.g. 22.10 N"))
@@ -101,7 +99,7 @@ o = s:option(ListValue, "ColorCode", translate("ColorCode"), translate("Personal
 for i=1,12,1 do
     o:value(i, i)
 end
-o = s:option(Flag, "SelfOnly", translate("SelfOnly"), translate("Allow only the callsign you entered above to pass"))
+o = s:option(Flag, "SelfOnly", translate("SelfOnly"), translate("Only the callsign you entered above shall pass in DMR mode"))
 o.rmempty = false
 
 o = s:option(Flag, "DumpTAData", translate("DumpTAData"), translate("Which enables \"Talker Alias\" information to be received by radios that support this feature"))
@@ -145,7 +143,7 @@ function o.write(self, section, value)
     self.map.uci:set("mmdvm", "System_Fusion_Network", "Enable", value)
 end
 
-o = s:option(Flag, "SelfOnly", translate("SelfOnly"), translate("Allow only the callsign you entered above to pass"))
+o = s:option(Flag, "SelfOnly", translate("SelfOnly"), translate("Only the callsign you entered above shall pass in YSF mode"))
 o.rmempty = false
 
 s = m:section(NamedSection, "YSFG_Network", "ysfgateway")
@@ -158,7 +156,7 @@ end
 o = s:option(Value, "InactivityTimeout", translate("InactivityTimeout"), translate("Minutes to disconect when idle"))
 o.optional    = false
 o.datatype    = "uinteger"
-o = s:option(Flag, "Revert", translate("Revert to Startup"), translate("Revert to Startup when InactivityTimeout"))
+o = s:option(Flag, "Revert", translate("Revert to Startup"), translate("Revert to Startup reflector when InactivityTimeout"))
 o.rmempty = false
 
 --
@@ -193,10 +191,10 @@ o = s:option(Value, "NAC", translate("NAC"), translate("Network Access Control")
 o.optional    = false
 o.datatype    = "uinteger"
 
-o = s:option(Flag, "SelfOnly", translate("SelfOnly"), translate("Allow only the callsign you entered above to pass"))
+o = s:option(Flag, "SelfOnly", translate("SelfOnly"), translate("Only the callsign you entered above shall pass in P25 mode"))
 o.rmempty = false
 
-o = s:option(Flag, "OverrideUIDCheck", translate("OverrideUIDCheck"), translate("Allow only vaild ID to pass on RF transmition"))
+o = s:option(Flag, "OverrideUIDCheck", translate("OverrideUIDCheck"), translate("Only vaild IDs shall pass on RF transmition by unchecked this"))
 o.rmempty = false
 
 s = m:section(NamedSection, "P25G_Network", "p25gateway")
@@ -209,7 +207,7 @@ end
 o = s:option(Value, "InactivityTimeout", translate("InactivityTimeout"), translate("Minutes to disconect when idle"))
 o.optional    = false
 o.datatype    = "uinteger"
-o = s:option(Flag, "Revert", translate("Revert to Startup"), translate("Revert to Startup when InactivityTimeout"))
+o = s:option(Flag, "Revert", translate("Revert to Startup"), translate("Revert to Startup reflector when InactivityTimeout"))
 o.rmempty = false
 
 return m
