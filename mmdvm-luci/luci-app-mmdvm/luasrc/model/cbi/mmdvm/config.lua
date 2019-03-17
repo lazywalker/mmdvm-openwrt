@@ -32,7 +32,7 @@ s = m:section(NamedSection, "General", "mmdvmhost", translate("General Settings"
 s.anonymous = true
 s.addremove = false
 
-o = s:option(Value, "Callsign", translate("Callsign"), translate("Your Callsign in uppercase"))
+o = s:option(Value, "Callsign", translate("Callsign"))
 o = s:option(Value, "Id", translate("ID"), translate("Your DmrId or DmrId + <abbr title=\"ex. 460713301\">2 digitals</abbr>"))
 o.optional    = true
 o.datatype    = "uinteger"
@@ -41,9 +41,9 @@ o = s:option(ListValue, "Duplex", translate("Duplex/Simplex"), translate("Duplex
 o:value("1", "Duplex")
 o:value("0", "Simplex")
 
-o = s:option(Value, "NetModeHang", translate("NetModeHang"), translate("Seconds waiting between 2 modes from <abbr title=\"transmision from network\">Net</abbr>"))
+o = s:option(Value, "NetModeHang", translate("NetModeHang"))
 o.datatype    = "uinteger"
-o = s:option(Value, "RFModeHang", translate("RFModeHang"), translate("Seconds waiting between 2 modes from <abbr title=\"transmision from local RF\">RF</abbr>"))
+o = s:option(Value, "RFModeHang", translate("RFModeHang"))
 o.datatype    = "uinteger"
 
 --
