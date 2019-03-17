@@ -28,7 +28,13 @@ msgstr ""
 msgid "Description"
 msgstr ""
 
+msgid "Digital Modes"
+msgstr ""
+
 msgid "DumpTAData"
+msgstr ""
+
+msgid "Duplex"
 msgstr ""
 
 msgid "Duplex or Simplex mode"
@@ -62,6 +68,9 @@ msgid "Enable YSF Mode"
 msgstr ""
 
 msgid "Gateway Activity"
+msgstr ""
+
+msgid "General"
 msgstr ""
 
 msgid "General Settings"
@@ -180,17 +189,10 @@ msgstr ""
 msgid "Save & Reload Service"
 msgstr ""
 
-msgid ""
-"Seconds waiting between 2 modes from <abbr title=\"transmision from local RF"
-"\">RF</abbr>"
-msgstr ""
-
-msgid ""
-"Seconds waiting between 2 modes from <abbr title=\"transmision from network"
-"\">Net</abbr>"
-msgstr ""
-
 msgid "SelfOnly"
+msgstr ""
+
+msgid "Simplex"
 msgstr ""
 
 msgid "Src"
@@ -248,9 +250,6 @@ msgid ""
 msgstr ""
 
 msgid "YSF Settings"
-msgstr ""
-
-msgid "Your Callsign in uppercase"
 msgstr ""
 
 msgid "Your DmrId or DmrId + <abbr title=\"ex. 460713301\">2 digitals</abbr>"

@@ -36,8 +36,14 @@ msgstr "面板"
 msgid "Description"
 msgstr "描述"
 
+msgid "Digital Modes"
+msgstr "数字模式"
+
 msgid "DumpTAData"
 msgstr "允许TA数据"
+
+msgid "Duplex"
+msgstr "双工"
 
 msgid "Duplex or Simplex mode"
 msgstr "双工或单工模式"
@@ -71,6 +77,9 @@ msgstr "启用YSF模式"
 
 msgid "Gateway Activity"
 msgstr "通联记录"
+
+msgid "General"
+msgstr "通用"
 
 msgid "General Settings"
 msgstr "基本设置"
@@ -204,6 +213,9 @@ msgstr "来自射频信号的两种数字模式切换所需等待的秒数"
 msgid "SelfOnly"
 msgstr "私有"
 
+msgid "Simplex"
+msgstr "单工"
+
 msgid "Src"
 msgstr "源"
 
@@ -259,10 +271,10 @@ msgid "YSF Settings"
 msgstr "YSF 设置"
 
 msgid "Your Callsign in uppercase"
-msgstr "你的呼号（大写字母）"
+msgstr "呼号（大写字母）"
 
 msgid "Your DmrId or DmrId + <abbr title=\"ex. 460713301\">2 digitals</abbr>"
-msgstr "你的DmrId，也可以在DmrId后面附加两位数字加以区分不同的设备"
+msgstr "DmrId，也可以在Id后面附加两位数字以区分不同的设备"
 
 msgid "e.g. 1 Watt"
 msgstr "比如 1瓦"

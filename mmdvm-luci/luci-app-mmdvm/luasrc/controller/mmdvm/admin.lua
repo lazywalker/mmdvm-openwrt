@@ -15,7 +15,9 @@ function index()
 		return
 	end
 	entry({"admin", "mmdvm"}, firstchild(), _("MMDVM"), 30).dependent = false
-	entry({"admin", "mmdvm", "config"}, cbi("mmdvm/config"), _("Configuration"), 40).index = true
+	entry({"admin", "mmdvm", "config"}, firstchild(), _("Configuration"), 40).index = true
+	entry({"admin", "mmdvm", "config", "general"}, cbi("mmdvm/config_general"), _("General"), 41)
+	entry({"admin", "mmdvm", "config", "dvmode"}, cbi("mmdvm/config_dvmode"), _("Digital Modes"), 42)
 	entry({"admin", "mmdvm", "advanced"}, firstchild(), _("Advanced"), 100)
 	entry({"admin", "mmdvm", "advanced", "mmdvmhost"}, form("mmdvm/mmdvmhost_tab"), _("Edit MMDVM.ini"), 110).leaf = true
 	entry({"admin", "mmdvm", "advanced", "ysfgateway"}, form("mmdvm/ysfgateway_tab"), _("Edit YSFGateway.ini"), 120).leaf = true
