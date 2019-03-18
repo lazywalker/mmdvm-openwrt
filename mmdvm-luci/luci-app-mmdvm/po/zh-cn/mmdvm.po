@@ -70,7 +70,7 @@ msgid "Enable DMR Mode"
 msgstr "启用DMR模式"
 
 msgid "Enable P25 Mode"
-msgstr "启用DMR模式"
+msgstr "启用P25模式"
 
 msgid "Enable YSF Mode"
 msgstr "启用YSF模式"
