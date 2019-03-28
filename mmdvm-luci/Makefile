@@ -109,7 +109,7 @@ define Package/${PKG_NAME}/install
 	$(call Package/common/install,$(1),luci-app-mmdvm)
 endef
 
-define Package/${PKG_NAME}postinst
+define Package/${PKG_NAME}/postinst
 #!/bin/sh
 if [ -e /etc/openwrt_release ]; then
 	[ -f /etc/init.d/dmrid ] && /etc/init.d/dmrid enable || :
