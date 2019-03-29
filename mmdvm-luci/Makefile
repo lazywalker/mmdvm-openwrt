@@ -7,8 +7,8 @@ include $(TOPDIR)/rules.mk
 include $(INCLUDE_DIR)/version.mk
 
 PKG_NAME:=mmdvm-luci
-PKG_VERSION:=1.0.4
-PKG_RELEASE:=2
+PKG_VERSION:=1.0.5
+PKG_RELEASE:=1
 GIT_REVISION:=$(shell git rev-parse --short HEAD)
 PKG_REVISION:=$(PKG_VERSION)-$(PKG_RELEASE)-$(GIT_REVISION)
 # PKG_BUILD_DEPENDS += $(LUCI_BUILD_DEPENDS)
@@ -34,7 +34,7 @@ define Package/${PKG_NAME}
 	CATEGORY:=MMDVM
 	#SUBMENU:=Misc
 	TITLE:=MMDVM's LuCI plugins.
-	DEPENDS:=+luci +mmdvm-host +libubus-lua +libubox-lua
+	DEPENDS:=+luci +mmdvm-host +libmmdvm +libubus-lua +libubox-lua
 	#VERSION:=$(PKG_RELEASE)-$(REVISION)
 endef
 

@@ -1,5 +1,5 @@
 #!/usr/bin/lua
--- Copyright 2019 BD7MQB <bd7mqb@qq.com>
+-- Copyright 2019 BD7MQB (bd7mqb@qq.com)
 -- This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2
 -- a DmdIds service via ubus
 
@@ -91,45 +91,39 @@ local function log(msg)
     conn:call("log", "write", {event = msg})
 end
 
-local _users = {}
-local function load_users(dmrid_file)
-    local file = assert(io.open(dmrid_file,'r'))
-    local i = 0
-    for line in file:lines() do
-        local tokens = split(line, "\t")
-        local id = tokens[1]
-        local callsign = tokens[2]
-        local name = tokens[3]
-        local city = tokens[4]
-        local country = tokens[5]
-
-        _users[callsign] = {
-            -- emiting id and callsign to reduce memory usage
-            -- id = id,
-            -- callsign = callsign,
-            name = name,
-            city = city,
-            country = country
-        }
-        
-        i = i + 1
-    end
-
-    return i
-end
-
 local dmrid_file = ini_load("/etc/MMDVM.ini")["DMR Id Lookup"].File or "/etc/mmdvm/DMRIds.dat"
-log("Loading DMRIds from " .. dmrid_file .. " ...")
-local user_count = load_users(dmrid_file)
-log("Loaded " .. user_count .." Ids to the callsign lookup table ... Done")
+-- log("Loading DMRIds from " .. dmrid_file .. " ...")
+-- local user_count = load_users(dmrid_file)
+-- log("Loaded " .. user_count .." Ids to the callsign lookup table ... Done")
 
 uloop.init()
+
+local mmdvm = require("mmdvm")
+mmdvm.init(dmrid_file)
 
 local function get_dmrid_by_callsign(req, msg)
     local result = {}
 
     if msg.callsign then
-        result = _users[msg.callsign] or {}
+        line = mmdvm.get_dmrid_by_callsign(msg.callsign)
+        if line then
+            local tokens = split(line, "\t")
+            local id = tokens[1]
+            local callsign = tokens[2]
+            local name = tokens[3]
+            local city = tokens[4]
+            local country = tokens[5]
+
+            result = {
+                id = id,
+                callsign = callsign,
+                name = name,
+                city = city,
+                country = country
+            }
+        else
+            result = {}
+        end
     end
 
     conn:reply(req, result)
