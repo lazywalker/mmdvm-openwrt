@@ -40,5 +40,5 @@ status() {
         STATUS="Started - PID ${PID}"
     fi
 
-    echo "${APP}:	    [${STATUS}]"
+    echo "${APP}:		[${STATUS}]"
 }

@@ -8,7 +8,6 @@
 
 SERVICE_WRITE_PID=0
 SERVICE_DAEMONIZE=0
-HELP="ss"
 EXTRA_COMMANDS="status update"                                                                                        
 EXTRA_HELP="	status	Display status of mmdvm services
 	update	Upgrade the mmdvm suite to lastest version" 
