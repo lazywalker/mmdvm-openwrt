@@ -8,8 +8,9 @@ START=99
 APP=dmrid
 PID_FILE=/var/run/dmrid.pid
 USE_PROCD=1
-EXTRA_COMMANDS="query"                                                                                        
-EXTRA_HELP="	query   <CALLSIGN> Query user info by callsign" 
+EXTRA_COMMANDS="status query"                                                                                        
+EXTRA_HELP="	status	Display status of ${APP}
+	query	<CALLSIGN> Query user info by callsign" 
 
 start_service() {
     ubus -t 60 wait_for network.interface network.wireless 2>/dev/null
@@ -28,4 +29,16 @@ stop_service() {
 
 query() {
     ubus -t1 call dmrid get_by_callsign "{'callsign': '${1}'}"
+}
+
+status() {
+    local PID=`pidof ${APP}`
+    local STATUS
+    if [ ! ${PID} ]; then
+        STATUS="Stopped"
+    else
+        STATUS="Started - PID ${PID}"
+    fi
+
+    echo "${APP}:	    [${STATUS}]"
 }

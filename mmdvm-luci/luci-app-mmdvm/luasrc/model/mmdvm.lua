@@ -28,56 +28,56 @@ UCI_CONFFILE = "/etc/config/mmdvm"
 --@param fileName The name of the INI file to parse. [string]
 --@return The table containing all data from the INI file. [table]
 function ini_load(fileName)
-	assert(type(fileName) == 'string', 'Parameter "fileName" must be a string.');
-	local file = assert(io.open(fileName, 'r'), 'Error loading file : ' .. fileName);
-	local data = {};
-	local section;
+	assert(type(fileName) == 'string', 'Parameter "fileName" must be a string.')
+	local file = assert(io.open(fileName, 'r'), 'Error loading file : ' .. fileName)
+	local data = {}
+	local section
 	for line in file:lines() do
-		local tempSection = line:match('^%[([^%[%]]+)%]$');
+		local tempSection = line:match('^%[([^%[%]]+)%]$')
 		if(tempSection)then
-			section = tonumber(tempSection) and tonumber(tempSection) or tempSection;
-			data[section] = data[section] or {};
+			section = tonumber(tempSection) and tonumber(tempSection) or tempSection
+			data[section] = data[section] or {}
 		end
-		local param, value = line:match('^([%w|_]+)%s-=%s-(.+)$');
+		local param, value = line:match('^([%w|_]+)%s-=%s-(.+)$')
 		if(param and value ~= nil)then
 			if(tonumber(value))then
-				value = tonumber(value);
+				value = tonumber(value)
 			elseif(value == 'true')then
-				value = true;
+				value = true
 			elseif(value == 'false')then
-				value = false;
+				value = false
 			end
 			if(tonumber(param))then
-				param = tonumber(param);
+				param = tonumber(param)
 			end
-			data[section][param] = value;
+			data[section][param] = value
 		end
 	end
-	file:close();
+	file:close()
 	-- Last Last modification timestamp
 	data[".mtime"] = fs.stat(fileName, "mtime")
-	return data;
+	return data
 end
 
 --- Saves all the data from a table to an INI file.
 --@param fileName The name of the INI file to fill. [string]
 --@param data The table containing all the data to store. [table]
 function ini_save(fileName, data)
-	assert(type(fileName) == 'string', 'Parameter "fileName" must be a string.');
-	assert(type(data) == 'table', 'Parameter "data" must be a table.');
-	local file = assert(io.open(fileName, 'w+b'), 'Error loading file :' .. fileName);
-	local contents = '';
+	assert(type(fileName) == 'string', 'Parameter "fileName" must be a string.')
+	assert(type(data) == 'table', 'Parameter "data" must be a table.')
+	local file = assert(io.open(fileName, 'w+b'), 'Error loading file :' .. fileName)
+	local contents = ''
 	for section, param in pairs(data) do
 		if section ~= ".mtime" then
-			contents = contents .. ('[%s]\n'):format(section);
+			contents = contents .. ('[%s]\n'):format(section)
 			for key, value in pairs(param) do
-				contents = contents .. ('%s=%s\n'):format(key, tostring(value));
+				contents = contents .. ('%s=%s\n'):format(key, tostring(value))
 			end
-			contents = contents .. '\n';
+			contents = contents .. '\n'
 		end
 	end
-	file:write(contents);
-	file:close();
+	file:write(contents)
+	file:close()
 end
 
 --- Ini to uci synchornize
@@ -206,8 +206,8 @@ end
 
 function get_bm_list()
 	local hostfile = "/etc/mmdvm/BMMasters.txt"
-	local file = assert(io.open(hostfile, 'r'), 'Error loading file : ' .. hostfile);
-	local data = {};
+	local file = assert(io.open(hostfile, 'r'), 'Error loading file : ' .. hostfile)
+	local data = {}
 	for line in file:lines() do
 		local tokens = line:split(",")
 		table.insert(data, {tokens[1], tokens[2], tokens[4]})
@@ -218,10 +218,10 @@ end
 
 function get_ysf_list()
 	local hostfile = "/etc/mmdvm/YSFHosts.txt"
-	local file = assert(io.open(hostfile, 'r'), 'Error loading file : ' .. hostfile);
-	local data = {};
+	local file = assert(io.open(hostfile, 'r'), 'Error loading file : ' .. hostfile)
+	local data = {}
 	for line in file:lines() do
-		local tokens = line:split(";")
+		local tokens = line:split("")
 		table.insert(data, {tokens[1], tokens[2]})
 	end
 
@@ -229,8 +229,8 @@ function get_ysf_list()
 end
 
 local function _get_p25_list(hostfile)
-	local file = assert(io.open(hostfile, 'r'), 'Error loading file : ' .. hostfile);
-	local data = {};
+	local file = assert(io.open(hostfile, 'r'), 'Error loading file : ' .. hostfile)
+	local data = {}
 	for line in file:lines() do
 		if line:trim() ~= "" and line:byte(1) ~= 35 then -- the # char
 			local tokens = line:split("%s+", nil, true)

@@ -8,6 +8,8 @@ START=90
 APP=DAPNETGateway
 USE_PROCD=1
 LOG_PATH=/var/log/mmdvm
+EXTRA_COMMANDS="status"                                                                                        
+EXTRA_HELP="	status	Display status of ${APP}" 
 
 start_service() {
     [ -d $LOG_PATH ] || mkdir -m 0775 -p $LOG_PATH
@@ -22,4 +24,16 @@ start_service() {
  
 stop_service() {
     echo "Stoping $APP Service..."
+}
+
+status() {
+    local PID=`pidof ${APP}`
+    local STATUS
+    if [ ! ${PID} ]; then
+        STATUS="Stopped"
+    else
+        STATUS="Started - PID ${PID}"
+    fi
+
+    echo "${APP}:	[${STATUS}]"
 }

@@ -9,8 +9,9 @@
 SERVICE_WRITE_PID=0
 SERVICE_DAEMONIZE=0
 HELP="ss"
-EXTRA_COMMANDS="update"                                                                                        
-EXTRA_HELP="	update  Upgrade the mmdvm suite to lastest version" 
+EXTRA_COMMANDS="status update"                                                                                        
+EXTRA_HELP="	status	Display status of mmdvm services
+	update	Upgrade the mmdvm suite to lastest version" 
 
 help() {
 	cat <<EOF
@@ -30,11 +31,11 @@ EOF
 }
 
 _command() {
+    /etc/init.d/mmdvmhost $1
     /etc/init.d/p25gateway $1
     /etc/init.d/p25parrot $1
     /etc/init.d/ysfgateway $1
     /etc/init.d/ysfparrot $1
-    /etc/init.d/mmdvmhost $1
     /etc/init.d/dmrid $1
 }
 
@@ -52,6 +53,10 @@ enable() {
 
 disable() {
     _command disable
+}
+
+status() {
+    _command status
 }
 
 update() {

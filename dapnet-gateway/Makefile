@@ -8,7 +8,7 @@ include $(TOPDIR)/rules.mk
 PKG_NAME:=dapnet-gateway
 PKG_REV:=HEAD
 PKG_VERSION:=1.0.0
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
 PKG_SOURCE_URL:=https://github.com/g4klx/DAPNETGateway
