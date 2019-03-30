@@ -6,7 +6,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=mmdvm
-PKG_VERSION:=1.0.1
+PKG_VERSION:=1.0.2
 PKG_RELEASE:=1
 GIT_REVISION:=$(shell git rev-parse --short HEAD)
 PKG_REVISION:=$(PKG_VERSION)-$(PKG_RELEASE)-$(GIT_REVISION)
@@ -33,8 +33,8 @@ endef
 
 define Package/${PKG_NAME}/install
 	$(CP) -a files/* $(1)/
-	mv $(1)/usr/sbin/mmdvm-update.sh $(1)/usr/sbin/mmdvm-update
-	chmod 750 $(1)/usr/sbin/mmdvm-update
+	mv $(1)/usr/sbin/mmdvmctl.sh $(1)/usr/sbin/mmdvmctl
+	chmod 750 $(1)/usr/sbin/mmdvmctl
 endef
 
 $(eval $(call BuildPackage,${PKG_NAME}))
