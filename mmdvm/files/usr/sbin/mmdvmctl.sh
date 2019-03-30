@@ -60,5 +60,5 @@ status() {
 
 update() {
     opkg update
-    opkg upgrade mmdvm mmdvm-luci mmdvm-luci-i18n-zh-cn mmdvm-host p25-clients ysf-clients
+    opkg upgrade mmdvm libmmdvm mmdvm-luci mmdvm-luci-i18n-zh-cn mmdvm-host p25-clients ysf-clients
 }
