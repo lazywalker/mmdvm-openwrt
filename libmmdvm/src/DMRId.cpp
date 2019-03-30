@@ -30,17 +30,16 @@ void load(std::string dmrid_file) {
     }
 }
 
-//so that name mangling doesn't mess up function names
-#ifdef __cplusplus
-extern "C"{
-#endif
-
 // int main()
 // {
 //     cout << findByCallsign("BD7MQB") << endl;
 //     return 0;
 // }
 
+//so that name mangling doesn't mess up function names
+#ifdef __cplusplus
+extern "C"{
+#endif
 
 static int init (lua_State *L) {
     const char *dmrid_file;
@@ -65,16 +64,14 @@ static const struct luaL_Reg mylib [] = {
         {NULL, NULL}  /* sentinel */
 };
 
-// Lua 5.3 style
-// int luaopen_mmdvm (lua_State *L) {
-//     luaL_newlib(L, mylib);
-//     return 1;
-// }
-
-// Lua 5.1 style
 int luaopen_mmdvm(lua_State *L) {
+#ifdef OPENWRT
+    // Lua 5.1 style
     luaL_register(L, "mmdvm", mylib);
-
+#else
+    // Lua 5.3 style
+    luaL_newlib(L, mylib);
+#endif
 	return 1;
 }
 

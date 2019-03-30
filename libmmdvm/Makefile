@@ -27,7 +27,7 @@ define Package/${PKG_NAME}/description
 Lua-C library for MMDVM
 endef
 
-TARGET_CXXFLAGS = -O3 -Wall -std=c++0x
+TARGET_CXXFLAGS = -O3 -Wall -std=c++0x -DOPENWRT=1
 TARGET_LDFLAGS = -llua -lm -shared -L$(STAGING_DIR)/usr/lib
 
 ifeq ($(ARCH),mips)

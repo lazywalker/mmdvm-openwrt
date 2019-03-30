@@ -4,18 +4,21 @@
 #
 
 # for lua 5.3
-# CXXFLAGS = -g -O3 -Wall -std=c++0x -I/usr/local/Cellar/lua/5.3.5_1/include/lua
-# LDFLAGS = -lm -L/usr/local/Cellar/lua/5.3.5_1/lib
+LUAVER = 5.3
+LUAPATH = /usr/local/Cellar/lua/5.3.5_1
 
 # for lua 5.1
-CXXFLAGS = -g -O3 -Wall -std=c++0x -I/usr/local/Cellar/lua\@5.1/5.1.5_8/include/lua5.1
-LDFLAGS = -lm -L/usr/local/Cellar/lua\@5.1/5.1.5_8/lib -bundle -undefined dynamic_lookup
+# LUAVER = 5.1
+# LUAPATH = /usr/local/Cellar/lua\@5.1/5.1.5_8
+
+CXXFLAGS = -g -O3 -Wall -std=c++0x -I$(LUAPATH)/include/lua$(LUAVER)
+LDFLAGS = -lm -L$(LUAPATH)/lib -bundle -undefined dynamic_lookup
 
 # CXXFLAGS = -g -O3 -Wall -std=c++0x
 # LDFLAGS = -llua -lm -shared
 
 FPIC = -fPIC
-OBJ = DMRLookup.o DMRId.o
+OBJ = DMRLookup.o DMRId.o Utils.o
 LIB = mmdvm.so
 
 %.o: %.cpp

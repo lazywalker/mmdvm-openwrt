@@ -3,14 +3,15 @@
 # This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2.0
 */
 #include "DMRLookup.h"
+#include "Utils.h"
 
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
 // #include <cctype>
 
-#include <iostream>
 using namespace std;
+using namespace utils;
 
 CDMRLookup::CDMRLookup(const std::string& filename) :
 m_filename(filename),
@@ -69,14 +70,12 @@ bool CDMRLookup::load()
 		if (p1 != NULL && p2 != NULL) {
 			// unsigned int id = (unsigned int)::atoi(p1);
 			for (char* p = p2; *p != 0x00U; p++) {
-				
 				if(*p == 0x09U) 
 					*p = 0x20U;
-				
 				else 
 					*p = ::toupper(*p);
-				
 			}
+			
 			std::string b = std::string(p2);
 			std::string callsign;
 			size_t n = b.find(" ");
@@ -87,7 +86,7 @@ bool CDMRLookup::load()
 			}
 			
 			// std::cout << callsign << endl;
-			m_table[callsign] = std::string(buffer);
+			m_table[callsign] = rtrim(std::string(buffer));
 		}
 	}
 

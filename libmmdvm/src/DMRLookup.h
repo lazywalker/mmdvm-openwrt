@@ -2,8 +2,8 @@
 # Copyright 2019 BD7MQB <bd7mqb@qq.com>
 # This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2.0
 */
-#ifndef	DMRLookup_H
-#define	DMRLookup_H
+#ifndef	__DMRLOOKUP__
+#define	__DMRLOOKUP__
 
 #include <string>
 #include <unordered_map>
