@@ -2,38 +2,33 @@
 # Copyright 2019 BD7MQB <bd7mqb@qq.com>
 # This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2.0
 */
-#include "DMRLookup.h"
-#include "Utils.h"
+#include "DMRLookup.hpp"
+#include "Utils.hpp"
 
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
-// #include <cctype>
 
 using namespace std;
 using namespace utils;
 
 CDMRLookup::CDMRLookup(const std::string& filename) :
 m_filename(filename),
-m_table()
-{
+m_table() {
 	// this->read();
 }
 
-CDMRLookup::~CDMRLookup()
-{
+CDMRLookup::~CDMRLookup() {
 	delete this;
 }
 
-bool CDMRLookup::read()
-{
+bool CDMRLookup::read() {
 	bool ret = load();
 
 	return ret;
 }
 
-std::string CDMRLookup::findByCallsign(std::string callsign)
-{
+std::string CDMRLookup::findByCallsign(std::string callsign) {
 	std::string b;
 
 	try {
@@ -46,8 +41,7 @@ std::string CDMRLookup::findByCallsign(std::string callsign)
 	return b;
 }
 
-bool CDMRLookup::load()
-{
+bool CDMRLookup::load() {
 	FILE* fp = ::fopen(m_filename.c_str(), "rt");
 	if (fp == NULL) {
 		printf("Cannot open the DMR Id lookup file - %s\n", m_filename.c_str());
@@ -61,7 +55,6 @@ bool CDMRLookup::load()
 	while (::fgets(buffer, 100U, fp) != NULL) {
 		if (buffer[0U] == '#')
 			continue;
-
 
 		char *s = strdup(buffer);
 		char* p1 = ::strsep(&s, " \t\r\n");

@@ -3,7 +3,7 @@
 # This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2.0
 */
 
-#include "DMRLookup.h"
+#include "DMRLookup.hpp"
 #include <assert.h>
 
 using namespace std;
