@@ -5,6 +5,18 @@
 #ifndef __DMRID__
 #define __DMRID__
 
+#include <string>
 
+using namespace std;
+
+struct user_t {
+	// int id;
+    string name;
+	string city;
+    string country;
+    bool exist() {
+        return name != "";
+    }
+};
 
 #endif

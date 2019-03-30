@@ -25,7 +25,9 @@ LIB = mmdvm.so
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(FPIC) -c -o $@ $<
 
 compile: $(OBJ)
-	$(CXX) $(LDFLAGS) -o $(LIB) $(OBJ) 
+	$(CXX) $(LDFLAGS) -o $(LIB) $(OBJ)
+	# $(CXX) -lm -L$(LUAPATH)/lib -o test $(OBJ)
+
 
 install: compile
 	mkdir -p $(DESTDIR)/usr/lib/lua

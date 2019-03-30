@@ -5,23 +5,32 @@
 #ifndef	__DMRLOOKUP__
 #define	__DMRLOOKUP__
 
+#include "DMRId.hpp"
 #include <string>
 #include <unordered_map>
 
+using namespace std;
+
 class CDMRLookup {
 public:
-	CDMRLookup(const std::string& filename);
+	CDMRLookup(const string& filepath);
 	virtual ~CDMRLookup();
 
 	bool read();
 
-	std::string findByCallsign(std::string callsign);
+	string find(string callsign);
+	user_t findUser(string callsign);
 
 private:
-	std::string m_filename;
-	std::unordered_map<std::string, std::string> m_table;
+	string m_file_dmrid;
+	string m_file_cc;
+
+	unordered_map<string, string> m_table;
+	unordered_map<string, string> m_cc;
 
 	bool load();
+	bool loadCountryCode();
+	// bool loadUsers();
 };
 
 #endif

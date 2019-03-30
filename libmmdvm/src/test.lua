@@ -2,10 +2,26 @@
 
 local mmdvm = require("mmdvm")
 
-mmdvm.init("/Users/mic/Work/radioid/export/DMRIds.dat")
-rtl = mmdvm.get_dmrid_by_callsign("BD7MQB")
+mmdvm.init("/Users/mic/Work/radioid/export/")
+rtl = mmdvm.get_user_by_callsign("BD7MQB")
+assert(type(rtl) == 'table', 'return value must be table')
+assert(rtl.name == 'Michael Changzhi Cai', 'value unexpected')
+assert(rtl.city == 'ShenzhenGuangdong', 'value unexpected')
+assert(rtl.country == 'China', 'value unexpected')
 
+print(rtl.name)
+print(rtl.city)
+print(rtl.country)
+
+rtl = mmdvm.get_dmrid_by_callsign("BD7MQB")
 assert(type(rtl) == 'string', 'return value must be string')
-assert(rtl == "4607177	BD7MQB	Michael Changzhi Cai	ShenzhenGuangdong	China", 'value unexpected.')
+assert(rtl == "Michael Changzhi Cai	ShenzhenGuangdong	CN", 'value unexpected')
 
 print(rtl)
+
+
+rtl = mmdvm.get_user_by_callsign("BD9AAA")
+assert(rtl == nil, 'value should be nil')
+rtl = mmdvm.get_dmrid_by_callsign("BD9AAA")
+assert(type(rtl) == 'string', 'return value must be string')
+assert(rtl == "", 'value should be empty')

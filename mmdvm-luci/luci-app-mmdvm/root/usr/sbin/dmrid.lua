@@ -22,33 +22,33 @@ end
 --@param fileName The name of the INI file to parse. [string]
 --@return The table containing all data from the INI file. [table]
 local function ini_load(fileName)
-	assert(type(fileName) == 'string', 'Parameter "fileName" must be a string.');
-	local file = assert(io.open(fileName, 'r'), 'Error loading file : ' .. fileName);
-	local data = {};
-	local section;
+	assert(type(fileName) == 'string', 'Parameter "fileName" must be a string.')
+	local file = assert(io.open(fileName, 'r'), 'Error loading file : ' .. fileName)
+	local data = {}
+	local section
 	for line in file:lines() do
-		local tempSection = line:match('^%[([^%[%]]+)%]$');
+		local tempSection = line:match('^%[([^%[%]]+)%]$')
 		if(tempSection)then
-			section = tonumber(tempSection) and tonumber(tempSection) or tempSection;
-			data[section] = data[section] or {};
+			section = tonumber(tempSection) and tonumber(tempSection) or tempSection
+			data[section] = data[section] or {}
 		end
-		local param, value = line:match('^([%w|_]+)%s-=%s-(.+)$');
+		local param, value = line:match('^([%w|_]+)%s-=%s-(.+)$')
 		if(param and value ~= nil)then
 			if(tonumber(value))then
-				value = tonumber(value);
+				value = tonumber(value)
 			elseif(value == 'true')then
-				value = true;
+				value = true
 			elseif(value == 'false')then
-				value = false;
+				value = false
 			end
 			if(tonumber(param))then
-				param = tonumber(param);
+				param = tonumber(param)
 			end
-			data[section][param] = value;
+			data[section][param] = value
 		end
 	end
-	file:close();
-	return data;
+	file:close()
+	return data
 end
 
 local function split(str, pat, max, regex)
@@ -91,8 +91,9 @@ local function log(msg)
     conn:call("log", "write", {event = msg})
 end
 
-local dmrid_file = ini_load("/etc/MMDVM.ini")["DMR Id Lookup"].File or "/etc/mmdvm/DMRIds.dat"
--- log("Loading DMRIds from " .. dmrid_file .. " ...")
+-- local dmrid_file = ini_load("/etc/MMDVM.ini")["DMR Id Lookup"].File or "/etc/mmdvm/"
+local dmrid_file = "/etc/mmdvm/"
+log("Loading DMRIds from " .. dmrid_file .. " ...")
 -- local user_count = load_users(dmrid_file)
 -- log("Loaded " .. user_count .." Ids to the callsign lookup table ... Done")
 
@@ -105,25 +106,24 @@ local function get_dmrid_by_callsign(req, msg)
     local result = {}
 
     if msg.callsign then
-        line = mmdvm.get_dmrid_by_callsign(msg.callsign)
-        if line then
-            local tokens = split(line, "\t")
-            local id = tokens[1]
-            local callsign = tokens[2]
-            local name = tokens[3]
-            local city = tokens[4]
-            local country = tokens[5]
+        -- line = mmdvm.get_dmrid_by_callsign(msg.callsign)
+        -- if line then
+        --     local tokens = split(line, "\t")
+        --     local name = tokens[1]
+        --     local city = tokens[2]
+        --     local country = tokens[3]
 
-            result = {
-                id = id,
-                callsign = callsign,
-                name = name,
-                city = city,
-                country = country
-            }
-        else
-            result = {}
-        end
+        --     result = {
+        --         callsign = msg.callsign,
+        --         name = name,
+        --         city = city,
+        --         country = country
+        --     }
+        -- else
+        --     result = {}
+		-- end
+		result = mmdvm.get_user_by_callsign(msg.callsign)
+		result.callsign = msg.callsign
     end
 
     conn:reply(req, result)

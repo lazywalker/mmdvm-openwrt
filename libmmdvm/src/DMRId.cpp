@@ -5,6 +5,7 @@
 
 #include "DMRLookup.hpp"
 #include <assert.h>
+#include <iostream>
 
 using namespace std;
 
@@ -18,21 +19,32 @@ using namespace std;
 
 static CDMRLookup* m_lookup = NULL;
 
-std::string findByCallsign(std::string callsign) {
+string findByCallsign(string callsign) {
     assert(m_lookup != NULL);
-    return m_lookup->findByCallsign(callsign).c_str();
+    return m_lookup->find(callsign).c_str();
 }
 
-void load(std::string dmrid_file) {
+user_t findUserByCallsign(string callsign) {
+    assert(m_lookup != NULL);
+    return m_lookup->findUser(callsign);
+}
+
+void load(string dmrid_file) {
     if(m_lookup == NULL) {
         m_lookup = new CDMRLookup(dmrid_file);
         m_lookup->read();
     }
 }
 
-// int main()
-// {
-//     cout << findByCallsign("BD7MQB") << endl;
+// int main() {
+//     load("/Users/mic/Work/radioid/export/DMRIds.dat");
+//     string callsign = "BD7MQB";
+//     // cout << m_lookup->find(callsign) << endl;
+//     user_t user = m_lookup->findUser(callsign);
+//     cout << "ID:\t\t" << user.id << endl;
+//     cout << "Name:\t\t" << user.name << endl;
+//     cout << "City:\t\t" << user.city << endl;
+//     cout << "Country:\t" << user.country << endl;
 //     return 0;
 // }
 
@@ -44,7 +56,7 @@ extern "C"{
 static int init (lua_State *L) {
     const char *dmrid_file;
     dmrid_file = luaL_checkstring(L, 1);
-    load(std::string(dmrid_file));
+    load(string(dmrid_file));
 
     return 0;
 }
@@ -52,7 +64,29 @@ static int init (lua_State *L) {
 static int get_dmrid_by_callsign (lua_State *L) {
     const char *callsign;
     callsign = luaL_checkstring(L, 1);
-    lua_pushstring(L, findByCallsign(std::string(callsign)).c_str());
+    lua_pushstring(L, findByCallsign(string(callsign)).c_str());
+
+    return 1;
+}
+
+static int get_user_by_callsign (lua_State *L) {
+    const char *callsign;
+    callsign = luaL_checkstring(L, 1);
+
+    user_t user = findUserByCallsign(string(callsign));
+
+    if (!user.exist()) {
+        return 0;
+    }
+    
+    lua_createtable(L, 0, 3);
+
+    lua_pushstring(L, user.name.c_str());
+    lua_setfield(L, -2, "name");
+    lua_pushstring(L, user.city.c_str());
+    lua_setfield(L, -2, "city");
+    lua_pushstring(L, user.country.c_str());
+    lua_setfield(L, -2, "country");
 
     return 1;
 }
@@ -60,6 +94,7 @@ static int get_dmrid_by_callsign (lua_State *L) {
 //library to be registered
 static const struct luaL_Reg mylib [] = {
         {"get_dmrid_by_callsign", get_dmrid_by_callsign},
+        {"get_user_by_callsign", get_user_by_callsign},
         {"init", init},
         {NULL, NULL}  /* sentinel */
 };
