@@ -122,8 +122,8 @@ local function get_dmrid_by_callsign(req, msg)
         -- else
         --     result = {}
 		-- end
-		result = mmdvm.get_user_by_callsign(msg.callsign)
-		result.callsign = msg.callsign
+        result = mmdvm.get_user_by_callsign(msg.callsign)
+        result.callsign = msg.callsign
     end
 
     conn:reply(req, result)

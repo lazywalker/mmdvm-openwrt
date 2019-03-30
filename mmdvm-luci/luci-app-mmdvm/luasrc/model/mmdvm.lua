@@ -221,7 +221,7 @@ function get_ysf_list()
 	local file = assert(io.open(hostfile, 'r'), 'Error loading file : ' .. hostfile)
 	local data = {}
 	for line in file:lines() do
-		local tokens = line:split("")
+		local tokens = line:split(";")
 		table.insert(data, {tokens[1], tokens[2]})
 	end
 
