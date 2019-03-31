@@ -39,6 +39,7 @@ h2{font-size:16px}
 @media screen and (max-width:560px){
 .auto-display{display:none}
 #xhr_poll_status_off,#xhr_poll_status_on{display:none}
+#maincontent.container{margin-top:auto}
 }
 @media screen and (max-width:360px){
 .auto-display2{display:none}

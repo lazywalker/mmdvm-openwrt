@@ -1,0 +1,25 @@
+<%#
+Copyright 2019 BD7MQB <bd7mqb@qq.com>
+This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2.0
+-%>
+<%
+local ver = require "luci.version"
+local disp = require "luci.dispatcher"
+local request  = disp.context.path
+local category = request[1]
+local tree = disp.node()
+local categories = disp.node_childs(tree)
+%>
+<footer>
+ <ul class="breadcrumb pull-right" id="modemenu">
+    <% for i, r in ipairs(categories) do %>
+        <li<% if request[1] == r then %> class="active"<%end%>><a href="<%=controller%>/<%=r%>/"><%=striptags(translate(tree.nodes[r].title))%></a> <span class="divider">|</span></li>
+    <% end %>
+ </ul>
+ <p>Powered by <%= ver.luciname %> de BD7MQB</p>
+ <p>Dashboard designed by pi-star mobile</p>
+</footer>
+</div>
+</div>
+</body>
+</html>

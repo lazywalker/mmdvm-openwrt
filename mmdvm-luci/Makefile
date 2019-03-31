@@ -46,6 +46,13 @@ define Package/${PKG_NAME}/config
 	default y
 	help
 	  "LuCI plugin to configurate MMDVM Radio"
+	
+	config LUCI_THEME_BOOTSTRAP_MMDVM
+	bool "luci-theme-bootstrap-mmdvm"
+	depends on PACKAGE_${PKG_NAME}
+	default y
+	help
+	  "LuCI bootstrap mod theme for MMDVM"
 
 	config LUCI_APP_MMDVM_SRCDIET
 	bool "Minify MMDVM Lua sources"
@@ -107,6 +114,7 @@ endef
 
 define Package/${PKG_NAME}/install
 	$(call Package/common/install,$(1),luci-app-mmdvm)
+	$(call Package/common/install,$(1),luci-theme-bootstrap-mmdvm)
 endef
 
 define Package/${PKG_NAME}/postinst
@@ -157,4 +165,4 @@ endef
 
 $(foreach lang,$(LUCI_LANGUAGES),$(eval $(call LuciTranslation,$(lang))))
 $(foreach pkg,$(LUCI_BUILD_PACKAGES),$(eval $(call BuildPackage,$(pkg))))
-#$(eval $(call BuildPackage,${PKG_NAME}))
+# $(eval $(call BuildPackage,${PKG_NAME}))
