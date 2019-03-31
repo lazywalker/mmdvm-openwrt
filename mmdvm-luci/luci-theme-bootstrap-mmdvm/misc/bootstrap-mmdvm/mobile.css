@@ -7,6 +7,10 @@ header h3 a, header .brand {
 		margin-top: auto;
 	}
 
+	header div > ul li:last-child {
+		display: none;
+	}
+
     #xhr_poll_status_on, #xhr_poll_status_off { display:none; }
 
 	form {
@@ -21,14 +25,9 @@ header h3 a, header .brand {
 	}
 }
 
-@media screen and (max-width: 375px) {
+@media screen and (max-width: 320px) {
 	#maincontent.container {
 		margin-top: 30px;
 	}
 }
 
-@media screen and (max-width: 200px) {
-	#maincontent.container {
-		margin-top: 60px;
-	}
-}

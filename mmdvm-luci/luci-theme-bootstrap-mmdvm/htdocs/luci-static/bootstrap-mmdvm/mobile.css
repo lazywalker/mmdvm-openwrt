@@ -1,14 +1,12 @@
 header .brand,header h3 a{display:none!important}
 @media screen and (max-width:560px){
 #maincontent.container{margin-top:auto}
+header div>ul li:last-child{display:none}
 #xhr_poll_status_off,#xhr_poll_status_on{display:none}
 form{margin:5px}
 form .cbi-value label.cbi-value-title{float:none}
 form .cbi-value-field,form .input{margin-left:auto!important}
 }
-@media screen and (max-width:375px){
+@media screen and (max-width:320px){
 #maincontent.container{margin-top:30px}
-}
-@media screen and (max-width:200px){
-#maincontent.container{margin-top:60px}
 }
