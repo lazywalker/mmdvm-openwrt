@@ -7,7 +7,9 @@ header h3 a, header .brand {
 		margin-top: auto;
 	}
 
-	header div > ul li:last-child {
+	/* hide the last node(nomarly Logout) to save space when we have 5 or 6 nodes */
+	header div > ul.nav > li:nth-last-child(5):first-child ~ li:nth-last-child(1),
+	header div > ul.nav > li:nth-last-child(6):first-child ~ li:nth-last-child(1) {
 		display: none;
 	}
 

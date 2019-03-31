@@ -1,7 +1,7 @@
 header .brand,header h3 a{display:none!important}
 @media screen and (max-width:560px){
 #maincontent.container{margin-top:auto}
-header div>ul li:last-child{display:none}
+header div>ul.nav>li:nth-last-child(5):first-child~li:nth-last-child(1),header div>ul.nav>li:nth-last-child(6):first-child~li:nth-last-child(1){display:none}
 #xhr_poll_status_off,#xhr_poll_status_on{display:none}
 form{margin:5px}
 form .cbi-value label.cbi-value-title{float:none}
