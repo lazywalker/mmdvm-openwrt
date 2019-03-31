@@ -5,6 +5,7 @@ This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2.
 <%  if lastheard and #lastheard > 0 then %>
 <table id="livecall">
         <% 
+        local uci   = require("luci.model.uci").cursor()
         local lh = lastheard[1]
         local callsign = lh.callsign
         if string.find(callsign, "/") then
@@ -17,10 +18,15 @@ This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2.
             name="Unknown", city="Somewhere", country="Nowhere"
         }
 
+        local modes = {
+            { name='DMR', status=(uci:get('mmdvm', 'DMR', 'Enable') == '1' and {'ON'} or {'OFF'})[1] },
+            { name='P25', status=(uci:get('mmdvm', 'P25', 'Enable') == '1' and {'ON'} or {'OFF'})[1] },
+            { name='YSF', status=(uci:get('mmdvm', 'System_Fusion', 'Enable') == '1' and {'ON'} or {'OFF'})[1] }
+        }
         %>
     <tr>
         <td>
-            <div id="back"><a href='<%=luci.dispatcher.build_url("mmdvm", "dashboard")%>''><< </a></div>
+            <div id="back"><a href="<%=luci.dispatcher.build_url('mmdvm', 'dashboard')%>"><< </a></div>
             <label class="callsign"><%=callsign%></label>
         </td>
         <td width="40%">
@@ -31,9 +37,13 @@ This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2.
         </tr>
     <tr>
         <td height="40%">
-            <p>Source - <%=string.upper(lh.source)%></p>
+            <p>Source - <%=lh.source:upper()%></p>
             <p><%=lh.mode%> - <%=lh.target%></p>
-            <p>M - D/P/Y</p>
+            <p>
+                <% for _, mode in ipairs(modes) do %>
+                <label class="mode <%=mode.status%>" title="<%=mode.name%> <%=mode.status%>"><%=mode.name%></label>
+                <% end %>
+            </p>
         </td>
         <td>
         <p>

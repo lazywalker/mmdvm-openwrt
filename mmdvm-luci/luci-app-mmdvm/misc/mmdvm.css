@@ -2,7 +2,7 @@
 Copyright 2019 BD7MQB <bd7mqb@qq.com>
 This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2.0
  */
-table {
+ table {
     vertical-align: middle;
     text-align: center;
     empty-cells: show;
@@ -138,7 +138,26 @@ h2 { font-size: 16px;}
     font-size: 3vw; text-align: left; margin: 1.8vw;
     width: 200px;
 }
+
+#livecall p label.mode { 
+    vertical-align:middle;
+    border-radius: 0.6vw;
+    padding: 0.3vw 1vw;
+    font-size: 1.6vw;
+    margin: 0;
+}
+#livecall p label.ON {
+    background-color: #202020;
+    color: #d38032;
+}
+
+#livecall p label.OFF {
+    background-color: #5a5a5a;
+    color: #dba26c;
+}
+
 #livecall label.callsign { font-size: 10vw; font-weight: bold; margin-top: 15px; margin-bottom: 15px;text-align: center}
+
 #livecall A:link {text-decoration: none; color: #202020; }
 #livecall A:visited {text-decoration: none; color: #202020; }
 #livecall A:hover {text-decoration: none; color: #202020; }

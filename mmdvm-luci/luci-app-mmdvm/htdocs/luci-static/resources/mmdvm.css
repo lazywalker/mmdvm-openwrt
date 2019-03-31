@@ -23,6 +23,9 @@ h2{font-size:16px}
 #livecall{height:100%}
 #livecall td{color:#202020;font-family:enhanced_led_board-7regular,Arial,sans-serif;background-color:#d38032}
 #livecall p{font-size:3vw;text-align:left;margin:1.8vw;width:200px}
+#livecall p label.mode{vertical-align:middle;border-radius:.6vw;padding:.3vw 1vw;font-size:1.6vw;margin:0}
+#livecall p label.ON{background-color:#202020;color:#d38032}
+#livecall p label.OFF{background-color:#5a5a5a;color:#dba26c}
 #livecall label.callsign{font-size:10vw;font-weight:700;margin-top:15px;margin-bottom:15px;text-align:center}
 #livecall A:link{text-decoration:none;color:#202020}
 #livecall A:visited{text-decoration:none;color:#202020}
