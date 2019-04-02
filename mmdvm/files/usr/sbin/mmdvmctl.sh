@@ -61,4 +61,9 @@ status() {
 update() {
     opkg update
     opkg upgrade mmdvm libmmdvm mmdvm-luci mmdvm-luci-i18n-zh-cn mmdvm-host p25-clients ysf-clients
+
+    installed=`opkg list-installed | grep luci-mod-admin-mmdvm`
+    if [ -n "$installed" ]; then
+        opkg upgrade luci-mod-admin-mmdvm
+    fi
 }

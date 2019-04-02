@@ -56,22 +56,22 @@ define SubstituteVersion
 endef
 
 define Package/$(PKG_NAME)/install
-	if [ -d $(2)/luasrc ]; then \
+	if [ -d ./luasrc ]; then \
 	  $(INSTALL_DIR) $(1)$(LUCI_LIBRARYDIR); \
-	  cp -pR $(2)/luasrc/* $(1)$(LUCI_LIBRARYDIR)/; \
+	  cp -pR ./luasrc/* $(1)$(LUCI_LIBRARYDIR)/; \
 	  $(FIND) $(1)$(LUCI_LIBRARYDIR)/ -type f -name '*.luadoc' | $(XARGS) rm; \
 	  $(if $(CONFIG_LUCI_SRCDIET),$(call SrcDiet,$(1)$(LUCI_LIBRARYDIR)/),true); \
 	  $(call SubstituteVersion,$(1)$(LUCI_LIBRARYDIR)/); \
 	else true; fi
-	if [ -d $(2)/htdocs ]; then \
+	if [ -d ./htdocs ]; then \
 	  $(INSTALL_DIR) $(1)$(HTDOCS); \
-	  cp -pR $(2)/htdocs/* $(1)$(HTDOCS)/; \
+	  cp -pR ./htdocs/* $(1)$(HTDOCS)/; \
 	else true; fi
-	if [ -d $(2)/root ]; then \
+	if [ -d ./root ]; then \
 	  $(INSTALL_DIR) $(1)/; \
-	  cp -pR $(2)/root/* $(1)/; \
+	  cp -pR ./root/* $(1)/; \
 	else true; fi
-	if [ -d $(2)/src ]; then \
+	if [ -d ./src ]; then \
 	  $(call Build/Install/Default) \
 	  $(CP) $(PKG_INSTALL_DIR)/* $(1)/; \
 	else true; fi

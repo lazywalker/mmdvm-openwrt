@@ -34,7 +34,7 @@ define Package/${PKG_NAME}
 	CATEGORY:=MMDVM
 	#SUBMENU:=Misc
 	TITLE:=MMDVM's LuCI plugins.
-	DEPENDS:=+!CONFIG_PACKAGE_luci-mod-admin-ful:luci-mod-admin-mmdvm +mmdvm-host +libmmdvm +libubus-lua +libubox-lua
+	DEPENDS:=+mmdvm-host +libmmdvm +libubus-lua +libubox-lua
 	#VERSION:=$(PKG_RELEASE)-$(REVISION)
 endef
 
