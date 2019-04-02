@@ -65,8 +65,10 @@ update() {
     installed=`opkg list-installed | grep luci-mod-admin-full`
     if [ -n "$installed" ]; then
         opkg upgrade luci-mod-admin-full
-    else
-        opkg upgrade luci-mod-admin-mmdvm
     fi
     
+    installed=`opkg list-installed | grep luci-mod-admin-mmdvm`
+    if [ -n "$installed" ]; then
+        opkg upgrade luci-mod-admin-mmdvm
+    fi
 }
