@@ -198,61 +198,6 @@
 				'<%:Expires%>', (ifc.expires > -1) ? '%t'.format(ifc.expires) : null,
 				'<%:Connected%>', (ifc.uptime > 0) ? '%t'.format(ifc.uptime) : null));
 
-			<% if has_ipv6 then %>
-			var ifc6 = info.wan6 || {};
-
-			us.appendChild(renderBox(
-				'<%:IPv6 Upstream%>',
-				(ifc6.ifname && ifc6.proto != 'none'),
-				[ E('div', {}, renderBadge(
-					'<%=resource%>/icons/%s.png'.format(ifc6.type || 'ethernet_disabled'), null,
-					'<%:Device%>', ifc6 ? (ifc6.name || ifc6.ifname || '-') : '-',
-					'<%:MAC-Address%>', (ifc6 && ifc6.ether) ? ifc6.mac : null)) ],
-				'<%:Protocol%>', ifc6.i18n ? (ifc6.i18n + (ifc6.proto === 'dhcp' && ifc6.ip6prefix ? '-PD' : '')) : E('em', '<%:Not connected%>'),
-				'<%:Prefix Delegated%>', ifc6.ip6prefix,
-				'<%:Address%>', (ifc6.ip6prefix) ? (ifc6.ip6addr || null) : (ifc6.ipaddr || '::'),
-				'<%:Gateway%>', (ifc6.gw6addr) ? ifc6.gw6addr : '::',
-				'<%:DNS%> 1', (ifc6.dns) ? ifc6.dns[0] : null,
-				'<%:DNS%> 2', (ifc6.dns) ? ifc6.dns[1] : null,
-				'<%:DNS%> 3', (ifc6.dns) ? ifc6.dns[2] : null,
-				'<%:DNS%> 4', (ifc6.dns) ? ifc6.dns[3] : null,
-				'<%:DNS%> 5', (ifc6.dns) ? ifc6.dns[4] : null,
-				'<%:Connected%>', (ifc6.uptime > 0) ? '%t'.format(ifc6.uptime) : null));
-			<% end %>
-
-			<% if has_dsl then %>
-				var ds = document.getElementById('dsl_status_table');
-
-				while (ds.lastElementChild)
-					ds.removeChild(ds.lastElementChild);
-
-				ds.appendChild(renderBox(
-					'<%:DSL Status%>',
-					(info.dsl.line_state === 'UP'), [ ],
-					'<%:Line State%>', '%s [0x%x]'.format(info.dsl.line_state, info.dsl.line_state_detail),
-					'<%:Line Mode%>', info.dsl.line_mode_s || '-',
-					'<%:Line Uptime%>', info.dsl.line_uptime_s || '-',
-					'<%:Annex%>', info.dsl.annex_s || '-',
-					'<%:Profile%>', info.dsl.profile_s || '-',
-					'<%:Data Rate%>', '%s/s / %s/s'.format(info.dsl.data_rate_down_s, info.dsl.data_rate_up_s),
-					'<%:Max. Attainable Data Rate (ATTNDR)%>', '%s/s / %s/s'.format(info.dsl.max_data_rate_down_s, info.dsl.max_data_rate_up_s),
-					'<%:Latency%>', '%s / %s'.format(info.dsl.latency_num_down, info.dsl.latency_num_up),
-					'<%:Line Attenuation (LATN)%>', '%.1f dB / %.1f dB'.format(info.dsl.line_attenuation_down, info.dsl.line_attenuation_up),
-					'<%:Signal Attenuation (SATN)%>', '%.1f dB / %.1f dB'.format(info.dsl.signal_attenuation_down, info.dsl.signal_attenuation_up),
-					'<%:Noise Margin (SNR)%>', '%.1f dB / %.1f dB'.format(info.dsl.noise_margin_down, info.dsl.noise_margin_up),
-					'<%:Aggregate Transmit Power(ACTATP)%>', '%.1f dB / %.1f dB'.format(info.dsl.actatp_down, info.dsl.actatp_up),
-					'<%:Forward Error Correction Seconds (FECS)%>', '%d / %d'.format(info.dsl.errors_fec_near, info.dsl.errors_fec_far),
-					'<%:Errored seconds (ES)%>', '%d / %d'.format(info.dsl.errors_es_near, info.dsl.errors_es_far),
-					'<%:Severely Errored Seconds (SES)%>', '%d / %d'.format(info.dsl.errors_ses_near, info.dsl.errors_ses_far),
-					'<%:Loss of Signal Seconds (LOSS)%>', '%d / %d'.format(info.dsl.errors_loss_near, info.dsl.errors_loss_far),
-					'<%:Unavailable Seconds (UAS)%>', '%d / %d'.format(info.dsl.errors_uas_near, info.dsl.errors_uas_far),
-					'<%:Header Error Code Errors (HEC)%>', '%d / %d'.format(info.dsl.errors_hec_near, info.dsl.errors_hec_far),
-					'<%:Non Pre-emtive CRC errors (CRC_P)%>', '%d / %d'.format(info.dsl.errors_crc_p_near, info.dsl.errors_crc_p_far),
-					'<%:Pre-emtive CRC errors (CRCP_P)%>', '%d / %d'.format(info.dsl.errors_crcp_p_near, info.dsl.errors_crcp_p_far),
-					'<%:ATU-C System Vendor ID%>', info.dsl.atuc_vendor_id,
-					'<%:Power Management Mode%>', info.dsl.power_mode_s));
-			<% end %>
-
 			<% if has_wifi then %>
 			var ws = document.getElementById('wifi_status_table');
 			if (ws)
@@ -415,21 +360,6 @@
 	</div>
 </div>
 
-<%
-	if has_dhcp then
-		include("admin_network/lease_status")
-	end
-%>
-
-<% if has_dsl then %>
-<div class="cbi-section">
-	<h3><%:DSL%></h3>
-
-	<div id="dsl_status_table" class="network-status-table">
-		<p><em><%:Collecting data...%></em></p>
-	</div>
-</div>
-<% end %>
 
 <% if has_wifi then %>
 <div class="cbi-section">
@@ -447,16 +377,5 @@
 </div>
 <% end %>
 
-<%-
-	local incdir = util.libpath() .. "/view/admin_status/index/"
-	if fs.access(incdir) then
-		local inc
-		for inc in fs.dir(incdir) do
-			if inc:match("%.htm$") then
-				include("admin_status/index/" .. inc:gsub("%.htm$", ""))
-			end
-		end
-	end
--%>
 
 <%+footer%>

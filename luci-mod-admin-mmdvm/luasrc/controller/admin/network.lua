@@ -15,25 +15,6 @@ function index()
 	page.index  = true
 
 --	if page.inreq then
-		local has_switch = false
-
-		uci:foreach("network", "switch",
-			function(s)
-				has_switch = true
-				return false
-			end)
-
-		if has_switch then
-			page  = node("admin", "network", "vlan")
-			page.target = cbi("admin_network/vlan")
-			page.title  = _("Switch")
-			page.order  = 20
-
-			page = entry({"admin", "network", "switch_status"}, call("switch_status"), nil)
-			page.leaf = true
-		end
-
-
 		local has_wifi = false
 
 		uci:foreach("wireless", "wifi-device",
@@ -83,52 +64,6 @@ function index()
 				end
 			end
 		end
-
-
-		page = entry({"admin", "network", "iface_add"}, form("admin_network/iface_add"), nil)
-		page.leaf = true
-
-		page = entry({"admin", "network", "iface_status"}, call("iface_status"), nil)
-		page.leaf = true
-
-		page = entry({"admin", "network", "iface_reconnect"}, post("iface_reconnect"), nil)
-		page.leaf = true
-
-		page = entry({"admin", "network", "network"}, arcombine(cbi("admin_network/network"), cbi("admin_network/ifaces")), _("Interfaces"), 10)
-		page.leaf   = true
-		page.subindex = true
-
-		if page.inreq then
-			uci:foreach("network", "interface",
-				function (section)
-					local ifc = section[".name"]
-					if ifc ~= "loopback" then
-						entry({"admin", "network", "network", ifc},
-						true, ifc:upper())
-					end
-				end)
-		end
-
-
-		if nixio.fs.access("/etc/config/dhcp") then
-			page = node("admin", "network", "dhcp")
-			page.target = cbi("admin_network/dhcp")
-			page.title  = _("DHCP and DNS")
-			page.order  = 30
-
-			page = entry({"admin", "network", "dhcplease_status"}, call("lease_status"), nil)
-			page.leaf = true
-
-			page = node("admin", "network", "hosts")
-			page.target = cbi("admin_network/hosts")
-			page.title  = _("Hostnames")
-			page.order  = 40
-		end
-
-		page  = node("admin", "network", "routes")
-		page.target = cbi("admin_network/routes")
-		page.title  = _("Static Routes")
-		page.order  = 50
 
 		page = node("admin", "network", "diagnostics")
 		page.target = template("admin_network/diagnostics")
@@ -193,89 +128,6 @@ function wifi_add()
 		ntm:save("wireless")
 		luci.http.redirect(net:adminlink())
 	end
-end
-
-function iface_status(ifaces)
-	local netm = require "luci.model.network".init()
-	local rv   = { }
-
-	local iface
-	for iface in ifaces:gmatch("[%w%.%-_]+") do
-		local net = netm:get_network(iface)
-		local device = net and net:get_interface()
-		if device then
-			local data = {
-				id         = iface,
-				desc       = net:get_i18n(),
-				proto      = net:proto(),
-				uptime     = net:uptime(),
-				gwaddr     = net:gwaddr(),
-				ipaddrs    = net:ipaddrs(),
-				ip6addrs   = net:ip6addrs(),
-				dnsaddrs   = net:dnsaddrs(),
-				ip6prefix  = net:ip6prefix(),
-				errors     = net:errors(),
-				name       = device:shortname(),
-				type       = device:type(),
-				typename   = device:get_type_i18n(),
-				ifname     = device:name(),
-				macaddr    = device:mac(),
-				is_up      = net:is_up() and device:is_up(),
-				is_alias   = net:is_alias(),
-				is_dynamic = net:is_dynamic(),
-				rx_bytes   = device:rx_bytes(),
-				tx_bytes   = device:tx_bytes(),
-				rx_packets = device:rx_packets(),
-				tx_packets = device:tx_packets(),
-
-				subdevices = { }
-			}
-
-			for _, device in ipairs(net:get_interfaces() or {}) do
-				data.subdevices[#data.subdevices+1] = {
-					name       = device:shortname(),
-					type       = device:type(),
-					typename   = device:get_type_i18n(),
-					ifname     = device:name(),
-					macaddr    = device:mac(),
-					is_up      = device:is_up(),
-					rx_bytes   = device:rx_bytes(),
-					tx_bytes   = device:tx_bytes(),
-					rx_packets = device:rx_packets(),
-					tx_packets = device:tx_packets(),
-				}
-			end
-
-			rv[#rv+1] = data
-		else
-			rv[#rv+1] = {
-				id   = iface,
-				name = iface,
-				type = "ethernet"
-			}
-		end
-	end
-
-	if #rv > 0 then
-		luci.http.prepare_content("application/json")
-		luci.http.write_json(rv)
-		return
-	end
-
-	luci.http.status(404, "No such device")
-end
-
-function iface_reconnect(iface)
-	local netmd = require "luci.model.network".init()
-	local net = netmd:get_network(iface)
-	if net then
-		luci.sys.call("env -i /sbin/ifup %s >/dev/null 2>/dev/null"
-			% luci.util.shellquote(iface))
-		luci.http.status(200, "Reconnected")
-		return
-	end
-
-	luci.http.status(404, "No such interface")
 end
 
 function wifi_status(devs)
@@ -385,24 +237,6 @@ function wifi_scan_results(radio)
 	else
 		luci.http.status(404, "No wireless scan results")
 	end
-end
-
-function lease_status()
-	local s = require "luci.tools.status"
-
-	luci.http.prepare_content("application/json")
-	luci.http.write('[')
-	luci.http.write_json(s.dhcp_leases())
-	luci.http.write(',')
-	luci.http.write_json(s.dhcp6_leases())
-	luci.http.write(']')
-end
-
-function switch_status(switches)
-	local s = require "luci.tools.status"
-
-	luci.http.prepare_content("application/json")
-	luci.http.write_json(s.switch_status(switches))
 end
 
 function diag_command(cmd, addr)

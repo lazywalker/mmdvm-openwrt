@@ -64,8 +64,8 @@ local route_host = luci.config.diag and luci.config.diag.route or "dev.openwrt.o
 			<legend><%:Network Utilities%></legend>
 
 			<div class="table">
-				<div class="tr">
-					<div class="td left">
+				<div class="th">
+					<div>
 						<input style="margin: 5px 0" type="text" value="<%=ping_host%>" name="ping" /><br />
 						<% if has_ping6 then %>
 						<select name="ping_proto" style="width:auto">
@@ -77,8 +77,7 @@ local route_host = luci.config.diag and luci.config.diag.route or "dev.openwrt.o
 						<input type="button" value="<%:Ping%>" class="cbi-button cbi-button-apply" onclick="update_status(this.form.ping)" />
 						<% end %>
 					</div>
-
-					<div class="td left">
+					<div>
 						<input style="margin: 5px 0" type="text" value="<%=route_host%>" name="traceroute" /><br />
 						<% if has_traceroute6 then %>
 						<select name="traceroute_proto" style="width:auto">
@@ -94,8 +93,7 @@ local route_host = luci.config.diag and luci.config.diag.route or "dev.openwrt.o
 							<p><%:Install iputils-traceroute6 for IPv6 traceroute%></p>
 						<% end %>
 					</div>
-
-					<div class="td left">
+					<div>
 						<input style="margin: 5px 0" type="text" value="<%=dns_host%>" name="nslookup" /><br />
 						<input type="button" value="<%:Nslookup%>" class="cbi-button cbi-button-apply" onclick="update_status(this.form.nslookup)" />
 					</div>

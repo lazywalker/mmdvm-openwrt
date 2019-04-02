@@ -4,7 +4,7 @@
 include $(TOPDIR)/rules.mk
 
 LUCI_TITLE:=LuCI support for MMDVM
-# LUCI_DEPENDS:=luci-theme-mmdvm
+LUCI_DEPENDS:=+luci-mod-admin-mmdvm +luci-theme-bootstrap-mmdvm +mmdvm-host
 LUCI_PKGARCH:=all
 
 include ../../luci.mk

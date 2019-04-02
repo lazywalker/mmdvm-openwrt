@@ -7,13 +7,13 @@ include $(TOPDIR)/rules.mk
 include $(INCLUDE_DIR)/version.mk
 
 PKG_NAME:=mmdvm-luci
-PKG_VERSION:=1.0.6
-PKG_RELEASE:=2
+PKG_VERSION:=1.0.7
+PKG_RELEASE:=1
 GIT_REVISION:=$(shell git rev-parse --short HEAD)
 PKG_REVISION:=$(PKG_VERSION)-$(PKG_RELEASE)-$(GIT_REVISION)
 # PKG_BUILD_DEPENDS += $(LUCI_BUILD_DEPENDS)
 PKG_BUILD_DEPENDS:=
-PKG_CONFIG_DEPENDS += CONFIG_LUCI_APP_MMDVM_SRCDIET
+PKG_CONFIG_DEPENDS += CONFIG_LUCI_SRCDIET
 # PKG_FILE_DEPENDS:=
 PKG_LICENSE:=GPL-2.0
 PKG_MAINTAINER:=BD7MQB <bd7mqb@qq.com>
@@ -34,10 +34,9 @@ define Package/${PKG_NAME}
 	CATEGORY:=MMDVM
 	#SUBMENU:=Misc
 	TITLE:=MMDVM's LuCI plugins.
-	DEPENDS:=+luci +mmdvm-host +libmmdvm +libubus-lua +libubox-lua
+	DEPENDS:=+!CONFIG_PACKAGE_luci-mod-admin-ful:luci-mod-admin-mmdvm +mmdvm-host +libmmdvm +libubus-lua +libubox-lua
 	#VERSION:=$(PKG_RELEASE)-$(REVISION)
 endef
-
 
 define Package/${PKG_NAME}/config
 	config LUCI_APP_MMDVM
@@ -54,8 +53,8 @@ define Package/${PKG_NAME}/config
 	help
 	  "LuCI bootstrap mod theme for MMDVM"
 
-	config LUCI_APP_MMDVM_SRCDIET
-	bool "Minify MMDVM Lua sources"
+	config LUCI_SRCDIET
+	bool "Minify Lua sources"
 	depends on PACKAGE_${PKG_NAME}
 	default y
 	help
@@ -91,7 +90,7 @@ define Package/common/install
 	  $(INSTALL_DIR) $(1)$(LUCI_LIBRARYDIR); \
 	  cp -pR ./$(2)/luasrc/* $(1)$(LUCI_LIBRARYDIR)/; \
 		$(FIND) $(1)$(LUCI_LIBRARYDIR)/ -type f -name '*.luadoc' | $(XARGS) rm; \
-	  $(if $(CONFIG_LUCI_APP_MMDVM_SRCDIET),$(call SrcDiet,$(1)$(LUCI_LIBRARYDIR)/),true); \
+	  $(if $(CONFIG_LUCI_SRCDIET),$(call SrcDiet,$(1)$(LUCI_LIBRARYDIR)/),true); \
 		$(call SubstituteVersion,$(1)$(LUCI_LIBRARYDIR)/); \
 	else true; fi
 	if [ -d $(2)/htdocs ]; then \
@@ -101,7 +100,7 @@ define Package/common/install
 	if [ -d $(2)/root ]; then \
 	  $(INSTALL_DIR) $(1)/; \
 	  cp -pR ./$(2)/root/* $(1)/; \
-		$(if $(CONFIG_LUCI_APP_MMDVM_SRCDIET),$(call SrcDiet,$(1)/),true); \
+		$(if $(CONFIG_LUCI_SRCDIET),$(call SrcDiet,$(1)/),true); \
 		mv $(1)/usr/sbin/dmrid.lua $(1)/usr/sbin/dmrid; \
 		chmod 750 $(1)/usr/sbin/dmrid; \
 	else true; fi
