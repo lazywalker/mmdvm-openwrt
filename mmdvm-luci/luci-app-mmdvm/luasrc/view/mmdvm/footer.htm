@@ -13,7 +13,7 @@ local categories = disp.node_childs(tree)
 <footer>
  <ul class="breadcrumb pull-right" id="modemenu">
     <% for i, r in ipairs(categories) do %>
-        <li<% if request[1] == r then %> class="active"<%end%>><a href="<%=controller%>/<%=r%>/"><%=striptags(translate(tree.nodes[r].title))%></a> <span class="divider">|</span></li>
+        <li<% if request[1] == r then %> class="active"<%end%>><a href="<%=controller%><%=r%>/"><%=striptags(translate(tree.nodes[r].title))%></a> <span class="divider">|</span></li>
     <% end %>
  </ul>
  <p>Powered by <%= ver.luciname %> de BD7MQB</p>
