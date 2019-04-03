@@ -54,10 +54,9 @@ endef
 
 define Package/${PKG_NAME}/postinst
 #!/bin/sh
-if [ -e /etc/openwrt_release ]; then
-	[ -f /etc/init.d/ysfgateway ] && /etc/init.d/ysfgateway enable || :
-	[ -f /etc/init.d/ysfparrot ] && /etc/init.d/ysfparrot enable || :
-fi
+uci set mmdvm.System_Fusion.Enable=1 && uci commit mmdvm
+[ -f /etc/init.d/ysfgateway ] && /etc/init.d/ysfgateway enable
+[ -f /etc/init.d/ysfparrot ] && /etc/init.d/ysfparrot enable
 exit 0
 endef
 

@@ -55,10 +55,10 @@ endef
 
 define Package/${PKG_NAME}/postinst
 #!/bin/sh
-if [ -e /etc/openwrt_release ]; then
-	[ -f /etc/init.d/p25gateway ] && /etc/init.d/p25gateway enable || :
-	[ -f /etc/init.d/p25parrot ] && /etc/init.d/p25parrot enable || :
-fi
+uci set mmdvm.P25.Enable=1 && uci commit mmdvm
+[ -f /etc/init.d/p25gateway ] && /etc/init.d/p25gateway enable
+[ -f /etc/init.d/p25parrot ] && /etc/init.d/p25parrot enable
+
 exit 0
 endef
 
