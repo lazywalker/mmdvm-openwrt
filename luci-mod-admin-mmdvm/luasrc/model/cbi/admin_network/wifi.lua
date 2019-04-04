@@ -41,41 +41,6 @@ if not wnet or not wdev then
 	return
 end
 
-local function txpower_list(iw)
-	local list = iw.txpwrlist or { }
-	local off  = tonumber(iw.txpower_offset) or 0
-	local new  = { }
-	local prev = -1
-	local _, val
-	for _, val in ipairs(list) do
-		local dbm = val.dbm + off
-		local mw  = math.floor(10 ^ (dbm / 10))
-		if mw ~= prev then
-			prev = mw
-			new[#new+1] = {
-				display_dbm = dbm,
-				display_mw  = mw,
-				driver_dbm  = val.dbm,
-				driver_mw   = val.mw
-			}
-		end
-	end
-	return new
-end
-
-local function txpower_current(pwr, list)
-	pwr = tonumber(pwr)
-	if pwr ~= nil then
-		local _, item
-		for _, item in ipairs(list) do
-			if item.driver_dbm >= pwr then
-				return item.driver_dbm
-			end
-		end
-	end
-	return pwr or ""
-end
-
 local iw = luci.sys.wifi.getiwinfo(arg[1])
 local hw_modes      = iw.hwmodelist or { }
 local tx_power_list = txpower_list(iw)
@@ -136,8 +101,6 @@ s = m:section(NamedSection, wdev:name(), "wifi-device", translate("Device Config
 s.addremove = false
 
 s:tab("general", translate("General Setup"))
-s:tab("macfilter", translate("MAC-Filter"))
-s:tab("advanced", translate("Advanced Settings"))
 
 st = s:taboption("general", DummyValue, "__status", translate("Status"))
 st.template = "admin_network/wifi_status"
@@ -199,154 +162,6 @@ else
 	end
 end
 
-------------------- MAC80211 Device ------------------
-
-if hwtype == "mac80211" then
-	if #tx_power_list > 0 then
-		tp = s:taboption("general", ListValue,
-			"txpower", translate("Transmit Power"), "dBm")
-		tp.rmempty = true
-		tp.default = tx_power_cur
-		function tp.cfgvalue(...)
-			return txpower_current(Value.cfgvalue(...), tx_power_list)
-		end
-
-		tp:value("", translate("auto"))
-		for _, p in ipairs(tx_power_list) do
-			tp:value(p.driver_dbm, "%i dBm (%i mW)"
-				%{ p.display_dbm, p.display_mw })
-		end
-	end
-
-	local cl = iw and iw.countrylist
-	if cl and #cl > 0 then
-		cc = s:taboption("advanced", ListValue, "country", translate("Country Code"), translate("Use ISO/IEC 3166 alpha2 country codes."))
-		cc.default = tostring(iw and iw.country or "00")
-		for _, c in ipairs(cl) do
-			cc:value(c.alpha2, "%s - %s" %{ c.alpha2, c.name })
-		end
-	else
-		s:taboption("advanced", Value, "country", translate("Country Code"), translate("Use ISO/IEC 3166 alpha2 country codes."))
-	end
-
-	legacyrates = s:taboption("advanced", Flag, "legacy_rates", translate("Allow legacy 802.11b rates"))
-	legacyrates.rmempty = false
-	legacyrates.default = "1"
-
-	s:taboption("advanced", Value, "distance", translate("Distance Optimization"),
-		translate("Distance to farthest network member in meters."))
-
-	-- external antenna profiles
-	local eal = iw and iw.extant
-	if eal and #eal > 0 then
-		ea = s:taboption("advanced", ListValue, "extant", translate("Antenna Configuration"))
-		for _, eap in ipairs(eal) do
-			ea:value(eap.id, "%s (%s)" %{ eap.name, eap.description })
-			if eap.selected then
-				ea.default = eap.id
-			end
-		end
-	end
-
-	s:taboption("advanced", Value, "frag", translate("Fragmentation Threshold"))
-	s:taboption("advanced", Value, "rts", translate("RTS/CTS Threshold"))
-	
-	s:taboption("advanced", Flag, "noscan", translate("Force 40MHz mode"),
-		translate("Always use 40MHz channels even if the secondary channel overlaps. Using this option does not comply with IEEE 802.11n-2009!")).optional = true
-
-	beacon_int = s:taboption("advanced", Value, "beacon_int", translate("Beacon Interval"))
-	beacon_int.optional = true
-	beacon_int.placeholder = 100
-	beacon_int.datatype = "range(15,65535)"
-end
-
-
-------------------- Broadcom Device ------------------
-
-if hwtype == "broadcom" then
-	tp = s:taboption("general",
-		(#tx_power_list > 0) and ListValue or Value,
-		"txpower", translate("Transmit Power"), "dBm")
-
-	tp.rmempty = true
-	tp.default = tx_power_cur
-
-	function tp.cfgvalue(...)
-		return txpower_current(Value.cfgvalue(...), tx_power_list)
-	end
-
-	tp:value("", translate("auto"))
-	for _, p in ipairs(tx_power_list) do
-		tp:value(p.driver_dbm, "%i dBm (%i mW)"
-			%{ p.display_dbm, p.display_mw })
-	end
-
-	mode = s:taboption("advanced", ListValue, "hwmode", translate("Band"))
-	if hw_modes.b then
-		mode:value("11b", "2.4GHz (802.11b)")
-		if hw_modes.g then
-			mode:value("11bg", "2.4GHz (802.11b+g)")
-		end
-	end
-	if hw_modes.g then
-		mode:value("11g", "2.4GHz (802.11g)")
-		mode:value("11gst", "2.4GHz (802.11g + Turbo)")
-		mode:value("11lrs", "2.4GHz (802.11g Limited Rate Support)")
-	end
-	if hw_modes.a then mode:value("11a", "5GHz (802.11a)") end
-	if hw_modes.n then
-		if hw_modes.g then
-			mode:value("11ng", "2.4GHz (802.11g+n)")
-			mode:value("11n", "2.4GHz (802.11n)")
-		end
-		if hw_modes.a then
-			mode:value("11na", "5GHz (802.11a+n)")
-			mode:value("11n", "5GHz (802.11n)")
-		end
-		htmode = s:taboption("advanced", ListValue, "htmode", translate("HT mode (802.11n)"))
-		htmode:depends("hwmode", "11ng")
-		htmode:depends("hwmode", "11na")
-		htmode:depends("hwmode", "11n")
-		htmode:value("HT20", "20MHz")
-		htmode:value("HT40", "40MHz")
-	end
-
-	ant1 = s:taboption("advanced", ListValue, "txantenna", translate("Transmitter Antenna"))
-	ant1.widget = "radio"
-	ant1:depends("diversity", "")
-	ant1:value("3", translate("auto"))
-	ant1:value("0", translate("Antenna 1"))
-	ant1:value("1", translate("Antenna 2"))
-
-	ant2 = s:taboption("advanced", ListValue, "rxantenna", translate("Receiver Antenna"))
-	ant2.widget = "radio"
-	ant2:depends("diversity", "")
-	ant2:value("3", translate("auto"))
-	ant2:value("0", translate("Antenna 1"))
-	ant2:value("1", translate("Antenna 2"))
-
-	s:taboption("advanced", Flag, "frameburst", translate("Frame Bursting"))
-
-	s:taboption("advanced", Value, "distance", translate("Distance Optimization"))
-	--s:option(Value, "slottime", translate("Slot time"))
-
-	s:taboption("advanced", Value, "country", translate("Country Code"))
-	s:taboption("advanced", Value, "maxassoc", translate("Connection Limit"))
-end
-
-
---------------------- HostAP Device ---------------------
-
-if hwtype == "prism2" then
-	s:taboption("advanced", Value, "txpower", translate("Transmit Power"), "att units").rmempty = true
-
-	s:taboption("advanced", Flag, "diversity", translate("Diversity")).rmempty = false
-
-	s:taboption("advanced", Value, "txantenna", translate("Transmitter Antenna"))
-	s:taboption("advanced", Value, "rxantenna", translate("Receiver Antenna"))
-end
-
-
 ----------------------- Interface -----------------------
 
 s = m:section(NamedSection, wnet.sid, "wifi-iface", translate("Interface Configuration"))
@@ -357,7 +172,6 @@ s.defaults.device = wdev:name()
 s:tab("general", translate("General Setup"))
 s:tab("encryption", translate("Wireless Security"))
 s:tab("macfilter", translate("MAC-Filter"))
-s:tab("advanced", translate("Advanced Settings"))
 
 mode = s:taboption("general", ListValue, "mode", translate("Mode"))
 mode.override_values = true
@@ -367,11 +181,6 @@ mode:value("adhoc", translate("Ad-Hoc"))
 
 meshid = s:taboption("general", Value, "mesh_id", translate("Mesh Id"))
 meshid:depends({mode="mesh"})
-
-meshfwd = s:taboption("advanced", Flag, "mesh_fwding", translate("Forward mesh peer traffic"))
-meshfwd.rmempty = false
-meshfwd.default = "1"
-meshfwd:depends({mode="mesh"})
 
 ssid = s:taboption("general", Value, "ssid", translate("<abbr title=\"Extended Service Set Identifier\">ESSID</abbr>"))
 ssid.datatype = "maxlength(32)"
@@ -491,26 +300,6 @@ if hwtype == "mac80211" then
 	wmm:depends({mode="ap"})
 	wmm:depends({mode="ap-wds"})
 	wmm.default = wmm.enabled
-
-	isolate = s:taboption("advanced", Flag, "isolate", translate("Isolate Clients"),
-	 translate("Prevents client-to-client communication"))
-	isolate:depends({mode="ap"})
-	isolate:depends({mode="ap-wds"})
-
-	ifname = s:taboption("advanced", Value, "ifname", translate("Interface name"), translate("Override default interface name"))
-	ifname.optional = true
-
-	short_preamble = s:taboption("advanced", Flag, "short_preamble", translate("Short Preamble"))
-	short_preamble.default = short_preamble.enabled
-
-	dtim_period = s:taboption("advanced", Value, "dtim_period", translate("DTIM Interval"), translate("Delivery Traffic Indication Message Interval"))
-	dtim_period.optional = true
-	dtim_period.placeholder = 2
-	dtim_period.datatype = "range(1,255)"
-
-	disassoc_low_ack = s:taboption("advanced", Flag, "disassoc_low_ack", translate("Disassociate On Low Acknowledgement"),
-		translate("Allow AP mode to disconnect STAs based on low ACK condition"))
-	disassoc_low_ack.default = disassoc_low_ack.enabled
 end
 
 
@@ -524,13 +313,6 @@ if hwtype == "broadcom" then
 	hidden:depends({mode="ap"})
 	hidden:depends({mode="adhoc"})
 	hidden:depends({mode="wds"})
-
-	isolate = s:taboption("advanced", Flag, "isolate", translate("Separate Clients"),
-	 translate("Prevents client-to-client communication"))
-	isolate:depends({mode="ap"})
-
-	s:taboption("advanced", Flag, "doth", "802.11h")
-	s:taboption("advanced", Flag, "wmm", translate("WMM Mode"))
 
 	bssid:depends({mode="wds"})
 	bssid:depends({mode="adhoc"})
@@ -558,10 +340,6 @@ if hwtype == "prism2" then
 	ml:depends({macpolicy="allow"})
 	ml:depends({macpolicy="deny"})
 	nt.mac_hints(function(mac, name) ml:value(mac, "%s (%s)" %{ mac, name }) end)
-
-	s:taboption("advanced", Value, "rate", translate("Transmission Rate"))
-	s:taboption("advanced", Value, "frag", translate("Fragmentation Threshold"))
-	s:taboption("advanced", Value, "rts", translate("RTS/CTS Threshold"))
 end
 
 
