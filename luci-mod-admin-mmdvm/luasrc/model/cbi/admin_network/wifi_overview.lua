@@ -211,13 +211,4 @@ end
 s = m:section(NamedSection, "__script__")
 s.template = "admin_network/wifi_overview_status"
 
-s = m:section(NamedSection, "__assoclist__")
-
-function s.render(self, sid)
-	tpl.render_string([[
-		<h2><%:Associated Stations%></h2>
-		<%+admin_network/wifi_assoclist%>
-	]])
-end
-
 return m
