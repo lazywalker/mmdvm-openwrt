@@ -43,8 +43,6 @@ end
 
 local iw = luci.sys.wifi.getiwinfo(arg[1])
 local hw_modes      = iw.hwmodelist or { }
-local tx_power_list = txpower_list(iw)
-local tx_power_cur  = txpower_current(wdev:get("txpower"), tx_power_list)
 
 -- wireless toggle was requested, commit and reload page
 function m.parse(map)
