@@ -55,7 +55,7 @@ endef
 
 define Package/${PKG_NAME}/postinst
 #!/bin/sh
-uci set mmdvm.NXDN.Enable=1 && uci commit mmdvm
+uci set mmdvm.NXDN=mmdvmhost && uci set mmdvm.NXDN.Enable=1 && uci commit mmdvm
 [ -f /etc/init.d/p25gateway ] && /etc/init.d/p25gateway enable
 [ -f /etc/init.d/p25parrot ] && /etc/init.d/p25parrot enable
 

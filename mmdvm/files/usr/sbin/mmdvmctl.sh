@@ -60,7 +60,7 @@ status() {
 
 update() {
     opkg update
-    opkg upgrade mmdvm libmmdvm mmdvm-luci mmdvm-host p25-clients ysf-clients
+    opkg upgrade mmdvm libmmdvm mmdvm-luci mmdvm-host p25-clients ysf-clients nxdn-clients
 
     installed=`opkg list-installed | grep luci-i18n-base-zh-cn`
     if [ -n "$installed" ]; then
