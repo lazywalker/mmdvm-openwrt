@@ -1,0 +1,19 @@
+--- /dev/null
++++ b/Makefile
+@@ -0,0 +1,16 @@
++.nxdn-gateway:
++	make -C NXDNGateway
++
++.nxdn-parrot:
++	make -C NXDNParrot
++
++all: .nxdn-gateway .nxdn-parrot
++
++clean:
++	make -C NXDNGateway clean
++	make -C NXDNParrot clean
++
++distclean:
++	make -C NXDNGateway distclean
++	make -C NXDNParrot distclean
++
