@@ -7,8 +7,8 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ysf-clients
 PKG_REV:=HEAD
-PKG_VERSION:=1.0.3
-PKG_RELEASE:=2
+PKG_VERSION:=1.0.4
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
 PKG_SOURCE_URL:=https://github.com/lazywalker/YSFClients
@@ -54,7 +54,7 @@ endef
 
 define Package/${PKG_NAME}/postinst
 #!/bin/sh
-uci set mmdvm.System_Fusion.Enable=1 && uci commit mmdvm
+uci set mmdvm.System_Fusion=mmdvmhost && uci set mmdvm.System_Fusion.Enable=1 && uci commit mmdvm
 [ -f /etc/init.d/ysfgateway ] && /etc/init.d/ysfgateway enable
 [ -f /etc/init.d/ysfparrot ] && /etc/init.d/ysfparrot enable
 exit 0
