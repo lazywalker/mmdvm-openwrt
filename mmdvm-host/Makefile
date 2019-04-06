@@ -7,7 +7,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=mmdvm-host
 PKG_REV:=HEAD
-PKG_VERSION:=1.0.5
+PKG_VERSION:=1.0.6
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
@@ -25,7 +25,7 @@ define Package/${PKG_NAME}
 	CATEGORY:=MMDVM
 	TITLE:=MMDVM Host
 	URL:=https://github.com/g4klx/MMDVMHost/
-	DEPENDS:=+libpthread +libstdcpp +ysf-clients +p25-clients
+	DEPENDS:=+libpthread +libstdcpp +ysf-clients +p25-clients +nxdn-clients
 endef
 
 define Package/${PKG_NAME}/description
