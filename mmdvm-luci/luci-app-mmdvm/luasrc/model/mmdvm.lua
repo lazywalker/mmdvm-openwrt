@@ -95,7 +95,9 @@ function ini2uci(muci)
 			System_Fusion = {"Enable", "SelfOnly"}, 
 			System_Fusion_Network = {"Enable"},
 			P25 = {"Enable", "NAC", "SelfOnly", "OverrideUIDCheck"},
-			P25_Network = {"Enable"}
+			P25_Network = {"Enable"},
+			NXDN = {"Enable"}, 
+			NXDN_Network = {"Enable"},
 		}
 	local updated = false
 	local mmdvmhost_conf = ini_load(MMDVMHOST_CONFFILE)
@@ -171,6 +173,7 @@ function uci2ini(changes)
 	local mmdvmhost_conf = ini_load(MMDVMHOST_CONFFILE)
 	local ysfgateway_conf = ini_load(YSFGATEWAY_CONFFILE)
 	local p25gateway_conf = ini_load(P25GATEWAY_CONFFILE)
+	local nxdngateway_conf = ini_load(NXDNGATEWAY_CONFFILE)
 	local mmdvmhost_changed = false
 
 	for _, change in ipairs(changes) do
@@ -187,7 +190,11 @@ function uci2ini(changes)
 			elseif section == "P25G Network" then
 				p25gateway_conf["Network"][option] = value
 				ini_save(P25GATEWAY_CONFFILE, p25gateway_conf)
-				log("P25GGateway.ini update - " .. json.stringify(change))
+				log("P25Gateway.ini update - " .. json.stringify(change))
+			elseif section == "NXDNG Network" then
+				nxdngateway_conf["Network"][option] = value
+				ini_save(NXDNGATEWAY_CONFFILE, nxdngateway_conf)
+				log("NXDNGateway.ini update - " .. json.stringify(change))
 			else
 				mmdvmhost_conf[section][option] = value
 				ini_save(MMDVMHOST_CONFFILE, mmdvmhost_conf)
