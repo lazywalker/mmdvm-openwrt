@@ -35,6 +35,8 @@ _command() {
     /etc/init.d/p25parrot $1
     /etc/init.d/ysfgateway $1
     /etc/init.d/ysfparrot $1
+    /etc/init.d/nxdngateway $1
+    /etc/init.d/nxdnparrot $1
     /etc/init.d/dmrid $1
 }
 
