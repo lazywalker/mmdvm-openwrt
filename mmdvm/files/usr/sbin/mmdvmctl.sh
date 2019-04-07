@@ -38,6 +38,7 @@ _command() {
     /etc/init.d/nxdngateway $1
     /etc/init.d/nxdnparrot $1
     /etc/init.d/dmrid $1
+    [ -f /etc/init.d/dapnetgateway ] && /etc/init.d/dapnetgateway $1
 }
 
 start() {
@@ -77,5 +78,10 @@ update() {
     installed=`opkg list-installed | grep luci-mod-admin-mmdvm`
     if [ -n "$installed" ]; then
         opkg upgrade luci-mod-admin-mmdvm
+    fi
+
+    installed=`opkg list-installed | grep dapnet-gateway`
+    if [ -n "$installed" ]; then
+        opkg upgrade dapnet-gateway
     fi
 }
