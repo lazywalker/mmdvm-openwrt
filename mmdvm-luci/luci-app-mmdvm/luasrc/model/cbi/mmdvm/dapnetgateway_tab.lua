@@ -5,7 +5,7 @@ local sys = require "luci.sys"
 local fs    = require("nixio.fs")
 local util  = require("luci.util")
 local uci   = require("luci.model.uci").cursor()
-local input = uci:get("mmdvm", "p25gateway", "conf") or "/etc/P25Gateway.ini"
+local input = uci:get("mmdvm", "dapnetgateway", "conf") or "/etc/DAPNETGateway.ini"
 
 if not fs.access(input) then
 	m = SimpleForm("error", nil, translate("Input file not found, please check your configuration."))
@@ -29,7 +29,7 @@ m.submit = translate("Save & Reload Service")
 m.reset = false
 
 s = m:section(SimpleSection, nil,
-	translatef("This form allows you to modify the .ini file of the P25Gateway (%s). ", input))
+	translatef("This form allows you to modify the .ini file of the DAPNETGateway (%s). ", input))
 
 f = s:option(TextValue, "data")
 f.datatype = "string"
@@ -42,9 +42,9 @@ end
 
 function f.write(self, section, data)
 	ret = fs.writefile(input, "\n" .. util.trim(data:gsub("\r\n", "\n")) .. "\n")
-	sys.call("/etc/init.d/p25gateway restart >/dev/null")
+	sys.call("/etc/init.d/dapnetgateway restart >/dev/null")
 	sys.call("/etc/init.d/mmdvmhost restart >/dev/null")
-
+	
 	return ret
 end
 

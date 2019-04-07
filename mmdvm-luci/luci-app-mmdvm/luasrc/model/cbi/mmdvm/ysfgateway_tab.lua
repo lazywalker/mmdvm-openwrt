@@ -43,7 +43,8 @@ end
 function f.write(self, section, data)
 	ret = fs.writefile(input, "\n" .. util.trim(data:gsub("\r\n", "\n")) .. "\n")
 	sys.call("/etc/init.d/ysfgateway restart >/dev/null")
-	
+	sys.call("/etc/init.d/mmdvmhost restart >/dev/null")
+
 	return ret
 end
 

@@ -292,6 +292,43 @@ function log(msg)
 	util.ubus("log", "write", {event = msg})
 end
 
+
+-- 	logtxt = [==[
+-- M: 2016-04-29 00:15:00.013 D-Star, received network header from DG9VH   /ZEIT to CQCQCQ   via DCS002 S
+-- M: 2016-04-29 19:43:21.839 DMR Slot 2, received network voice header from DL1ESZ to TG 9
+-- M: 2016-04-30 14:57:43.072 DMR Slot 2, received RF voice header from DG9VH to 5000
+-- M: 2017-12-06 19:20:14.445 DMR Slot 2, received RF end of voice transmission, 1.8 seconds, BER: 3.9%
+-- M: 2017-12-06 19:22:06.038 DMR Slot 2, RF voice transmission lost, 1.1 seconds, BER: 6.5%
+-- M: 2016-04-30 14:57:43.072 DMR Slot 2, received RF CSBK Preamble CSBK (1 to follow) from M1ABC to TG 1
+-- M: 2016-04-30 14:57:43.072 DMR Slot 2, received network Data Preamble VSBK (11 to follow) from 123456 to TG 123456
+-- M: 2017-12-04 15:56:48.305 DMR Talker Alias (Data Format 1, Received 24/24 char): 'Hide the bottle from Ont'
+-- M: 2017-12-04 15:56:48.306 0000:  07 00 20 4F 6E 74 00 00 00                         *.. Ont...*
+-- M: 2017-12-04 15:56:48.305 DMR Slot 2, Embedded Talker Alias Block 3
+-- M: 2017-04-18 08:00:41.977 P25, received RF transmission from MW0MWZ to TG 10200
+-- M: 2017-04-18 08:00:42.131 Debug: P25RX: pos/neg/centre/threshold 106 -105 0 106
+-- M: 2017-04-18 08:00:42.135 Debug: P25RX: sync found in Ldu pos/centre/threshold 3986 9 104
+-- M: 2017-04-18 08:00:42.312 Debug: P25RX: pos/neg/centre/threshold 267 -222 22 245
+-- M: 2017-04-18 08:00:42.316 Debug: P25RX: sync found in Ldu pos/centre/threshold 3986 10 112
+-- M: 2017-04-18 08:00:42.337 P25, received RF end of transmission, 0.4 seconds, BER: 0.0%
+-- M: 2017-04-18 08:00:43.728 P25, received network transmission from 10999 to TG 10200
+-- M: 2017-04-18 08:00:45.172 P25, network end of transmission, 1.8 seconds, 0% packet loss
+-- M: 2017-07-08 15:16:14.571 YSF, received RF data from 2E0EHH     to ALL
+-- M: 2017-07-08 15:16:19.551 YSF, received RF end of transmission, 5.1 seconds, BER: 3.8%
+-- M: 2017-07-08 15:16:21.711 YSF, received network data from G0NEF      to ALL        at MB6IBK
+-- M: 2017-07-08 15:16:30.994 YSF, network watchdog has expired, 5.0 seconds, 0% packet loss, BER: 0.0%
+-- M: 2017-04-18 08:00:41.977 NXDN, received RF transmission from MW0MWZ to TG 65000
+-- M: 2017-04-18 08:00:42.131 Debug: NXDNRX: pos/neg/centre/threshold 106 -105 0 106
+-- M: 2017-04-18 08:00:42.135 Debug: NXDNRX: sync found in Ldu pos/centre/threshold 3986 9 104
+-- M: 2017-04-18 08:00:42.312 Debug: NXDNRX: pos/neg/centre/threshold 267 -222 22 245
+-- M: 2017-04-18 08:00:42.316 Debug: NXDNRX: sync found in Ldu pos/centre/threshold 3986 10 112
+-- M: 2017-04-18 08:00:42.337 NXDN, received RF end of transmission, 0.4 seconds, BER: 0.0%
+-- M: 2017-04-18 08:00:43.728 NXDN, received network transmission from 10999 to TG 10
+-- M: 2017-04-18 08:00:45.172 NXDN, network end of transmission, 1.8 seconds, 0% packet loss
+-- M: 2018-07-13 10:35:18.411 POCSAG, transmitted 1 frame(s) of data from 1 message(s)
+-- ]==]
+-- 	lines = logtxt:split("\n")
+-- 	table.sort(lines, function(a,b) return a>b end)
+-- return lines
 function get_mmdvm_log()
 	local logtxt = ""
 	local lines = {}
@@ -313,7 +350,6 @@ function get_mmdvm_log()
 	table.sort(lines, function(a,b) return a>b end)
 
 	return lines
-	
 end
 
 local function get_hearlist(loglines)
@@ -338,7 +374,8 @@ local function get_hearlist(loglines)
 				string.find(logline, "Embedded Talker Alias") or 
 				string.find(logline, "DMR Talker Alias") or
 				string.find(logline, "CSBK Preamble") or
-				string.find(logline, "Preamble CSBK")
+				string.find(logline, "Preamble CSBK") or
+				string.find(logline, "Preamble VSBK")
 			then
 				break
 			end
@@ -351,6 +388,7 @@ local function get_hearlist(loglines)
 				or string.find(logline, "ended network")
 				or string.find(logline, "RF user has timed out")
 				or string.find(logline, "transmission lost")
+				or string.find(logline, "POCSAG")
 			then
 				local linetokens = logline:split(", ")
 				local count_tokens = (linetokens and #linetokens) or 0
@@ -381,60 +419,70 @@ local function get_hearlist(loglines)
 					end
 				end
 
-	--[[]
-
-				if string.find(logline, "ended RF data") or string.find(logline, "ended network") then
-					if mode == "DMR Slot 1" then ts1duration = "SMS" 
-					elseif mode == "DMR Slot 2" then ts2duration = "SMS" 
-					end
-				else
-					local switch = {
-						["DMR Slot 1"] = function()
-							ts1duration = duration
-							ts1loss = loss
-							ts1ber = ber
-							ts1rssi = rssi
-						end,
-						["DMR Slot 2"] = function()
-							ts2duration = duration
-							ts2loss = loss
-							ts2ber = ber
-							ts2rssi = rssi
-						end,
-						["YSF"] = function()
-							ysfduration = duration
-							ysfloss = loss
-							ysfber = ber
-							ysfrssi = rssi
-						end,
-						["P25"] = function()
-							p25duration = duration
-							p25loss = loss
-							p25ber = ber
-							p25rssi = rssi
-						end
-					}
-					local f = switch[mode]
-					if(f) then f() end
-				end
-	]]
-
 			end
 
 			local timestamp = string.sub(logline, 4, 22)
 			local callsign, target
-			if string.find(logline, "from") then
-				callsign = string.trim(string.sub(logline, string.find(logline, "from")+5, string.find(logline, "to") - 2))
-				target = string.trim(string.sub(logline, string.find(logline, "to") + 3))
-				if mode ==  "YSF" then
-					target = string.trim(string.sub(target, 14))
+			local source = "RF"
+
+			if mode ~= 'POCSAG' then
+				if string.find(logline, "from") then
+					callsign = string.trim(string.sub(logline, string.find(logline, "from")+5, string.find(logline, "to") - 2))
+					target = string.trim(string.sub(logline, string.find(logline, "to") + 3))
+				end
+				if string.find(logline, "network") then
+					source = "Net"
 				end
 			end
-			local source = "RF"
-			if string.find(logline, "network") then
-				source = "Net"
-			end
-
+			-- if mode then
+				-- switch selection of mode
+				local switch = {
+					["DMR Slot 1"] = function()
+						if string.find(logline, "ended RF data") or string.find(logline, "ended network") then
+							duration = "SMS"
+						end
+					end,
+					["DMR Slot 2"] = function()
+						if string.find(logline, "ended RF data") or string.find(logline, "ended network") then
+							duration = "SMS"
+						end
+					end,
+					["YSF"] = function()
+						if target and target:find('at') then
+							target = string.trim(string.sub(target, 14))
+						end
+					end,
+					["P25"] = function()
+						if source == "Net" then
+							if target == "TG 10" then
+								callsign = "PARROT"
+							end
+							if callsign == "10999" then
+								callsign = "MMDVM"
+							end
+						end
+					end,
+					["NXDN"] = function()
+						if source == "Net" then
+							if target == "TG 10" then
+								callsign = "PARROT"
+							end
+						end
+					end,
+					["POCSAG"] = function()
+						callsign = 'DAPNET'
+						source = "Net"
+						target = 'DAPNET User'
+						duration = '0.0'
+						loss = '0'
+						ber = '0.0'
+					end,
+				}
+				local f = switch[mode]
+				if(f) then f() end
+				-- end of switch
+			-- end
+			
 			-- Callsign or ID should be less than 11 chars long, otherwise it could be errorneous
 			if callsign and #callsign < 11 then
 				table.insert(headlist, 

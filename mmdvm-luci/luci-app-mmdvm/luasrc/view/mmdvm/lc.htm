@@ -24,6 +24,11 @@ This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2.
             { name='YSF', status=(uci:get('mmdvm', 'System_Fusion', 'Enable') == '1' and {'ON'} or {'OFF'})[1] },
             { name='NXDN', status=(uci:get('mmdvm', 'NXDN', 'Enable') == '1' and {'ON'} or {'OFF'})[1] },
         }
+        if nixio.fs.access("/etc/init.d/dapnetgateway") then
+            table.insert(modes, 
+                { name='POCSAG', status=(uci:get('mmdvm', 'POCSAG', 'Enable') == '1' and {'ON'} or {'OFF'})[1] }
+            )
+        end
         %>
     <tr>
         <td>
