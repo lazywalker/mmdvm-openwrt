@@ -50,7 +50,9 @@ endef
 define Package/${PKG_NAME}/postinst
 #!/bin/sh
 if [ -e /etc/openwrt_release ]; then
-	[ -f /etc/init.d/dapnetgateway ] && /etc/init.d/dapnetgateway enable || :
+	uci set mmdvm.POCSAG=mmdvmhost && uci set mmdvm.POCSAG.Enable=1 && uci commit mmdvm
+	/etc/init.d/dapnetgateway stop
+	/etc/init.d/dapnetgateway disable
 fi
 exit 0
 endef
