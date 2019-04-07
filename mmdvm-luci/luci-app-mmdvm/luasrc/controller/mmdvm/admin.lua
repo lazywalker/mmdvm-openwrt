@@ -27,6 +27,16 @@ function index()
 	if nixio.fs.access("/etc/init.d/dapnetgateway") then
 		entry({"admin", "mmdvm", "advanced", "dapnetgateway"}, form("mmdvm/dapnetgateway_tab"), _("DAPNETGateway"), 150).leaf = true	
 	end
-	entry({"admin", "mmdvm", "log"}, template("mmdvm/logread"), _("Live Log"), 999).leaf = true
+	entry({"admin", "mmdvm", "log"}, firstchild(), _("Live Log"), 999)
+	entry({"admin", "mmdvm", "log", "mmdvmhost"}, call("action_livelog", {title="MMDVMHost", log="host"}), "MMDVMHost", 21).leaf = true
+	entry({"admin", "mmdvm", "log", "p25"}, call("action_livelog", {title="P25Gateway", log="p25"}), "P25Gateway", 22).leaf = true
+	entry({"admin", "mmdvm", "log", "ysf"}, call("action_livelog", {title="YSFGateway", log="ysf"}), "YSFGateway", 23).leaf = true
+	entry({"admin", "mmdvm", "log", "nxdn"}, call("action_livelog", {title="NXDNGateway", log="nxdn"}), "NXDNGateway", 24).leaf = true
+	if nixio.fs.access("/etc/init.d/dapnetgateway") then
+		entry({"admin", "mmdvm", "log", "dapnet"}, call("action_livelog", {title="DAPNETGateway", log="dapnet"}), "DAPNETGateway", 25).leaf = true
+	end
 end
 
+function action_livelog(argv)
+	luci.template.render("mmdvm/logread", argv)
+end

@@ -17,19 +17,47 @@ function index()
 	end
 	entry({"mmdvm"}, firstchild(), _("MMDVM"), 1).dependent = false
 	entry({"mmdvm", "dashboard"}, call("action_dashboard"), _("Dashboard"), 10).leaf = true
-	entry({"mmdvm", "log"}, template("mmdvm/logread"), _("Live Log"), 20).leaf = true
+	entry({"mmdvm", "log"}, firstchild(), _("Live Log"), 20)
+	entry({"mmdvm", "log", "mmdvmhost"}, call("action_livelog", {title="MMDVMHost", log="host"}), "MMDVMHost", 21).leaf = true
+	entry({"mmdvm", "log", "p25"}, call("action_livelog", {title="P25Gateway", log="p25"}), "P25Gateway", 22).leaf = true
+	entry({"mmdvm", "log", "ysf"}, call("action_livelog", {title="YSFGateway", log="ysf"}), "YSFGateway", 23).leaf = true
+	entry({"mmdvm", "log", "nxdn"}, call("action_livelog", {title="NXDNGateway", log="nxdn"}), "NXDNGateway", 24).leaf = true
+	if nixio.fs.access("/etc/init.d/dapnetgateway") then
+		entry({"mmdvm", "log", "dapnet"}, call("action_livelog", {title="DAPNETGateway", log="dapnet"}), "DAPNETGateway", 25).leaf = true
+	end
+
 	entry({"mmdvm", "logread"}, call("action_logread"), nil).leaf = true
 	entry({"mmdvm", "lastheard"}, call("action_lastheard"), nil).leaf = true
 	entry({"mmdvm", "livecall"}, call("action_livecall"))
 	entry({"mmdvm", "lc"}, call("action_lc"))
 end
 
-function action_logread()
+function action_livelog(argv)
+	luci.template.render("mmdvm/logread", argv)
+end
+
+function action_logread(type)
 	local n = luci.http.formvalue("pos") or 1
 	local content
-	local cmd = "tail -n +%s /var/log/mmdvm/MMDVM-%s.log" % {n, os.date("%Y-%m-%d")}
+	local filename
+	if type == "host" then
+		filename = "MMDVM"
+	elseif type == "p25" then
+		filename = "P25Gateway"
+	elseif type == "ysf" then
+		filename = "YSFGateway"
+	elseif type == "nxdn" then
+		filename = "NXDNGateway"
+	elseif type == "dapnet" then
+		filename = "DAPNETGateway"
+	else
+		-- illegal request
+		http.write("")
+		return
+	end
+
+	local cmd = "tail -n +%s /var/log/mmdvm/%s-%s.log" % {n, filename, os.date("%Y-%m-%d")}
 	content = util.trim(util.exec(cmd))
-	
 	http.write(content)
 end
 

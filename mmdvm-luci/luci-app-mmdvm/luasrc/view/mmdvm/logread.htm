@@ -9,7 +9,7 @@ This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2.
 	var pos = {pos:1};
 	
 	function log_update() {
-		XHR.poll(3, '<%=luci.dispatcher.build_url("mmdvm", "logread")%>', pos,
+		XHR.poll(3, '<%=luci.dispatcher.build_url("mmdvm", "logread", log)%>', pos,
 		function(x) {
 			this.p = pos;
 			if (!x) {
@@ -34,7 +34,7 @@ This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2.
 	window.onload = log_update();
 //]]>
 </script>
-<h2 name="content"><%:Live Log%></h2>
+<h2 name="content"><%:Live Log%> - <%=title%></h2>
 <div class="cbi-map">
 	<div class="cbi-section">
 		<textarea id="livelog" readonly="readonly" wrap="off" value="">Loading...</textarea>
