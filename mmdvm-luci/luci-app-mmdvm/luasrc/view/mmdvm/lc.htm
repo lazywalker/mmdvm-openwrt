@@ -21,7 +21,8 @@ This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2.
         local modes = {
             { name='DMR', status=(uci:get('mmdvm', 'DMR', 'Enable') == '1' and {'ON'} or {'OFF'})[1] },
             { name='P25', status=(uci:get('mmdvm', 'P25', 'Enable') == '1' and {'ON'} or {'OFF'})[1] },
-            { name='YSF', status=(uci:get('mmdvm', 'System_Fusion', 'Enable') == '1' and {'ON'} or {'OFF'})[1] }
+            { name='YSF', status=(uci:get('mmdvm', 'System_Fusion', 'Enable') == '1' and {'ON'} or {'OFF'})[1] },
+            { name='NXDN', status=(uci:get('mmdvm', 'NXDN', 'Enable') == '1' and {'ON'} or {'OFF'})[1] },
         }
         %>
     <tr>

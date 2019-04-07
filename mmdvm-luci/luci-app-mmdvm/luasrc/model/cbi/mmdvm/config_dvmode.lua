@@ -153,4 +153,45 @@ o.datatype    = "uinteger"
 o = s:option(Flag, "Revert", translate("Revert to Startup"), translate("Revert to Startup reflector when InactivityTimeout"))
 o.rmempty = false
 
+--
+-- NXDN Properties
+--
+s = m:section(NamedSection, "NXDN", "mmdvmhost", translate("NXDN Settings"))
+s.anonymous   = true
+
+o = s:option(Flag, "Enable", translate("Enable NXDN Mode"))
+o.rmempty = false
+function o.cfgvalue(self)
+    return sys.init.enabled("nxdngateway")
+        and self.enabled or self.disabled
+end
+function o.write(self, section, value)
+    if value == self.enabled then
+        sys.init.enable("nxdngateway")
+        sys.init.enable("nxdnparrot")
+        sys.call("env -i /etc/init.d/nxdngateway start >/dev/null")
+        sys.call("env -i /etc/init.d/nxdnparrot start >/dev/null")
+    else
+        sys.call("env -i /etc/init.d/nxdngateway stop >/dev/null")
+        sys.call("env -i /etc/init.d/nxdnparrot stop >/dev/null")
+        sys.init.disable("nxdngateway")
+        sys.init.disable("nxdnparrot")
+    end
+    AbstractValue.write(self, section, value)
+    self.map.uci:set("mmdvm", "NXDN_Network", "Enable", value)
+end
+
+s = m:section(NamedSection, "NXDNG_Network", "nxdngateway")
+s.anonymous   = true
+o = s:option(ListValue, "Startup", translate("Startup Reflector"))
+for _, r in ipairs(mmdvm.get_nxdn_list()) do
+    o:value(r[1], r[1] .. " - " .. r[2])
+end
+
+o = s:option(Value, "InactivityTimeout", translate("InactivityTimeout"), translate("Minutes to disconect when idle"))
+o.optional    = false
+o.datatype    = "uinteger"
+o = s:option(Flag, "Revert", translate("Revert to Startup"), translate("Revert to Startup reflector when InactivityTimeout"))
+o.rmempty = false
+
 return m

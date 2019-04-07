@@ -37,9 +37,6 @@ msgstr ""
 msgid "Duplex"
 msgstr ""
 
-msgid "Duplex or Simplex mode"
-msgstr ""
-
 msgid "Duplex/Simplex"
 msgstr ""
 
@@ -55,10 +52,10 @@ msgstr ""
 msgid "Edit YSFGateway.ini"
 msgstr ""
 
-msgid "Edit modem port, Rx/Tx offset and etc."
+msgid "Enable DMR Mode"
 msgstr ""
 
-msgid "Enable DMR Mode"
+msgid "Enable NXDN Mode"
 msgstr ""
 
 msgid "Enable P25 Mode"
@@ -120,9 +117,6 @@ msgstr ""
 msgid "MMDVM"
 msgstr ""
 
-msgid "MMDVM Configuration"
-msgstr ""
-
 msgid "Minutes to disconect when idle"
 msgstr ""
 
@@ -133,6 +127,9 @@ msgid "Modem Settings"
 msgstr ""
 
 msgid "NAC"
+msgstr ""
+
+msgid "NXDN Settings"
 msgstr ""
 
 msgid "NetModeHang"

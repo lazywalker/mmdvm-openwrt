@@ -69,6 +69,9 @@ msgstr "编辑调制解调器端口、接收/发射偏移量等"
 msgid "Enable DMR Mode"
 msgstr "启用DMR模式"
 
+msgid "Enable NXDN Mode"
+msgstr "启用NXDN模式"
+
 msgid "Enable P25 Mode"
 msgstr "启用P25模式"
 
@@ -143,6 +146,9 @@ msgstr "调制解调器设置"
 msgid "NAC"
 msgstr ""
 
+msgid "NXDN Settings"
+msgstr "NXDN设置"
+
 msgid "NetModeHang"
 msgstr "网络模式切换保留时间"
 
@@ -165,7 +171,7 @@ msgid "OverrideUIDCheck"
 msgstr "重写UID检查"
 
 msgid "P25 Settings"
-msgstr "P25 设置"
+msgstr "P25设置"
 
 msgid "Personal hotspots typically use color code 1"
 msgstr "个人热点一般使用色码1"
@@ -268,7 +274,7 @@ msgid ""
 msgstr "勾选后可以启用Talker Alias，某些电台可以显示这些信息"
 
 msgid "YSF Settings"
-msgstr "YSF 设置"
+msgstr "YSF设置"
 
 msgid "Your Callsign in uppercase"
 msgstr "呼号（大写字母）"
