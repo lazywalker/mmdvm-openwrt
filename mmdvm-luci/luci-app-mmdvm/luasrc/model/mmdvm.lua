@@ -21,6 +21,7 @@ module "luci.model.mmdvm"
 MMDVMHOST_CONFFILE = "/etc/MMDVM.ini"
 YSFGATEWAY_CONFFILE = "/etc/YSFGateway.ini"
 P25GATEWAY_CONFFILE = "/etc/P25Gateway.ini"
+NXDNGATEWAY_CONFFILE = "/etc/NXDNGateway.ini"
 UCI_CONFFILE = "/etc/config/mmdvm"
 
 
@@ -100,6 +101,7 @@ function ini2uci(muci)
 	local mmdvmhost_conf = ini_load(MMDVMHOST_CONFFILE)
 	local ysfgateway_conf = ini_load(YSFGATEWAY_CONFFILE)
 	local p25gateway_conf = ini_load(P25GATEWAY_CONFFILE)
+	local nxdngateway_conf = ini_load(NXDNGATEWAY_CONFFILE)
 
 	-- initialize /etc/config/mmdvm
 	-- mmdvmhost
@@ -143,7 +145,20 @@ function ini2uci(muci)
 			updated = true
 		end
 	end
-	
+	--
+	-- nxdngateway
+	local sename = "Network"
+	local section = "NXDNG_Network"
+	local options = {"Startup", "InactivityTimeout", "Revert"}
+	for _, option in ipairs(options) do
+		if not muci:get("mmdvm", section, option) or nxdngateway_conf[".mtime"] > uci_mtime then
+			local o = {[option] = nxdngateway_conf[sename][option]}
+			muci:section("mmdvm", "nxdngateway", section, o)
+			log(("init %s/nxdngateway/%s/%s"):format(UCI_CONFFILE, section, json.stringify(o)))
+			updated = true
+		end
+	end
+
 	if updated then
 		muci:save("mmdvm")
 		muci:commit("mmdvm")
@@ -228,7 +243,7 @@ function get_ysf_list()
 	return data
 end
 
-local function _get_p25_list(hostfile)
+local function _get_p25_nxdn_list(hostfile)
 	local file = assert(io.open(hostfile, 'r'), 'Error loading file : ' .. hostfile)
 	local data = {}
 	for line in file:lines() do
@@ -245,8 +260,20 @@ function get_p25_list()
 	local hostfile = "/etc/mmdvm/P25Hosts.txt"
 	local hostfile_private = "/etc/mmdvm/P25Hosts_private.txt"
 
-	local data = _get_p25_list(hostfile)
-	for _, d in ipairs(_get_p25_list(hostfile_private)) do
+	local data = _get_p25_nxdn_list(hostfile)
+	for _, d in ipairs(_get_p25_nxdn_list(hostfile_private)) do
+		table.insert(data, {d[1], d[2] .. " - private"})
+	end
+
+	return data
+end
+
+function get_nxdn_list()
+	local hostfile = "/etc/mmdvm/NXDNHosts.txt"
+	local hostfile_private = "/etc/mmdvm/NXDNHosts_private.txt"
+
+	local data = _get_p25_nxdn_list(hostfile)
+	for _, d in ipairs(_get_p25_nxdn_list(hostfile_private)) do
 		table.insert(data, {d[1], d[2] .. " - private"})
 	end
 
