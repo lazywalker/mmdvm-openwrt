@@ -23,18 +23,18 @@ function index()
 	end
 
 	entry({"admin", "mmdvm", "advanced"}, firstchild(), _("Advanced"), 100)
-	entry({"admin", "mmdvm", "advanced", "mmdvmhost"}, form("mmdvm/mmdvmhost_tab"), _("MMDVMHost"), 110).leaf = true
-	entry({"admin", "mmdvm", "advanced", "ysfgateway"}, form("mmdvm/ysfgateway_tab"), _("YSF GW"), 120).leaf = true
-	entry({"admin", "mmdvm", "advanced", "p25gateway"}, form("mmdvm/p25gateway_tab"), _("P25 GW"), 130).leaf = true
-	entry({"admin", "mmdvm", "advanced", "nxdngateway"}, form("mmdvm/nxdngateway_tab"), _("NXDN GW"), 140).leaf = true
+	entry({"admin", "mmdvm", "advanced", "mmdvmhost"}, form("mmdvm/mmdvmhost_tab"), _("MMDVMHost"), 11).leaf = true
+	entry({"admin", "mmdvm", "advanced", "ysf"}, form("mmdvm/ysfgateway_tab"), _("YSF GW"), 12).leaf = true
+	entry({"admin", "mmdvm", "advanced", "p25"}, form("mmdvm/p25gateway_tab"), _("P25 GW"), 13).leaf = true
+	entry({"admin", "mmdvm", "advanced", "nxdn"}, form("mmdvm/nxdngateway_tab"), _("NXDN GW"), 14).leaf = true
 	-- dapnetgateway is optional 
 	if nixio.fs.access("/etc/init.d/dapnetgateway") then
-		entry({"admin", "mmdvm", "advanced", "dapnetgateway"}, form("mmdvm/dapnetgateway_tab"), _("DAPNET GW"), 150).leaf = true	
+		entry({"admin", "mmdvm", "advanced", "dapnet"}, form("mmdvm/dapnetgateway_tab"), _("DAPNET GW"), 150).leaf = true	
 	end
 	entry({"admin", "mmdvm", "log"}, firstchild(), _("Live Log"), 999)
 	entry({"admin", "mmdvm", "log", "mmdvmhost"}, call("action_livelog", {title="MMDVMHost", log="host"}), _("MMDVMHost"), 21).leaf = true
-	entry({"admin", "mmdvm", "log", "p25"}, call("action_livelog", {title="P25Gateway", log="p25"}), _("P25 GW"), 22).leaf = true
-	entry({"admin", "mmdvm", "log", "ysf"}, call("action_livelog", {title="YSFGateway", log="ysf"}), _("YSF GW"), 23).leaf = true
+	entry({"admin", "mmdvm", "log", "ysf"}, call("action_livelog", {title="YSFGateway", log="ysf"}), _("YSF GW"), 22).leaf = true
+	entry({"admin", "mmdvm", "log", "p25"}, call("action_livelog", {title="P25Gateway", log="p25"}), _("P25 GW"), 23).leaf = true
 	entry({"admin", "mmdvm", "log", "nxdn"}, call("action_livelog", {title="NXDNGateway", log="nxdn"}), _("NXDN GW"), 24).leaf = true
 	if nixio.fs.access("/etc/init.d/dapnetgateway") then
 		entry({"admin", "mmdvm", "log", "dapnet"}, call("action_livelog", {title="DAPNETGateway", log="dapnet"}), _("DAPNET GW"), 25).leaf = true
