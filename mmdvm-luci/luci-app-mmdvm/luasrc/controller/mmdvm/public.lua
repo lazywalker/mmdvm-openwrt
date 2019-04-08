@@ -25,6 +25,7 @@ function index()
 	if nixio.fs.access("/etc/init.d/dapnetgateway") then
 		entry({"mmdvm", "log", "dapnet"}, call("action_livelog", {title="DAPNETGateway", log="dapnet"}), "DAPNETGateway", 25).leaf = true
 	end
+	entry({"mmdvm", "config"}, alias("admin", "mmdvm", "config"), _("Configuration"), 30).index = true
 
 	entry({"mmdvm", "logread"}, call("action_logread"), nil).leaf = true
 	entry({"mmdvm", "lastheard"}, call("action_lastheard"), nil).leaf = true
