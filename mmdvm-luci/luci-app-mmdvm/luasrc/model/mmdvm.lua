@@ -501,7 +501,7 @@ local function get_hearlist(loglines)
 					["POCSAG"] = function()
 						callsign = 'DAPNET'
 						source = "Net"
-						target = 'DAPNET User'
+						target = 'ALL'
 						duration = '0.0'
 						loss = '0'
 						ber = '0.0'
