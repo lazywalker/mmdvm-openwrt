@@ -33,6 +33,8 @@ s.anonymous = true
 s.addremove = false
 
 o = s:option(Value, "Callsign", translate("Callsign"))
+o.optional    = false
+
 o = s:option(Value, "Id", translate("ID"), translate("Your DmrId or DmrId + <abbr title=\"ex. 460713301\">2 digitals</abbr>"))
 o.optional    = true
 o.datatype    = "uinteger"

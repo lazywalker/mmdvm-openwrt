@@ -74,7 +74,7 @@ function o.write(self, section, value)
     if value == self.enabled then
         sys.init.enable("ysfgateway")
         sys.init.enable("ysfparrot")
-        sys.call("env -i /etc/init.d/ysfgateway start >/dev/null")
+        sys.call("env -i /etc/init.d/ysfgateway restart >/dev/null")
         sys.call("env -i /etc/init.d/ysfparrot start >/dev/null")
     else
         sys.call("env -i /etc/init.d/ysfgateway stop >/dev/null")
@@ -118,7 +118,7 @@ function o.write(self, section, value)
     if value == self.enabled then
         sys.init.enable("p25gateway")
         sys.init.enable("p25parrot")
-        sys.call("env -i /etc/init.d/p25gateway start >/dev/null")
+        sys.call("env -i /etc/init.d/p25gateway restart >/dev/null")
         sys.call("env -i /etc/init.d/p25parrot start >/dev/null")
     else
         sys.call("env -i /etc/init.d/p25gateway stop >/dev/null")
@@ -169,7 +169,7 @@ function o.write(self, section, value)
     if value == self.enabled then
         sys.init.enable("nxdngateway")
         sys.init.enable("nxdnparrot")
-        sys.call("env -i /etc/init.d/nxdngateway start >/dev/null")
+        sys.call("env -i /etc/init.d/nxdngateway restart >/dev/null")
         sys.call("env -i /etc/init.d/nxdnparrot start >/dev/null")
     else
         sys.call("env -i /etc/init.d/nxdngateway stop >/dev/null")

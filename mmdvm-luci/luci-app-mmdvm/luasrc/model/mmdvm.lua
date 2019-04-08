@@ -22,6 +22,7 @@ MMDVMHOST_CONFFILE = "/etc/MMDVM.ini"
 YSFGATEWAY_CONFFILE = "/etc/YSFGateway.ini"
 P25GATEWAY_CONFFILE = "/etc/P25Gateway.ini"
 NXDNGATEWAY_CONFFILE = "/etc/NXDNGateway.ini"
+DAPNETGATEWAY_CONFFILE = "/etc/DAPNETGateway.ini"
 UCI_CONFFILE = "/etc/config/mmdvm"
 
 
@@ -98,12 +99,15 @@ function ini2uci(muci)
 			P25_Network = {"Enable"},
 			NXDN = {"Enable"}, 
 			NXDN_Network = {"Enable"},
+			POCSAG = {"Enable", "Frequency"}, 
+			POCSAG_Network = {"Enable"},
 		}
 	local updated = false
 	local mmdvmhost_conf = ini_load(MMDVMHOST_CONFFILE)
 	local ysfgateway_conf = ini_load(YSFGATEWAY_CONFFILE)
 	local p25gateway_conf = ini_load(P25GATEWAY_CONFFILE)
 	local nxdngateway_conf = ini_load(NXDNGATEWAY_CONFFILE)
+	local dapnetgateway_conf = ini_load(DAPNETGATEWAY_CONFFILE)
 
 	-- initialize /etc/config/mmdvm
 	-- mmdvmhost
@@ -161,6 +165,21 @@ function ini2uci(muci)
 		end
 	end
 
+	-- dapnetgateway
+	local sections = {
+		DAPNET_General = {section="General", options={"Callsign"}},
+		DAPNET_DAPNET = {section="DAPNET", options={"Address", "AuthKey"}},
+	}
+	for k, v in pairs(sections) do
+		for _, option in ipairs(v.options) do
+			if not muci:get("mmdvm", k, option) or dapnetgateway_conf[".mtime"] > uci_mtime then
+				local o = {[option] = dapnetgateway_conf[v.section][option]}
+				muci:section("mmdvm", "dapnetgateway", k, o)
+				log(("init %s/dapnetgateway/%s/%s"):format(UCI_CONFFILE, k, json.stringify(o)))
+				updated = true
+			end
+		end
+	end
 	if updated then
 		muci:save("mmdvm")
 		muci:commit("mmdvm")
@@ -174,6 +193,7 @@ function uci2ini(changes)
 	local ysfgateway_conf = ini_load(YSFGATEWAY_CONFFILE)
 	local p25gateway_conf = ini_load(P25GATEWAY_CONFFILE)
 	local nxdngateway_conf = ini_load(NXDNGATEWAY_CONFFILE)
+	local dapnetgateway_conf = ini_load(DAPNETGATEWAY_CONFFILE)
 	local mmdvmhost_changed = false
 
 	for _, change in ipairs(changes) do
@@ -195,6 +215,10 @@ function uci2ini(changes)
 				nxdngateway_conf["Network"][option] = value
 				ini_save(NXDNGATEWAY_CONFFILE, nxdngateway_conf)
 				log("NXDNGateway.ini update - " .. json.stringify(change))
+			elseif section == "DAPNET DAPNET" then
+				dapnetgateway_conf["DAPNET"][option] = value
+				ini_save(DAPNETGATEWAY_CONFFILE, dapnetgateway_conf)
+				log("DAPNETGateway.ini update - " .. json.stringify(change))
 			else
 				mmdvmhost_conf[section][option] = value
 				ini_save(MMDVMHOST_CONFFILE, mmdvmhost_conf)

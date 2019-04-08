@@ -18,12 +18,12 @@ function index()
 	entry({"mmdvm"}, firstchild(), _("MMDVM"), 1).dependent = false
 	entry({"mmdvm", "dashboard"}, call("action_dashboard"), _("Dashboard"), 10).leaf = true
 	entry({"mmdvm", "log"}, firstchild(), _("Live Log"), 20)
-	entry({"mmdvm", "log", "mmdvmhost"}, call("action_livelog", {title="MMDVMHost", log="host"}), "MMDVMHost", 21).leaf = true
-	entry({"mmdvm", "log", "p25"}, call("action_livelog", {title="P25Gateway", log="p25"}), "P25Gateway", 22).leaf = true
-	entry({"mmdvm", "log", "ysf"}, call("action_livelog", {title="YSFGateway", log="ysf"}), "YSFGateway", 23).leaf = true
-	entry({"mmdvm", "log", "nxdn"}, call("action_livelog", {title="NXDNGateway", log="nxdn"}), "NXDNGateway", 24).leaf = true
+	entry({"mmdvm", "log", "mmdvmhost"}, call("action_livelog", {title="MMDVMHost", log="host"}), _("MMDVMHost"), 21).leaf = true
+	entry({"mmdvm", "log", "p25"}, call("action_livelog", {title="P25Gateway", log="p25"}), _("P25 GW"), 22).leaf = true
+	entry({"mmdvm", "log", "ysf"}, call("action_livelog", {title="YSFGateway", log="ysf"}), _("YSF GW"), 23).leaf = true
+	entry({"mmdvm", "log", "nxdn"}, call("action_livelog", {title="NXDNGateway", log="nxdn"}), _("NXDN GW"), 24).leaf = true
 	if nixio.fs.access("/etc/init.d/dapnetgateway") then
-		entry({"mmdvm", "log", "dapnet"}, call("action_livelog", {title="DAPNETGateway", log="dapnet"}), "DAPNETGateway", 25).leaf = true
+		entry({"mmdvm", "log", "dapnet"}, call("action_livelog", {title="DAPNETGateway", log="dapnet"}), _("DAPNET GW"), 25).leaf = true
 	end
 	entry({"mmdvm", "config"}, alias("admin", "mmdvm", "config"), _("Configuration"), 30).index = true
 

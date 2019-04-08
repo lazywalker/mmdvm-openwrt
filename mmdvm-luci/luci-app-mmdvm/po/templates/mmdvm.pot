@@ -4,6 +4,9 @@ msgstr "Content-Type: text/plain; charset=UTF-8"
 msgid "Advanced"
 msgstr ""
 
+msgid "AuthKey"
+msgstr ""
+
 msgid "BER"
 msgstr ""
 
@@ -14,6 +17,9 @@ msgid "ColorCode"
 msgstr ""
 
 msgid "Configuration"
+msgstr ""
+
+msgid "DAPNET GW"
 msgstr ""
 
 msgid "DMR Server"
@@ -43,15 +49,6 @@ msgstr ""
 msgid "Dur"
 msgstr ""
 
-msgid "Edit MMDVM.ini"
-msgstr ""
-
-msgid "Edit P25Gateway.ini"
-msgstr ""
-
-msgid "Edit YSFGateway.ini"
-msgstr ""
-
 msgid "Enable DMR Mode"
 msgstr ""
 
@@ -61,7 +58,13 @@ msgstr ""
 msgid "Enable P25 Mode"
 msgstr ""
 
+msgid "Enable POCSAG Mode"
+msgstr ""
+
 msgid "Enable YSF Mode"
+msgstr ""
+
+msgid "Frequency"
 msgstr ""
 
 msgid "Gateway Activity"
@@ -117,6 +120,9 @@ msgstr ""
 msgid "MMDVM"
 msgstr ""
 
+msgid "MMDVMHost"
+msgstr ""
+
 msgid "Minutes to disconect when idle"
 msgstr ""
 
@@ -127,6 +133,9 @@ msgid "Modem Settings"
 msgstr ""
 
 msgid "NAC"
+msgstr ""
+
+msgid "NXDN GW"
 msgstr ""
 
 msgid "NXDN Settings"
@@ -153,7 +162,16 @@ msgstr ""
 msgid "OverrideUIDCheck"
 msgstr ""
 
+msgid "P25 GW"
+msgstr ""
+
 msgid "P25 Settings"
+msgstr ""
+
+msgid "POCSAG"
+msgstr ""
+
+msgid "POCSAG Settings"
 msgstr ""
 
 msgid "Personal hotspots typically use color code 1"
@@ -189,6 +207,9 @@ msgstr ""
 msgid "SelfOnly"
 msgstr ""
 
+msgid "Server"
+msgstr ""
+
 msgid "Simplex"
 msgstr ""
 
@@ -216,7 +237,13 @@ msgstr ""
 msgid "The port of Modem"
 msgstr ""
 
+msgid "This form allows you to modify the .ini file of the DAPNETGateway (%s)."
+msgstr ""
+
 msgid "This form allows you to modify the .ini file of the MMDVMHost (%s)."
+msgstr ""
+
+msgid "This form allows you to modify the .ini file of the NXDNGateway (%s)."
 msgstr ""
 
 msgid "This form allows you to modify the .ini file of the P25Gateway (%s)."
@@ -244,6 +271,9 @@ msgstr ""
 msgid ""
 "Which enables \"Talker Alias\" information to be received by radios that "
 "support this feature"
+msgstr ""
+
+msgid "YSF GW"
 msgstr ""
 
 msgid "YSF Settings"

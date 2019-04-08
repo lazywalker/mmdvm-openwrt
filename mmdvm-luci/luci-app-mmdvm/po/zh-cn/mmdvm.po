@@ -3,14 +3,17 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 17/03/2019\n"
+"PO-Revision-Date: 2019-04-08\n"
 "Last-Translator: BD7MQB <bd7mqb@qq.com>\n"
 "Language-Team: \n"
-"MIME-Version: 1.0.4\n"
+"MIME-Version: 1.0.8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 msgid "Advanced"
 msgstr "高级模式"
+
+msgid "AuthKey"
+msgstr "密钥"
 
 msgid "BER"
 msgstr "误码"
@@ -75,8 +78,14 @@ msgstr "启用NXDN模式"
 msgid "Enable P25 Mode"
 msgstr "启用P25模式"
 
+msgid "Enable POCSAG Mode"
+msgstr "启用POCSAG模式"
+
 msgid "Enable YSF Mode"
 msgstr "启用YSF模式"
+
+msgid "Frequency"
+msgstr "频率"
 
 msgid "Gateway Activity"
 msgstr "通联记录"
@@ -218,6 +227,9 @@ msgstr "来自射频信号的两种数字模式切换所需等待的秒数"
 
 msgid "SelfOnly"
 msgstr "私有"
+
+msgid "Server"
+msgstr "服务器"
 
 msgid "Simplex"
 msgstr "单工"
