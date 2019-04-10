@@ -54,9 +54,11 @@ endef
 
 define Package/${PKG_NAME}/postinst
 #!/bin/sh
-uci set mmdvm.System_Fusion=mmdvmhost && uci set mmdvm.System_Fusion.Enable=1 && uci commit mmdvm
-[ -f /etc/init.d/ysfgateway ] && /etc/init.d/ysfgateway enable
-[ -f /etc/init.d/ysfparrot ] && /etc/init.d/ysfparrot enable
+[ -z `uci -q get mmdvm.System_Fusion.Enable` ] && {
+	uci set mmdvm.System_Fusion=mmdvmhost
+	uci set mmdvm.System_Fusion.Enable=1
+	uci commit mmdvm
+}
 exit 0
 endef
 

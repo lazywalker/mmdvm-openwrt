@@ -1,0 +1,9 @@
+#!/bin/sh
+
+ENABLE=$(uci -q get mmdvm.NXDN.Enable)
+if [ "$ENABLE" != "1" ]; then
+    /etc/init.d/nxdngateway stop && /etc/init.d/nxdngateway disable
+    /etc/init.d/nxdnparrot stop && /etc/init.d/nxdnparrot disable
+fi
+
+exit 0

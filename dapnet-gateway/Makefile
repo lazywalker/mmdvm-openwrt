@@ -49,9 +49,11 @@ endef
 
 define Package/${PKG_NAME}/postinst
 #!/bin/sh
-if [ -e /etc/openwrt_release ]; then
-	uci set mmdvm.POCSAG=mmdvmhost && uci set mmdvm.POCSAG.Enable=1 && uci commit mmdvm
-fi
+[ -z `uci -q get mmdvm.POCSAG.Enable` ] && {
+	uci set mmdvm.POCSAG=mmdvmhost
+	uci set mmdvm.POCSAG.Enable=0
+	uci commit mmdvm
+}
 exit 0
 endef
 

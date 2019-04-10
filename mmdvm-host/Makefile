@@ -58,9 +58,11 @@ endef
 
 define Package/${PKG_NAME}/postinst
 #!/bin/sh
-if [ -e /etc/openwrt_release ]; then
-	[ -f /etc/init.d/mmdvmhost ] && /etc/init.d/mmdvmhost enable || :
-fi
+[ -z `uci -q get mmdvm.DMR.Enable` ] && {
+	uci set mmdvm.DMR=mmdvmhost
+	uci set mmdvm.DMR.Enable=0
+	uci commit mmdvm
+}
 exit 0
 endef
 

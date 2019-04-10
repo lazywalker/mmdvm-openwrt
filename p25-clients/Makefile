@@ -55,10 +55,11 @@ endef
 
 define Package/${PKG_NAME}/postinst
 #!/bin/sh
-uci set mmdvm.P25=mmdvmhost && uci set mmdvm.P25.Enable=1 && uci commit mmdvm
-[ -f /etc/init.d/p25gateway ] && /etc/init.d/p25gateway enable
-[ -f /etc/init.d/p25parrot ] && /etc/init.d/p25parrot enable
-
+[ -z `uci -q get mmdvm.P25.Enable` ] && {
+	uci set mmdvm.P25=mmdvmhost
+	uci set mmdvm.P25.Enable=0
+	uci commit mmdvm
+}
 exit 0
 endef
 
