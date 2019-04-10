@@ -15,6 +15,7 @@ local assert = assert
 local pairs = pairs
 local ipairs = ipairs
 local tostring = tostring
+local uci   = require("luci.model.uci").cursor()
 
 module "luci.model.mmdvm"
 
@@ -25,6 +26,10 @@ NXDNGATEWAY_CONFFILE = "/etc/NXDNGateway.ini"
 DAPNETGATEWAY_CONFFILE = "/etc/DAPNETGateway.ini"
 UCI_CONFFILE = "/etc/config/mmdvm"
 
+function pocsag_enabled()
+	return uci:get('mmdvm', 'POCSAG', 'Enable') == '1'
+		and fs.access("/etc/init.d/dapnetgateway")
+end
 
 --- Returns a table containing all the data from the INI file.
 --@param fileName The name of the INI file to parse. [string]
@@ -383,6 +388,29 @@ function get_mmdvm_log()
 	return lines
 end
 
+function get_dapnet_log()
+	local logtxt = ""
+	local lines = {}
+	local logfile = "/var/log/mmdvm/DAPNETGateway-%s.log" % {os.date("%Y-%m-%d")}
+	
+	if file_exists(logfile) then
+		logtxt = util.trim(util.exec("tail -n250 %s | egrep -h \"Sending message\"" % {logfile}))
+		lines = logtxt:split("\n")
+	end
+
+	if #lines < 20 then
+		logfile = "/var/log/mmdvm/DAPNETGateway-%s.log" % {os.date("%Y-%m-%d", os.time()-24*60*60)}
+		if file_exists(logfile) then
+			logtxt = logtxt .. "\n" .. util.trim(util.exec("tail -n250 %s | egrep -h \"Sending message\"" % {logfile}))
+			lines = logtxt:split("\n")
+		end
+	end
+
+	table.sort(lines, function(a,b) return a>b end)
+
+	return lines
+end
+
 local function get_hearlist(loglines)
 	local headlist = {}
 	local duration, loss, ber, rssi
@@ -567,4 +595,34 @@ function get_lastheard()
 	end
 
 	return lh
+end
+
+function get_last_pocsag()
+	local logs = {}
+	local loglines = get_dapnet_log()
+
+	for _, logline in ipairs(loglines) do
+		local linetokens = logline:split(", ")
+		local count_tokens = (linetokens and #linetokens) or 0
+		local timestamp, timeslot, ric, msg
+		
+		timestamp = logline:sub(4, 22)
+
+		if count_tokens == 3 then
+			local t1 = linetokens[1]:split(" ")
+			timeslot = t1[8]
+			ric = t1[10]
+			local t2 = linetokens[3]:split('"')
+			msg = t2[2]
+		end
+
+		table.insert(logs, {
+			timestamp = timestamp,
+			timeslot = timeslot,
+			target = ric,
+			message = msg
+		})
+	end
+
+	return logs
 end

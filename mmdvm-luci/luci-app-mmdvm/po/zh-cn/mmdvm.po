@@ -27,6 +27,9 @@ msgstr "色码"
 msgid "Configuration"
 msgstr "配置"
 
+msgid "DAPNET Gateway Activity"
+msgstr "寻呼消息"
+
 msgid "DMR Server"
 msgstr "DMR服务器"
 
@@ -140,8 +143,8 @@ msgstr "丢失"
 msgid "MMDVM"
 msgstr ""
 
-msgid "MMDVM Configuration"
-msgstr "MMDVM 配置"
+msgid "Message"
+msgstr "消息"
 
 msgid "Minutes to disconect when idle"
 msgstr "空闲超时时间（分钟）"
@@ -270,6 +273,9 @@ msgstr "如果启用DMR模式，下面这些信息将会显示在brandmeister.ne
 
 msgid "Time"
 msgstr "时间"
+
+msgid "Timeslot"
+msgstr "时隙"
 
 msgid "URL"
 msgstr ""

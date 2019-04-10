@@ -22,6 +22,9 @@ msgstr ""
 msgid "DAPNET GW"
 msgstr ""
 
+msgid "DAPNET Gateway Activity"
+msgstr ""
+
 msgid "DMR Server"
 msgstr ""
 
@@ -121,6 +124,9 @@ msgid "MMDVM"
 msgstr ""
 
 msgid "MMDVMHost"
+msgstr ""
+
+msgid "Message"
 msgstr ""
 
 msgid "Minutes to disconect when idle"
@@ -257,6 +263,9 @@ msgid ""
 msgstr ""
 
 msgid "Time"
+msgstr ""
+
+msgid "Timeslot"
 msgstr ""
 
 msgid "URL"
