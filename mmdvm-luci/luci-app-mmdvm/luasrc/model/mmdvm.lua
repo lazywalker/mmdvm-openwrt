@@ -192,13 +192,6 @@ end
 --- Uci to ini synchornize
 --@param changes as [["set","Info","Latitude","22.1"],["set","Info","Longitude","114.3"],["set","Modem","RXOffset","100"],["set","Info","Latitude","22.10"],["set","Info","Longitude","114.30"],["set","P25G_Network","InactivityTimeout","15"]]
 function uci2ini(changes)
-	local mmdvmhost_conf = ini_load(MMDVMHOST_CONFFILE)
-	local ysfgateway_conf = ini_load(YSFGATEWAY_CONFFILE)
-	local p25gateway_conf = ini_load(P25GATEWAY_CONFFILE)
-	local nxdngateway_conf = ini_load(NXDNGATEWAY_CONFFILE)
-	if file_exists(DAPNETGATEWAY_CONFFILE) and file_exists("/etc/init.d/dapnetgateway") then
-		local dapnetgateway_conf = ini_load(DAPNETGATEWAY_CONFFILE)
-	end
 	local mmdvmhost_changed = false
 
 	for _, change in ipairs(changes) do
@@ -208,23 +201,32 @@ function uci2ini(changes)
 		local value = change[4]
 
 		if action == "set" then
-			if section == "YSFG Network" then
-				ysfgateway_conf["Network"][option] = value
+			if section:find("YSFG ") then
+				local s = section:sub(6)
+				local ysfgateway_conf = ini_load(YSFGATEWAY_CONFFILE)
+				ysfgateway_conf[s][option] = value
 				ini_save(YSFGATEWAY_CONFFILE, ysfgateway_conf)
 				log("YSFGateway.ini update - " .. json.stringify(change))
-			elseif section == "P25G Network" then
-				p25gateway_conf["Network"][option] = value
+			elseif section:find("P25G ") then
+				local s = section:sub(6)
+				local p25gateway_conf = ini_load(P25GATEWAY_CONFFILE)
+				p25gateway_conf[s][option] = value
 				ini_save(P25GATEWAY_CONFFILE, p25gateway_conf)
 				log("P25Gateway.ini update - " .. json.stringify(change))
-			elseif section == "NXDNG Network" then
-				nxdngateway_conf["Network"][option] = value
+			elseif section:find("NXDNG ") then
+				local s = section:sub(7)
+				local nxdngateway_conf = ini_load(NXDNGATEWAY_CONFFILE)
+				nxdngateway_conf[s][option] = value
 				ini_save(NXDNGATEWAY_CONFFILE, nxdngateway_conf)
 				log("NXDNGateway.ini update - " .. json.stringify(change))
-			elseif section == "DAPNET DAPNET" and dapnetgateway_conf then
-				dapnetgateway_conf["DAPNET"][option] = value
+			elseif section:find("DAPNET ") and file_exists(DAPNETGATEWAY_CONFFILE) and file_exists("/etc/init.d/dapnetgateway") then
+				local s = section:sub(8)
+				local dapnetgateway_conf = ini_load(DAPNETGATEWAY_CONFFILE)
+				dapnetgateway_conf[s][option] = value
 				ini_save(DAPNETGATEWAY_CONFFILE, dapnetgateway_conf)
 				log("DAPNETGateway.ini update - " .. json.stringify(change))
 			else
+				local mmdvmhost_conf = ini_load(MMDVMHOST_CONFFILE)
 				mmdvmhost_conf[section][option] = value
 				ini_save(MMDVMHOST_CONFFILE, mmdvmhost_conf)
 				log("MMDVM.ini update - " .. json.stringify(change))

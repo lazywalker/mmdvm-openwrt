@@ -84,6 +84,9 @@ function o.write(self, section, value)
     end
     AbstractValue.write(self, section, value)
     self.map.uci:set("mmdvm", "System_Fusion_Network", "Enable", value)
+    -- sync ysf callsign with mmdvmhost's
+    self.map.uci:set("mmdvm", "YSFG_General", "ysfgateway")
+    self.map.uci:set("mmdvm", "YSFG_General", "Callsign", self.map.uci:get("mmdvm", "General", "Callsign"))
 end
 
 o = s:option(Flag, "SelfOnly", translate("SelfOnly"), translate("Only the callsign you entered above shall pass in YSF mode"))
@@ -128,6 +131,9 @@ function o.write(self, section, value)
     end
     AbstractValue.write(self, section, value)
     self.map.uci:set("mmdvm", "P25_Network", "Enable", value)
+    -- sync callsign with mmdvmhost's
+    self.map.uci:set("mmdvm", "P25G_General", "p25gateway")
+    self.map.uci:set("mmdvm", "P25G_General", "Callsign", self.map.uci:get("mmdvm", "General", "Callsign"))
 end
 
 o = s:option(Value, "NAC", translate("NAC"), translate("Network Access Control"))
@@ -179,6 +185,9 @@ function o.write(self, section, value)
     end
     AbstractValue.write(self, section, value)
     self.map.uci:set("mmdvm", "NXDN_Network", "Enable", value)
+    -- sync callsign with mmdvmhost's
+    self.map.uci:set("mmdvm", "NXDNG_General", "nxdngateway")
+    self.map.uci:set("mmdvm", "NXDNG_General", "Callsign", self.map.uci:get("mmdvm", "General", "Callsign"))
 end
 
 s = m:section(NamedSection, "NXDNG_Network", "nxdngateway")
