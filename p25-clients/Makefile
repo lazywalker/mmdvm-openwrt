@@ -53,14 +53,15 @@ define Package/${PKG_NAME}/conffiles
 /etc/P25Gateway.ini
 endef
 
-define Package/${PKG_NAME}/postinst
-#!/bin/sh
-[ -z `uci -q get mmdvm.P25.Enable` ] && {
-	uci set mmdvm.P25=mmdvmhost
-	uci set mmdvm.P25.Enable=0
-	uci commit mmdvm
-}
-exit 0
-endef
+# define Package/${PKG_NAME}/postinst
+# #!/bin/sh
+# [ ! -f /etc/config/mmdvm ] && touch /etc/config/mmdvm
+# [ -z `uci -q get mmdvm.P25.Enable` ] && {
+# 	uci set mmdvm.P25=mmdvmhost
+# 	uci set mmdvm.P25.Enable=0
+# 	uci commit mmdvm
+# }
+# exit 0
+# endef
 
 $(eval $(call BuildPackage,${PKG_NAME}))

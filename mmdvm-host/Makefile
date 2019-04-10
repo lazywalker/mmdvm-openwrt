@@ -56,14 +56,15 @@ define Package/${PKG_NAME}/conffiles
 /etc/MMDVM.ini
 endef
 
-define Package/${PKG_NAME}/postinst
-#!/bin/sh
-[ -z `uci -q get mmdvm.DMR.Enable` ] && {
-	uci set mmdvm.DMR=mmdvmhost
-	uci set mmdvm.DMR.Enable=0
-	uci commit mmdvm
-}
-exit 0
-endef
+# define Package/${PKG_NAME}/postinst
+# #!/bin/sh
+# [ ! -f /etc/config/mmdvm ] && touch /etc/config/mmdvm
+# [ -z `uci -q get mmdvm.DMR.Enable` ] && {
+# 	uci set mmdvm.DMR=mmdvmhost
+# 	uci set mmdvm.DMR.Enable=0
+# 	uci commit mmdvm
+# }
+# exit 0
+# endef
 
 $(eval $(call BuildPackage,${PKG_NAME}))

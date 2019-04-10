@@ -47,14 +47,15 @@ define Package/${PKG_NAME}/conffiles
 /etc/DAPNETGateway.ini
 endef
 
-define Package/${PKG_NAME}/postinst
-#!/bin/sh
-[ -z `uci -q get mmdvm.POCSAG.Enable` ] && {
-	uci set mmdvm.POCSAG=mmdvmhost
-	uci set mmdvm.POCSAG.Enable=0
-	uci commit mmdvm
-}
-exit 0
-endef
+# define Package/${PKG_NAME}/postinst
+# #!/bin/sh
+# [ ! -f /etc/config/mmdvm ] && touch /etc/config/mmdvm
+# [ -z `uci -q get mmdvm.POCSAG.Enable` ] && {
+# 	uci set mmdvm.POCSAG=mmdvmhost
+# 	uci set mmdvm.POCSAG.Enable=0
+# 	uci commit mmdvm
+# }
+# exit 0
+# endef
 
 $(eval $(call BuildPackage,${PKG_NAME}))
