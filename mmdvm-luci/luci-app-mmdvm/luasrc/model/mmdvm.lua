@@ -604,6 +604,7 @@ function get_last_pocsag()
 	for _, logline in ipairs(loglines) do
 		local linetokens = logline:split(", ")
 		local count_tokens = (linetokens and #linetokens) or 0
+		if count_tokens < 3 then break end
 		local timestamp, timeslot, ric, msg
 		
 		timestamp = logline:sub(4, 22)
