@@ -4,6 +4,7 @@
 local util  = require "luci.util"
 local fs = require "nixio.fs"
 local json = require "luci.jsonc"
+local ini = require "luci.ini"
 local os = os
 local io = io
 local table = table
@@ -15,6 +16,8 @@ local assert = assert
 local pairs = pairs
 local ipairs = ipairs
 local tostring = tostring
+local getmetatable = getmetatable
+
 local uci   = require("luci.model.uci").cursor()
 
 module "luci.model.mmdvm"
@@ -36,34 +39,7 @@ end
 --@return The table containing all data from the INI file. [table]
 function ini_load(fileName)
 	assert(type(fileName) == 'string', 'Parameter "fileName" must be a string.')
-	local file = assert(io.open(fileName, 'r'), 'Error loading file : ' .. fileName)
-	local data = {}
-	local section
-	for line in file:lines() do
-		local tempSection = line:match('^%[([^%[%]]+)%]$')
-		if(tempSection)then
-			section = tonumber(tempSection) and tonumber(tempSection) or tempSection
-			data[section] = data[section] or {}
-		end
-		local param, value = line:match('^([%w|_]+)%s-=%s-(.+)$')
-		if(param and value ~= nil)then
-			if(tonumber(value))then
-				value = tonumber(value)
-			elseif(value == 'true')then
-				value = true
-			elseif(value == 'false')then
-				value = false
-			end
-			if(tonumber(param))then
-				param = tonumber(param)
-			end
-			data[section][param] = value
-		end
-	end
-	file:close()
-	-- Last Last modification timestamp
-	data[".mtime"] = fs.stat(fileName, "mtime")
-	return data
+	return ini.parse(fileName)
 end
 
 --- Saves all the data from a table to an INI file.
@@ -72,19 +48,7 @@ end
 function ini_save(fileName, data)
 	assert(type(fileName) == 'string', 'Parameter "fileName" must be a string.')
 	assert(type(data) == 'table', 'Parameter "data" must be a table.')
-	local file = assert(io.open(fileName, 'w+b'), 'Error loading file :' .. fileName)
-	local contents = ''
-	for section, param in pairs(data) do
-		if section ~= ".mtime" then
-			contents = contents .. ('[%s]\n'):format(section)
-			for key, value in pairs(param) do
-				contents = contents .. ('%s=%s\n'):format(key, tostring(value))
-			end
-			contents = contents .. '\n'
-		end
-	end
-	file:write(contents)
-	file:close()
+	ini.save(fileName, data)
 end
 
 --- Ini to uci synchornize
@@ -116,11 +80,17 @@ function ini2uci(muci)
 	-- initialize /etc/config/mmdvm
 	-- mmdvmhost
 	local uci_mtime = fs.stat(UCI_CONFFILE, "mtime")
+
+	local mmdvmhost_conf_mtime = getmetatable(mmdvmhost_conf).__inifile.mtime
+	local ysfgateway_conf_mtime = getmetatable(ysfgateway_conf).__inifile.mtime
+	local p25gateway_conf_mtime = getmetatable(p25gateway_conf).__inifile.mtime
+	local nxdngateway_conf_mtime = getmetatable(nxdngateway_conf).__inifile.mtime
+
 	for section, options in pairs(mmdvmhost_conf_setions_needed) do
 		local sename = section:gsub("_", " ")
 		if mmdvmhost_conf[sename] then
 			for _, option in ipairs(options) do
-				if not muci:get("mmdvm", section, option) or mmdvmhost_conf[".mtime"] > uci_mtime then
+				if not muci:get("mmdvm", section, option) or mmdvmhost_conf_mtime > uci_mtime then
 					local o = {[option] = mmdvmhost_conf[sename][option]}
 					muci:section("mmdvm", "mmdvmhost", section, o)
 					log(("init %s/mmdvmhost/%s/%s"):format(UCI_CONFFILE, section, json.stringify(o)))
@@ -135,7 +105,7 @@ function ini2uci(muci)
 	local section = "YSFG_Network"
 	local options = {"Startup", "InactivityTimeout", "Revert"}
 	for _, option in ipairs(options) do
-		if not muci:get("mmdvm", section, option) or ysfgateway_conf[".mtime"] > uci_mtime then
+		if not muci:get("mmdvm", section, option) or ysfgateway_conf_mtime > uci_mtime then
 			local o = {[option] = ysfgateway_conf[sename][option]}
 			muci:section("mmdvm", "ysfgateway", section, o)
 			log(("init %s/ysfgateway/%s/%s"):format(UCI_CONFFILE, section, json.stringify(o)))
@@ -148,7 +118,7 @@ function ini2uci(muci)
 	local section = "P25G_Network"
 	local options = {"Startup", "InactivityTimeout", "Revert"}
 	for _, option in ipairs(options) do
-		if not muci:get("mmdvm", section, option) or p25gateway_conf[".mtime"] > uci_mtime then
+		if not muci:get("mmdvm", section, option) or p25gateway_conf_mtime > uci_mtime then
 			local o = {[option] = p25gateway_conf[sename][option]}
 			muci:section("mmdvm", "p25gateway", section, o)
 			log(("init %s/p25gateway/%s/%s"):format(UCI_CONFFILE, section, json.stringify(o)))
@@ -161,7 +131,7 @@ function ini2uci(muci)
 	local section = "NXDNG_Network"
 	local options = {"Startup", "InactivityTimeout", "Revert"}
 	for _, option in ipairs(options) do
-		if not muci:get("mmdvm", section, option) or nxdngateway_conf[".mtime"] > uci_mtime then
+		if not muci:get("mmdvm", section, option) or nxdngateway_conf_mtime > uci_mtime then
 			local o = {[option] = nxdngateway_conf[sename][option]}
 			muci:section("mmdvm", "nxdngateway", section, o)
 			log(("init %s/nxdngateway/%s/%s"):format(UCI_CONFFILE, section, json.stringify(o)))
@@ -172,13 +142,14 @@ function ini2uci(muci)
 	-- dapnetgateway
 	if file_exists(DAPNETGATEWAY_CONFFILE) and file_exists("/etc/init.d/dapnetgateway") then
 		local dapnetgateway_conf = ini_load(DAPNETGATEWAY_CONFFILE)
+		local dapnetgateway_conf_mtime = getmetatable(dapnetgateway_conf).__inifile.mtime
 		local sections = {
 			DAPNET_General = {section="General", options={"Callsign"}},
 			DAPNET_DAPNET = {section="DAPNET", options={"Address", "AuthKey"}},
 		}
 		for k, v in pairs(sections) do
 			for _, option in ipairs(v.options) do
-				if not muci:get("mmdvm", k, option) or dapnetgateway_conf[".mtime"] > uci_mtime then
+				if not muci:get("mmdvm", k, option) or dapnetgateway_conf_mtime > uci_mtime then
 					local o = {[option] = dapnetgateway_conf[v.section][option]}
 					muci:section("mmdvm", "dapnetgateway", k, o)
 					log(("init %s/dapnetgateway/%s/%s"):format(UCI_CONFFILE, k, json.stringify(o)))
