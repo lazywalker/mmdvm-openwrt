@@ -180,33 +180,42 @@ function uci2ini(changes)
 			if section:find("YSFG ") then
 				local s = section:sub(6)
 				local ysfgateway_conf = ini_load(YSFGATEWAY_CONFFILE)
-				ysfgateway_conf[s][option] = value
-				ini_save(YSFGATEWAY_CONFFILE, ysfgateway_conf)
-				log("YSFGateway.ini update - " .. json.stringify(change))
+				if ysfgateway_conf[s][option] then
+					ysfgateway_conf[s][option] = value
+					ini_save(YSFGATEWAY_CONFFILE, ysfgateway_conf)
+					log("YSFGateway.ini update - " .. json.stringify(change))
+				end
 			elseif section:find("P25G ") then
 				local s = section:sub(6)
 				local p25gateway_conf = ini_load(P25GATEWAY_CONFFILE)
-				p25gateway_conf[s][option] = value
-				ini_save(P25GATEWAY_CONFFILE, p25gateway_conf)
-				log("P25Gateway.ini update - " .. json.stringify(change))
+				if p25gateway_conf[s][option] then
+					p25gateway_conf[s][option] = value
+					ini_save(P25GATEWAY_CONFFILE, p25gateway_conf)
+					log("P25Gateway.ini update - " .. json.stringify(change))
+				end
 			elseif section:find("NXDNG ") then
 				local s = section:sub(7)
 				local nxdngateway_conf = ini_load(NXDNGATEWAY_CONFFILE)
-				nxdngateway_conf[s][option] = value
-				ini_save(NXDNGATEWAY_CONFFILE, nxdngateway_conf)
-				log("NXDNGateway.ini update - " .. json.stringify(change))
+				if nxdngateway_conf[s][option] then
+					nxdngateway_conf[s][option] = value
+					ini_save(NXDNGATEWAY_CONFFILE, nxdngateway_conf)
+					log("NXDNGateway.ini update - " .. json.stringify(change))
+				end
 			elseif section:find("DAPNET ") and file_exists(DAPNETGATEWAY_CONFFILE) and file_exists("/etc/init.d/dapnetgateway") then
 				local s = section:sub(8)
 				local dapnetgateway_conf = ini_load(DAPNETGATEWAY_CONFFILE)
-				dapnetgateway_conf[s][option] = value
-				ini_save(DAPNETGATEWAY_CONFFILE, dapnetgateway_conf)
-				log("DAPNETGateway.ini update - " .. json.stringify(change))
+				if dapnetgateway_conf[s][option] then
+					dapnetgateway_conf[s][option] = value
+					ini_save(DAPNETGATEWAY_CONFFILE, dapnetgateway_conf)
+					log("DAPNETGateway.ini update - " .. json.stringify(change))
+				end
 			else
 				local mmdvmhost_conf = ini_load(MMDVMHOST_CONFFILE)
-				mmdvmhost_conf[section][option] = value
-				ini_save(MMDVMHOST_CONFFILE, mmdvmhost_conf)
-				log("MMDVM.ini update - " .. json.stringify(change))
-
+				if mmdvmhost_conf[section][option] then
+					mmdvmhost_conf[section][option] = value
+					ini_save(MMDVMHOST_CONFFILE, mmdvmhost_conf)
+					log("MMDVM.ini update - " .. json.stringify(change))
+				end
 				mmdvmhost_changed = true
 			end
 		end
