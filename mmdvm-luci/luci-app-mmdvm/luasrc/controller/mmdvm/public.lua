@@ -24,12 +24,12 @@ function index()
 	entry({"mmdvm", "log", "nxdn"}, call("action_livelog", {title="NXDNGateway", log="nxdn"}), _("NXDN GW"), 24).leaf = true
 	if nixio.fs.access("/etc/init.d/dapnetgateway") then
 		entry({"mmdvm", "log", "dapnet"}, call("action_livelog", {title="DAPNETGateway", log="dapnet"}), _("DAPNET GW"), 25).leaf = true
+		entry({"mmdvm", "lastpocsag"}, call("action_last_pocsag"), nil).leaf = true
 	end
 	entry({"mmdvm", "config"}, alias("admin", "mmdvm", "config"), _("Configuration"), 30).index = true
 
 	entry({"mmdvm", "logread"}, call("action_logread"), nil).leaf = true
 	entry({"mmdvm", "lastheard"}, call("action_lastheard"), nil).leaf = true
-	entry({"mmdvm", "lastpocsag"}, call("action_last_pocsag"), nil).leaf = true
 	entry({"mmdvm", "livecall"}, call("action_livecall"))
 	entry({"mmdvm", "lc"}, call("action_lc"))
 

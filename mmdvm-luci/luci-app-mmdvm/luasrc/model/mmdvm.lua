@@ -386,6 +386,85 @@ function get_dapnet_log()
 		end
 	end
 
+	local logtxt = [==[D: 2019-04-14 20:50:01.099 Queueing message to 0000000, type 6, func Alphanumeric: "bd7mqb"
+D: 2019-04-14 20:50:01.099 Messages in Queue 0009
+D: 2019-04-14 20:50:08.007 Rejecting message to 0002504, type 5, func Numeric: "124800   140419"
+D: 2019-04-14 20:50:08.018 Rejecting message to 0000200, type 6, func Alphanumeric: "XTIME=1248140419XTIME=1248140419"
+M: 2019-04-14 20:50:08.029 Sending message in slot 4 to 0000216, type 6, func Alphanumeric: "YYYYMMDDHHMMSS190414124800"
+D: 2019-04-14 20:50:08.040 Rejecting message to 0000208, type 6, func Alphanumeric: "XTIME=1449140419XTIME=1449140419"
+M: 2019-04-14 20:50:08.051 Sending message in slot 4 to 0000224, type 6, func Alphanumeric: "YYYYMMDDHHMMSS190414144900"
+M: 2019-04-14 20:50:08.062 Sending message in slot 4 to 0002504, type 5, func Numeric: "125000   140419"
+M: 2019-04-14 20:50:08.073 Sending message in slot 4 to 0000200, type 6, func Alphanumeric: "XTIME=1250140419XTIME=1250140419"
+M: 2019-04-14 20:50:08.084 Sending message in slot 4 to 0000216, type 6, func Alphanumeric: "YYYYMMDDHHMMSS190414125000"
+M: 2019-04-14 20:50:08.095 Sending message in slot 4 to 0000000, type 6, func Alphanumeric: "bd7mqb"
+D: 2019-04-14 20:50:33.725 Queueing message to 0101211, type 6, func Alphanumeric: "DL1HQN: Dies ist ein Test, sch|n das du wieder online bist hu hu :)"
+D: 2019-04-14 20:50:33.725 Messages in Queue 0001
+M: 2019-04-14 20:50:33.726 Sending message in slot 8 to 0101211, type 6, func Alphanumeric: "DL1HQN: Dies ist ein Test, sch|n das du wieder online bist hu hu :)"
+D: 2019-04-14 20:50:34.031 Queueing message to 2020008, type 6, func Alphanumeric: "DL1HQN: Dies ist ein Test, sch|n das du wieder online bist hu hu :)"
+D: 2019-04-14 20:50:34.031 Messages in Queue 0001
+M: 2019-04-14 20:50:34.032 Sending message in slot 8 to 2020008, type 6, func Alphanumeric: "DL1HQN: Dies ist ein Test, sch|n das du wieder online bist hu hu :)"
+D: 2019-04-14 20:50:34.336 Queueing message to 0103091, type 6, func Alphanumeric: "DL1HQN: Dies ist ein Test, sch|n das du wieder online bist hu hu :)"
+D: 2019-04-14 20:50:34.337 Messages in Queue 0001
+M: 2019-04-14 20:50:34.337 Sending message in slot 8 to 0103091, type 6, func Alphanumeric: "DL1HQN: Dies ist ein Test, sch|n das du wieder online bist hu hu :)"
+D: 2019-04-14 20:51:00.186 Queueing message to 0000208, type 6, func Alphanumeric: "XTIME=1451140419XTIME=1451140419"
+D: 2019-04-14 20:51:00.186 Messages in Queue 0001
+M: 2019-04-14 20:51:00.187 Sending message in slot 12 to 0000208, type 6, func Alphanumeric: "XTIME=1451140419XTIME=1451140419"
+D: 2019-04-14 20:51:00.491 Queueing message to 0000224, type 6, func Alphanumeric: "YYYYMMDDHHMMSS190414145100"
+D: 2019-04-14 20:51:00.492 Messages in Queue 0001
+M: 2019-04-14 20:51:00.493 Sending message in slot 12 to 0000224, type 6, func Alphanumeric: "YYYYMMDDHHMMSS190414145100"
+D: 2019-04-14 20:52:00.181 Queueing message to 0002504, type 5, func Numeric: "125200   140419"
+D: 2019-04-14 20:52:00.181 Messages in Queue 0001
+D: 2019-04-14 20:52:01.000 Queueing message to 0000200, type 6, func Alphanumeric: "XTIME=1252140419XTIME=1252140419"
+D: 2019-04-14 20:52:01.001 Messages in Queue 0002
+D: 2019-04-14 20:52:02.859 Queueing message to 0000216, type 6, func Alphanumeric: "YYYYMMDDHHMMSS190414125200"
+D: 2019-04-14 20:52:02.860 Messages in Queue 0003
+D: 2019-04-14 20:52:16.001 Rejecting message to 0002504, type 5, func Numeric: "125200   140419"
+D: 2019-04-14 20:52:16.012 Rejecting message to 0000200, type 6, func Alphanumeric: "XTIME=1252140419XTIME=1252140419"
+M: 2019-04-14 20:52:16.023 Sending message in slot 8 to 0000216, type 6, func Alphanumeric: "YYYYMMDDHHMMSS190414125200"
+D: 2019-04-14 20:53:00.186 Queueing message to 0000208, type 6, func Alphanumeric: "XTIME=1453140419XTIME=1453140419"
+D: 2019-04-14 20:53:00.186 Messages in Queue 0001
+D: 2019-04-14 20:53:00.491 Queueing message to 0000224, type 6, func Alphanumeric: "YYYYMMDDHHMMSS190414145300"
+D: 2019-04-14 20:53:00.491 Messages in Queue 0002
+M: 2019-04-14 20:53:07.207 Sending message in slot 0 to 0000208, type 6, func Alphanumeric: "XTIME=1453140419XTIME=1453140419"
+M: 2019-04-14 20:53:07.218 Sending message in slot 0 to 0000224, type 6, func Alphanumeric: "YYYYMMDDHHMMSS190414145300"
+D: 2019-04-14 20:54:00.187 Queueing message to 0002504, type 5, func Numeric: "125400   140419"
+D: 2019-04-14 20:54:00.187 Messages in Queue 0001
+M: 2019-04-14 20:54:00.188 Sending message in slot 8 to 0002504, type 5, func Numeric: "125400   140419"
+D: 2019-04-14 20:54:00.492 Queueing message to 0000200, type 6, func Alphanumeric: "XTIME=1254140419XTIME=1254140419"
+D: 2019-04-14 20:54:00.493 Messages in Queue 0001
+M: 2019-04-14 20:54:00.493 Sending message in slot 8 to 0000200, type 6, func Alphanumeric: "XTIME=1254140419XTIME=1254140419"
+D: 2019-04-14 20:54:00.798 Queueing message to 0000216, type 6, func Alphanumeric: "YYYYMMDDHHMMSS190414125400"
+D: 2019-04-14 20:54:00.799 Messages in Queue 0001
+M: 2019-04-14 20:54:00.799 Sending message in slot 8 to 0000216, type 6, func Alphanumeric: "YYYYMMDDHHMMSS190414125400"
+D: 2019-04-14 20:55:00.710 Queueing message to 0000208, type 6, func Alphanumeric: "XTIME=1455140419XTIME=1455140419"
+D: 2019-04-14 20:55:00.711 Messages in Queue 0001
+D: 2019-04-14 20:55:01.552 Queueing message to 0000224, type 6, func Alphanumeric: "YYYYMMDDHHMMSS190414145500"
+D: 2019-04-14 20:55:01.553 Messages in Queue 0002
+D: 2019-04-14 20:55:16.189 Rejecting message to 0000208, type 6, func Alphanumeric: "XTIME=1455140419XTIME=1455140419"
+M: 2019-04-14 20:55:16.200 Sending message in slot 4 to 0000224, type 6, func Alphanumeric: "YYYYMMDDHHMMSS190414145500"
+D: 2019-04-14 20:56:00.181 Queueing message to 0002504, type 5, func Numeric: "125600   140419"
+D: 2019-04-14 20:56:00.182 Messages in Queue 0001
+D: 2019-04-14 20:56:00.487 Queueing message to 0000200, type 6, func Alphanumeric: "XTIME=1256140419XTIME=1256140419"
+D: 2019-04-14 20:56:00.488 Messages in Queue 0002
+D: 2019-04-14 20:56:00.792 Queueing message to 0000216, type 6, func Alphanumeric: "YYYYMMDDHHMMSS190414125600"
+D: 2019-04-14 20:56:00.793 Messages in Queue 0003
+M: 2019-04-14 20:56:06.400 Sending message in slot 12 to 0002504, type 5, func Numeric: "125600   140419"
+M: 2019-04-14 20:56:06.412 Sending message in slot 12 to 0000200, type 6, func Alphanumeric: "XTIME=1256140419XTIME=1256140419"
+M: 2019-04-14 20:56:06.423 Sending message in slot 12 to 0000216, type 6, func Alphanumeric: "YYYYMMDDHHMMSS190414125600"
+D: 2019-04-14 20:57:00.183 Queueing message to 0000208, type 6, func Alphanumeric: "XTIME=1457140419XTIME=1457140419"
+D: 2019-04-14 20:57:00.184 Messages in Queue 0001
+M: 2019-04-14 20:57:00.184 Sending message in slot 4 to 0000208, type 6, func Alphanumeric: "XTIME=1457140419XTIME=1457140419"
+D: 2019-04-14 20:57:00.489 Queueing message to 0000224, type 6, func Alphanumeric: "YYYYMMDDHHMMSS190414145700"
+D: 2019-04-14 20:57:00.490 Messages in Queue 0001
+M: 2019-04-14 20:57:00.490 Sending message in slot 4 to 0000224, type 6, func Alphanumeric: "YYYYMMDDHHMMSS190414145700"
+D: 2019-04-14 20:58:00.192 Queueing message to 0002504, type 5, func Numeric: "125800   140419"
+D: 2019-04-14 20:58:00.192 Messages in Queue 0001
+D: 2019-04-14 20:58:00.496 Queueing message to 0000200, type 6, func Alphanumeric: "XTIME=1258140419XTIME=1258140419"
+D: 2019-04-14 20:58:00.497 Messages in Queue 0002
+D: 2019-04-14 20:58:00.791 Queueing message to 0000216, type 6, func Alphanumeric: "YYYYMMDDHHMMSS190414125800"
+	]==]
+	lines = logtxt:split("\n")
+
 	table.sort(lines, function(a,b) return a>b end)
 
 	return lines
@@ -589,11 +668,11 @@ function get_last_pocsag()
 		
 		timestamp = logline:sub(4, 22)
 
-		if count_tokens == 3 then
+		if count_tokens >= 3 then
 			local t1 = linetokens[1]:split(" ")
 			timeslot = t1[8]
 			ric = t1[10]
-			local t2 = linetokens[3]:split('"')
+			local t2 = logline:split('"')
 			msg = t2[2]
 		end
 
@@ -603,6 +682,7 @@ function get_last_pocsag()
 			target = ric,
 			message = msg
 		})
+		if #logs > 20 then break end
 	end
 
 	return logs
