@@ -7,10 +7,10 @@
 	uci commit mmdvm
 }
 
-ENABLE=$(uci -q get mmdvm.NXDN.Enable)
+ENABLE=$(uci -q get mmdvm.P25.Enable)
 if [ "$ENABLE" != "1" ]; then
-    /etc/init.d/nxdngateway stop && /etc/init.d/nxdngateway disable
-    /etc/init.d/nxdnparrot stop && /etc/init.d/nxdnparrot disable
+    /etc/init.d/p25gateway stop && /etc/init.d/p25gateway disable
+    /etc/init.d/p25parrot stop && /etc/init.d/p25parrot disable
 fi
 
 exit 0
