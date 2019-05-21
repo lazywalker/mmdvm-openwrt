@@ -37,6 +37,8 @@ _command() {
     /etc/init.d/ysfparrot $1
     /etc/init.d/nxdngateway $1
     /etc/init.d/nxdnparrot $1
+    /etc/init.d/ircddbgateway $1
+    /etc/init.d/timeserver $1
     /etc/init.d/dmrid $1
     [ -f /etc/init.d/dapnetgateway ] && /etc/init.d/dapnetgateway $1
 }
@@ -63,7 +65,7 @@ status() {
 
 update() {
     opkg update
-    opkg upgrade mmdvm libmmdvm mmdvm-luci mmdvm-host p25-clients ysf-clients nxdn-clients
+    opkg upgrade mmdvm libmmdvm mmdvm-luci mmdvm-host p25-clients ysf-clients nxdn-clients ircddb-gateway
 
     installed=`opkg list-installed | grep luci-i18n-base-zh-cn`
     if [ -n "$installed" ]; then
