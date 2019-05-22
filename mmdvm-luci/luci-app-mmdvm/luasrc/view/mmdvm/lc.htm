@@ -23,6 +23,7 @@ This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2.
             { name='P25', status=(uci:get('mmdvm', 'P25', 'Enable') == '1' and {'ON'} or {'OFF'})[1] },
             { name='YSF', status=(uci:get('mmdvm', 'System_Fusion', 'Enable') == '1' and {'ON'} or {'OFF'})[1] },
             { name='NXDN', status=(uci:get('mmdvm', 'NXDN', 'Enable') == '1' and {'ON'} or {'OFF'})[1] },
+            { name='DSTAR', status=(uci:get('mmdvm', 'DStar', 'Enable') == '1' and {'ON'} or {'OFF'})[1] },
         }
         if nixio.fs.access("/etc/init.d/dapnetgateway") then
             table.insert(modes, 
@@ -44,7 +45,7 @@ This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2.
     <tr>
         <td height="40%">
             <p>Source - <%=lh.source:upper()%></p>
-            <p><%=lh.mode%> - <%=lh.target%></p>
+            <p class="mode"><%=lh.mode%> - <%=lh.target%></p>
             <p>
                 <% for _, mode in ipairs(modes) do %>
                 <label class="mode <%=mode.status%>" title="<%=mode.name%> <%=mode.status%>"><%=mode.name%></label>

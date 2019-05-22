@@ -27,6 +27,7 @@ YSFGATEWAY_CONFFILE = "/etc/YSFGateway.ini"
 P25GATEWAY_CONFFILE = "/etc/P25Gateway.ini"
 NXDNGATEWAY_CONFFILE = "/etc/NXDNGateway.ini"
 DAPNETGATEWAY_CONFFILE = "/etc/DAPNETGateway.ini"
+IRCDDBGATEWAY_CONFFILE = "/etc/ircddbgateway"
 UCI_CONFFILE = "/etc/config/mmdvm"
 
 function pocsag_enabled()
@@ -70,6 +71,8 @@ function ini2uci(muci)
 			NXDN_Network = {"Enable"},
 			POCSAG = {"Enable", "Frequency"}, 
 			POCSAG_Network = {"Enable"},
+			DStar = {"Enable", "Module"}, 
+			DStar_Network = {"Enable"}
 		}
 	local updated = false
 	local mmdvmhost_conf = ini_load(MMDVMHOST_CONFFILE)
@@ -87,7 +90,7 @@ function ini2uci(muci)
 	local nxdngateway_conf_mtime = getmetatable(nxdngateway_conf).__inifile.mtime
 
 	for section, options in pairs(mmdvmhost_conf_setions_needed) do
-		local sename = section:gsub("_", " ")
+		local sename = (section:gsub("_", " ")):gsub("DStar", "D-Star")
 		if mmdvmhost_conf[sename] then
 			for _, option in ipairs(options) do
 				if not muci:get("mmdvm", section, option) or mmdvmhost_conf_mtime > uci_mtime then
@@ -158,6 +161,23 @@ function ini2uci(muci)
 			end
 		end
 	end
+
+	-- ircddbgateway
+	if file_exists(IRCDDBGATEWAY_CONFFILE) and file_exists("/etc/init.d/ircddbgateway") then
+		local ircddbgateway_conf = ini_load(IRCDDBGATEWAY_CONFFILE)
+		local ircddbgateway_conf_mtime = getmetatable(ircddbgateway_conf).__inifile.mtime
+		local sename = "default"
+		local section = "ircddbgateway"
+		local options = {"gatewayCallsign", "repeaterCall1", "reflector1", "ircddbUsername", "dplusLogin", "aprsHostname"}
+		for _, option in ipairs(options) do
+			if not muci:get("mmdvm", section, option) or ircddbgateway_conf_mtime > uci_mtime then
+				local o = {[option] = ircddbgateway_conf[sename][option]}
+				muci:section("mmdvm", "dstar", section, o)
+				log(("init %s/ircddbgateway/%s/%s"):format(UCI_CONFFILE, section, json.stringify(o)))
+				updated = true
+			end
+		end
+	end
 	
 	if updated then
 		muci:save("mmdvm")
@@ -172,7 +192,7 @@ function uci2ini(changes)
 
 	for _, change in ipairs(changes) do
 		local action = change[1]
-		local section = change[2]:gsub("_", " ")
+		local section = (change[2]:gsub("_", " ")):gsub("DStar", "D-Star")
 		local option = change[3]
 		local value = change[4]
 
@@ -209,6 +229,13 @@ function uci2ini(changes)
 					ini_save(DAPNETGATEWAY_CONFFILE, dapnetgateway_conf)
 					log("DAPNETGateway.ini update - " .. json.stringify(change))
 				end
+			elseif section == "ircddbgateway" then
+				local ircddbgateway_conf = ini_load(IRCDDBGATEWAY_CONFFILE)
+				if ircddbgateway_conf["default"][option] then
+					ircddbgateway_conf["default"][option] = value
+					ini_save(IRCDDBGATEWAY_CONFFILE, ircddbgateway_conf)
+					log("ircddbgateway update - " .. json.stringify(change))
+				end
 			else
 				local mmdvmhost_conf = ini_load(MMDVMHOST_CONFFILE)
 				if mmdvmhost_conf[section][option] then
@@ -220,7 +247,7 @@ function uci2ini(changes)
 			end
 		end
 	end
-
+	log(json.stringify(changes))
 	return mmdvmhost_changed
 end
 
@@ -506,6 +533,7 @@ local function get_hearlist(loglines)
 				or string.find(logline, "ended network")
 				or string.find(logline, "RF user has timed out")
 				or string.find(logline, "transmission lost")
+				or string.find(logline, "D-Star")
 				or string.find(logline, "POCSAG")
 			then
 				local linetokens = logline:split(", ")
@@ -545,7 +573,7 @@ local function get_hearlist(loglines)
 
 			if mode ~= 'POCSAG' then
 				if string.find(logline, "from") then
-					callsign = string.trim(string.sub(logline, string.find(logline, "from")+5, string.find(logline, "to") - 2))
+					callsign = string.gsub(string.trim(string.sub(logline, string.find(logline, "from")+5, string.find(logline, "to") - 2)), " ", "")
 					target = string.trim(string.sub(logline, string.find(logline, "to") + 3))
 				end
 				if string.find(logline, "network") then
@@ -587,6 +615,9 @@ local function get_hearlist(loglines)
 							end
 						end
 					end,
+					["D-Star"] = function()
+						
+					end,
 					["POCSAG"] = function()
 						callsign = 'DAPNET'
 						source = "Net"
@@ -602,7 +633,7 @@ local function get_hearlist(loglines)
 			-- end
 			
 			-- Callsign or ID should be less than 11 chars long, otherwise it could be errorneous
-			if callsign and #callsign < 11 then
+			if callsign and #callsign:trim() <= 11 then
 				table.insert(headlist, 
 					{
 						timestamp = timestamp, 

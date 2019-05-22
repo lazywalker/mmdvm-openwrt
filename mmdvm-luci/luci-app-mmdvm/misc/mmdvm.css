@@ -139,6 +139,10 @@ h2 { font-size: 16px;}
     width: 200px;
 }
 
+#livecall p.mode{
+    font-size: 2.5vw;
+}
+
 #livecall p label.mode { 
     vertical-align:middle;
     border-radius: 0.6vw;

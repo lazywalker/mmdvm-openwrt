@@ -27,6 +27,8 @@ function index()
 	entry({"admin", "mmdvm", "advanced", "ysf"}, form("mmdvm/ysfgateway_tab"), _("YSF GW"), 12).leaf = true
 	entry({"admin", "mmdvm", "advanced", "p25"}, form("mmdvm/p25gateway_tab"), _("P25 GW"), 13).leaf = true
 	entry({"admin", "mmdvm", "advanced", "nxdn"}, form("mmdvm/nxdngateway_tab"), _("NXDN GW"), 14).leaf = true
+	entry({"admin", "mmdvm", "advanced", "ircDDB"}, form("mmdvm/ircddbgateway_tab"), _("ircDDB GW"), 15).leaf = true
+
 	-- dapnetgateway is optional 
 	if nixio.fs.access("/etc/init.d/dapnetgateway") then
 		entry({"admin", "mmdvm", "advanced", "dapnet"}, form("mmdvm/dapnetgateway_tab"), _("DAPNET GW"), 150).leaf = true	
@@ -36,8 +38,10 @@ function index()
 	entry({"admin", "mmdvm", "log", "ysf"}, call("action_livelog", {title="YSFGateway", log="ysf"}), _("YSF GW"), 22).leaf = true
 	entry({"admin", "mmdvm", "log", "p25"}, call("action_livelog", {title="P25Gateway", log="p25"}), _("P25 GW"), 23).leaf = true
 	entry({"admin", "mmdvm", "log", "nxdn"}, call("action_livelog", {title="NXDNGateway", log="nxdn"}), _("NXDN GW"), 24).leaf = true
+	entry({"admin", "mmdvm", "log", "ircddb"}, call("action_livelog", {title="ircDDBGateway", log="ircddb"}), _("ircDDB GW"), 25).leaf = true
+
 	if nixio.fs.access("/etc/init.d/dapnetgateway") then
-		entry({"admin", "mmdvm", "log", "dapnet"}, call("action_livelog", {title="DAPNETGateway", log="dapnet"}), _("DAPNET GW"), 25).leaf = true
+		entry({"admin", "mmdvm", "log", "dapnet"}, call("action_livelog", {title="DAPNETGateway", log="dapnet"}), _("DAPNET GW"), 26).leaf = true
 	end
 end
 

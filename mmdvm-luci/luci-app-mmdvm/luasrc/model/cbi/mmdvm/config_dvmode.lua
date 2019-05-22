@@ -203,4 +203,70 @@ o.datatype    = "uinteger"
 o = s:option(Flag, "Revert", translate("Revert to Startup"), translate("Revert to Startup reflector when InactivityTimeout"))
 o.rmempty = false
 
+
+--
+-- D-Star Properties
+--
+s = m:section(NamedSection, "DStar", "mmdvmhost", translate("D-Star Settings"))
+s.anonymous   = true
+
+o = s:option(Flag, "Enable", translate("Enable D-Star Mode"))
+o.rmempty = false
+function o.cfgvalue(self)
+    return sys.init.enabled("ircddbgateway")
+        and self.enabled or self.disabled
+end
+function o.write(self, section, value)
+    if value == self.enabled then
+        sys.init.enable("ircddbgateway")
+        sys.init.enable("timeserver")
+        sys.call("env -i /etc/init.d/ircddbgateway restart >/dev/null")
+        sys.call("env -i /etc/init.d/timeserver start >/dev/null")
+    else
+        sys.call("env -i /etc/init.d/ircddbgateway stop >/dev/null")
+        sys.call("env -i /etc/init.d/timeserver stop >/dev/null")
+        sys.init.disable("ircddbgateway")
+        sys.init.disable("timeserver")
+    end
+    AbstractValue.write(self, section, value)
+    self.map.uci:set("mmdvm", "DStar_Network", "Enable", value)
+
+    -- sync callsign with mmdvmhost's
+    self.map.uci:set("mmdvm", "ircddbgateway", "dstar")
+    self.map.uci:set("mmdvm", "ircddbgateway", "gatewayCallsign", self.map.uci:get("mmdvm", "General", "Callsign"))
+    self.map.uci:set("mmdvm", "ircddbgateway", "repeaterCall1", self.map.uci:get("mmdvm", "General", "Callsign"))
+    self.map.uci:set("mmdvm", "ircddbgateway", "ircddbUsername", self.map.uci:get("mmdvm", "General", "Callsign"))
+    self.map.uci:set("mmdvm", "ircddbgateway", "dplusLogin", self.map.uci:get("mmdvm", "General", "Callsign"))
+end
+
+local reflector1 = m.uci:get("mmdvm", "ircddbgateway", "reflector1")
+s = m:section(NamedSection, "ircddbgateway", "dstar")
+s.anonymous   = true
+o = s:option(Value, "reflector1", translate("Startup Reflector"))
+
+-- TODO: change reflector1 to drop down list style
+-- 
+-- local reflector1 = m.uci:get("mmdvm", "ircddbgateway", "reflector1")
+-- s = m:section(NamedSection, "ircddbgateway", "dstar")
+-- s.anonymous   = true
+-- o = s:option(ListValue, "reflector1", translate("Startup Reflector"))
+-- for i=1, 999 do
+--     local ref = ("XRF%03d"):format(i)
+--     o:value(ref, ref)
+-- end
+-- function o.cfgvalue(self)
+--     return reflector1:sub(1, reflector1:find(" ")-1)
+-- end
+
+-- s = m:section(NamedSection, "DStar", "mmdvmhost")
+-- s.anonymous   = true
+-- o = s:option(ListValue, "Module", translate("Module"))
+-- for i=65, 90 do
+--     local module = ("%c"):format(i)
+--     o:value(module, module)
+-- end
+-- function o.cfgvalue(self)
+--     return reflector1:sub(reflector1:find(" ")+1, -1)
+-- end
+
 return m
