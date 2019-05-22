@@ -7,11 +7,11 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=mmdvm-host
 PKG_REV:=HEAD
-PKG_VERSION:=1.0.6
+PKG_VERSION:=1.1.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
-PKG_SOURCE_URL:=https://github.com/lazywalker/MMDVMHost
+PKG_SOURCE_URL:=https://github.com/g4klx/MMDVMHost.git
 PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
 PKG_SOURCE_VERSION:=$(PKG_REV)
 PKG_SOURCE_PROTO:=git
@@ -25,7 +25,7 @@ define Package/${PKG_NAME}
 	CATEGORY:=MMDVM
 	TITLE:=MMDVM Host
 	URL:=https://github.com/g4klx/MMDVMHost/
-	DEPENDS:=+libpthread +libstdcpp +ysf-clients +p25-clients +nxdn-clients
+	DEPENDS:=+libpthread +libstdcpp +ysf-clients +p25-clients +nxdn-clients +ircddb-gateway
 endef
 
 define Package/${PKG_NAME}/description
