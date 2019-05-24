@@ -239,10 +239,24 @@ function o.write(self, section, value)
     self.map.uci:set("mmdvm", "ircddbgateway", "dplusLogin", self.map.uci:get("mmdvm", "General", "Callsign"))
 end
 
+local callsign = m.uci:get("mmdvm", "General", "Callsign")
+s = m:section(NamedSection, "DStar", "mmdvmhost")
+s.anonymous   = true
+o = s:option(ListValue, "Module", translate("RPT1 Callsign"))
+for i=65, 90 do
+    local module = ("%c"):format(i)
+    o:value(module, callsign .. " " .. module)
+end
+o = s:option(DummyValue, "", translate("RPT2 Callsign"))
+function o.cfgvalue(self)
+    return callsign .. " G"
+end
+
 local reflector1 = m.uci:get("mmdvm", "ircddbgateway", "reflector1")
 s = m:section(NamedSection, "ircddbgateway", "dstar")
 s.anonymous   = true
 o = s:option(Value, "reflector1", translate("Startup Reflector"))
+
 
 -- TODO: change reflector1 to drop down list style
 -- 
@@ -258,13 +272,7 @@ o = s:option(Value, "reflector1", translate("Startup Reflector"))
 --     return reflector1:sub(1, reflector1:find(" ")-1)
 -- end
 
--- s = m:section(NamedSection, "DStar", "mmdvmhost")
--- s.anonymous   = true
--- o = s:option(ListValue, "Module", translate("Module"))
--- for i=65, 90 do
---     local module = ("%c"):format(i)
---     o:value(module, module)
--- end
+
 -- function o.cfgvalue(self)
 --     return reflector1:sub(reflector1:find(" ")+1, -1)
 -- end
