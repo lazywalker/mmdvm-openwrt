@@ -377,6 +377,10 @@ end
 -- 	M: 2019-05-15 17:55:29.729 Downlink Activate received from BI7KJP
 -- 	M: 2019-05-15 17:55:30.083 DMR Slot 1, received RF voice header from BI7KJP to TG 46073
 -- 	M: 2019-05-15 17:55:31.341 DMR Slot 1, received RF end of voice transmission, 1.1 seconds, BER: 1.1%
+-- M: 2019-06-01 11:40:11.358 POCSAG, transmitted 1 frame(s) of data from 1 message(s)
+-- M: 2019-06-01 11:40:11.398 POCSAG, transmitted 1 frame(s) of data from 1 message(s)
+-- M: 2019-06-01 11:40:11.433 POCSAG, transmitted 1 frame(s) of data from 1 message(s)
+-- M: 2019-06-01 11:40:11.468 POCSAG, transmitted 1 frame(s) of data from 1 message(s)
 -- 	]==]
 -- 		lines = logtxt:split("\n")
 -- 		table.sort(lines, function(a,b) return a>b end)
@@ -530,7 +534,9 @@ local function get_hearlist(loglines)
 				string.find(logline, "CSBK Preamble") or
 				string.find(logline, "Preamble CSBK") or
 				string.find(logline, "Preamble VSBK") or
-				string.find(logline, "Downlink Activate received")
+				string.find(logline, "Downlink Activate received") or
+				string.find(logline, "Received a NAK") or
+				string.find(logline, "0000")
 			then
 				break
 			end
@@ -582,7 +588,7 @@ local function get_hearlist(loglines)
 			local source = "RF"
 
 			if mode ~= 'POCSAG' then
-				if string.find(logline, "from") then
+				if string.find(logline, "from") and string.find(logline, "to") then
 					callsign = string.gsub(string.trim(string.sub(logline, string.find(logline, "from")+5, string.find(logline, "to") - 2)), " ", "")
 					target = string.trim(string.sub(logline, string.find(logline, "to") + 3))
 				end
