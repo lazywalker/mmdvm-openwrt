@@ -1,5 +1,4 @@
 diff --git a/Makefile b/Makefile
-index 8fe238c..ab676a2 100644
 --- a/Makefile
 +++ b/Makefile
 @@ -1,51 +1,31 @@

@@ -1,5 +1,4 @@
 diff --git a/Common/Logger.cpp b/Common/Logger.cpp
-index 6aa789b..fafe387 100644
 --- a/Common/Logger.cpp
 +++ b/Common/Logger.cpp
 @@ -32,7 +32,7 @@ m_day(0)

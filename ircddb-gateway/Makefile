@@ -8,7 +8,7 @@ include $(TOPDIR)/rules.mk
 PKG_NAME:=ircddb-gateway
 PKG_VERSION:=1.0.0
 PKG_RELEASE:=1
-PKG_REV:=HEAD
+PKG_REV:=59a9832
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
 PKG_SOURCE_URL:=https://github.com/g4klx/ircDDBGateway
 PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
