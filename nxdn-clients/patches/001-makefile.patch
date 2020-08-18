@@ -1,19 +1,9 @@
---- /dev/null
+diff --git a/Makefile b/Makefile
+index 0809184..1905a15 100644
+--- a/Makefile
 +++ b/Makefile
-@@ -0,0 +1,16 @@
-+.nxdn-gateway:
-+	make -C NXDNGateway
-+
-+.nxdn-parrot:
-+	make -C NXDNParrot
-+
-+all: .nxdn-gateway .nxdn-parrot
-+
-+clean:
-+	make -C NXDNGateway clean
-+	make -C NXDNParrot clean
-+
-+distclean:
-+	make -C NXDNGateway distclean
-+	make -C NXDNParrot distclean
-+
+@@ -1,4 +1,4 @@
+-SUBDIRS = NXDNGateway NXDNParrot NXDNReflector
++SUBDIRS = NXDNGateway NXDNParrot
+ CLEANDIRS = $(SUBDIRS:%=clean-%)
+ INSTALLDIRS = $(SUBDIRS:%=install-%)
