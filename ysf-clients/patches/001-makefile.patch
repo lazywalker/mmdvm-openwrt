@@ -1,19 +1,9 @@
---- /dev/null
+diff --git a/Makefile b/Makefile
+index dd401bd..7e4a810 100644
+--- a/Makefile
 +++ b/Makefile
-@@ -0,0 +1,16 @@
-+.ysf-gateway:
-+	make -C YSFGateway
-+
-+.ysf-parrot:
-+	make -C YSFParrot
-+
-+all: .ysf-gateway .ysf-parrot
-+
-+clean:
-+	make -C YSFGateway clean
-+	make -C YSFParrot clean
-+
-+distclean:
-+	make -C YSFGateway distclean
-+	make -C YSFParrot distclean
-+
+@@ -1,4 +1,4 @@
+-SUBDIRS = YSFGateway YSFParrot YSFReflector
++SUBDIRS = YSFGateway YSFParrot
+ CLEANDIRS = $(SUBDIRS:%=clean-%)
+ INSTALLDIRS = $(SUBDIRS:%=install-%)

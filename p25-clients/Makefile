@@ -6,8 +6,8 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=p25-clients
-PKG_REV:=0ebb0bf
-PKG_VERSION:=1.1.2
+PKG_REV:=HEAD
+PKG_VERSION:=1.2.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
