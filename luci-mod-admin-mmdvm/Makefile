@@ -29,7 +29,7 @@ define Package/${PKG_NAME}
 	CATEGORY:=MMDVM
 	#SUBMENU:=Misc
 	TITLE:=LuCI Administration - compat-featured
-	DEPENDS:=+iwinfo +luci-base +libubus-lua +libubox-lua
+	DEPENDS:=+iwinfo +luci-compat +libubus-lua +libubox-lua
 endef
 
 define Package/${PKG_NAME}/description
