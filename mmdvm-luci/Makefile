@@ -7,13 +7,13 @@ include $(TOPDIR)/rules.mk
 include $(INCLUDE_DIR)/version.mk
 
 PKG_NAME:=mmdvm-luci
-PKG_VERSION:=1.1.2
+PKG_VERSION:=1.2.0
 PKG_RELEASE:=1
 GIT_REVISION:=$(shell git rev-parse --short HEAD)
 PKG_REVISION:=$(PKG_VERSION)-$(PKG_RELEASE)-$(GIT_REVISION)
 # PKG_BUILD_DEPENDS += $(LUCI_BUILD_DEPENDS)
 PKG_BUILD_DEPENDS:=
-PKG_CONFIG_DEPENDS += CONFIG_LUCI_SRCDIET
+PKG_CONFIG_DEPENDS += CONFIG_LUCI_SRCDIET CONFIG_LUCI_JSMIN CONFIG_LUCI_CSSTIDY
 # PKG_FILE_DEPENDS:=
 PKG_LICENSE:=GPL-2.0
 PKG_MAINTAINER:=BD7MQB <bd7mqb@qq.com>
@@ -60,6 +60,16 @@ define Package/${PKG_NAME}/config
 	help
 	  "Minify Lua sources"
 
+	config LUCI_JSMIN
+	bool "Minify JavaScript sources"
+	depends on PACKAGE_${PKG_NAME}
+	default y
+
+   	config LUCI_CSSTIDY
+	bool "Minify CSS files"
+	depends on PACKAGE_${PKG_NAME}
+	default y
+
 	menu "Translations"$(foreach lang,$(LUCI_LANGUAGES),
     config LUCI_LANG_$(lang)
 	  tristate "$(shell echo '$(LUCI_LANG.$(lang))' | sed -e 's/^.* (\(.*\))$$/\1/') ($(lang))")
@@ -77,10 +87,24 @@ define SrcDiet
 	done
 endef
 
+define JsMin
+	$(FIND) $(1) -type f -name '*.js' | while read src; do \
+		if jsmin < "$$$$src" > "$$$$src.o"; \
+		then mv "$$$$src.o" "$$$$src"; fi; \
+	done
+endef
+
+define CssTidy
+	$(FIND) $(1) -type f -name '*.css' | while read src; do \
+		if csstidy "$$$$src" --template=highest --remove_last_semicolon=true "$$$$src.o"; \
+		then mv "$$$$src.o" "$$$$src"; fi; \
+	done
+endef
+
 define SubstituteVersion
 	$(FIND) $(1) -type f -name '*.htm' | while read src; do \
-		$(SED) 's/<%# *\([^ ]*\)PKG_REVISION *%>/\1$(PKG_REVISION)/g' \
-		    -e 's/"\(<%= *\(media\|resource\) *%>[^"]*\.\(js\|css\)\)"/"\1?v=$(PKG_REVISION)"/g' \
+		$(SED) 's/<%# *\([^ ]*\)PKG_VERSION *%>/\1$(if $(PKG_VERSION),$(PKG_VERSION),$(PKG_SRC_VERSION))/g' \
+		    -e 's/"\(<%= *\(media\|resource\) *%>[^"]*\.\(js\|css\)\)"/"\1?v=$(if $(PKG_VERSION),$(PKG_VERSION),$(PKG_SRC_VERSION))"/g' \
 			"$$$$src"; \
 	done
 endef
@@ -96,13 +120,15 @@ define Package/common/install
 	if [ -d $(2)/htdocs ]; then \
 	  $(INSTALL_DIR) $(1)$(HTDOCS); \
 	  cp -pR ./$(2)/htdocs/* $(1)$(HTDOCS)/; \
+	  $(if $(CONFIG_LUCI_JSMIN),$(call JsMin,$(1)$(HTDOCS)/),true); \
+	  $(if $(CONFIG_LUCI_CSSTIDY),$(call CssTidy,$(1)$(HTDOCS)/),true); \
 	else true; fi
 	if [ -d $(2)/root ]; then \
 	  $(INSTALL_DIR) $(1)/; \
 	  cp -pR ./$(2)/root/* $(1)/; \
-		$(if $(CONFIG_LUCI_SRCDIET),$(call SrcDiet,$(1)/),true); \
-		mv $(1)/usr/sbin/dmrid.lua $(1)/usr/sbin/dmrid; \
-		chmod 750 $(1)/usr/sbin/dmrid; \
+	  $(if $(CONFIG_LUCI_SRCDIET),$(call SrcDiet,$(1)/),true); \
+	  mv $(1)/usr/sbin/dmrid.lua $(1)/usr/sbin/dmrid; \
+	  chmod 750 $(1)/usr/sbin/dmrid; \
 	else true; fi
 	if [ -d $(2)/src ]; then \
 	  $(call Build/Install/Default) \

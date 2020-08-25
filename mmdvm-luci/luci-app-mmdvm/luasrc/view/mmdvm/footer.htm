@@ -1,25 +1,19 @@
 <%#
-Copyright 2019 BD7MQB <bd7mqb@qq.com>
-This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2.0
+ Copyright 2008 Steven Barth <steven@midlink.org>
+ Copyright 2008 Jo-Philipp Wich <jow@openwrt.org>
+ Copyright 2012 David Menting <david@nut-bolt.nl>
+ Copyright 2020 Michael BD7MQB <bd7mqb@qq.com>
+ Licensed to the public under the Apache License 2.0.
 -%>
-<%
-local ver = require "luci.version"
-local disp = require "luci.dispatcher"
-local request  = disp.context.path
-local category = request[1]
-local tree = disp.node()
-local categories = disp.node_childs(tree)
-%>
-<footer>
- <ul class="breadcrumb pull-right" id="modemenu">
-    <% for i, r in ipairs(categories) do %>
-        <li<% if request[1] == r then %> class="active"<%end%>><a href="<%=controller%><%=r%>/"><%=striptags(translate(tree.nodes[r].title))%></a> <span class="divider">|</span></li>
-    <% end %>
- </ul>
- <p>Powered by <%= ver.luciname %> de BD7MQB</p>
- <p>Dashboard designed by pi-star mobile</p>
-</footer>
-</div>
-</div>
-</body>
+
+<% local ver = require "luci.version" %>
+
+   <footer>
+    <a href="https://github.com/lazywalker/mmdvm-openwrt">Powered by OSTAR</a>, BD7MQB/ <%= ver.distversion %>
+    <ul class="breadcrumb pull-right" id="modemenu" style="display:none"></ul>
+   </footer>
+  </div>
+  <script type="text/javascript">L.require('menu-bootstrap-mmdvm')</script>
+ </body>
 </html>
+
