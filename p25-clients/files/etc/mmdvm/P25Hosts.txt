@@ -3,58 +3,284 @@
 # The format of this file is the number of the Talk Group followed by the host name or address and port
 #
 
-# Wires-x,NXDN,YSF,XLX(D-Star & DMR),BM Bridge
-4	p25.duckdns.org	41004
+# 4 Wires-x,NXDN,YSF,XLX(D-Star & DMR),BM Bridge
+4	p25.duckdns.org		41004
 
-# Indiana Digital Ham Radio P25 Reflector
-6395 p25ref.nf9k.net 41000
+# XLX045E P25 <-> DMR/DSTAR/YSF/NXDN
+6	70.44.20.24	41000
 
-# World Wide, 1010x
-10100	85.119.82.151	41000
+# HELLAS Zone P25 TG202
+202 hellaszone.com 41000
 
-# North America, 1020x
-10200 dvswitch.org  41000
-10201 dvswitch.org  41010
+# 214 SPAIN P25 Reflector
+214 214p25.xreflector.es 41000
 
-# Europe, 1030x
-10300	176.9.1.168	41000
+# 226 Romania YO P25 Network
+226	p25.dstar-yo.ro	41000
+
+# HBLink Poland P25 TG260
+260 p25.hblink.pl 41000
+
+# 420 Super Freq
+420	hb.superfreqdigital.com	41000
+
+# 530 NZ
+530	zldigitalreflectors.hopto.org	41000
+
+# 707 Rural Minnesota - Bridge to TGIF707, YSF US RuralMN-707
+707	707p25.kd0ioe.com	41000
+
+# 858 San Diego, CA
+858	nz6d.dx40.com	41000
+
+# 927 Southern California
+927	927.org			41000
+
+# 2140 P25 Reflector BM DMR+ Multi 
+2140	94.177.235.81		41000
+
+# 2263 Bucharest YO3 P25 Network
+2263	p25.dstar-yo.ro	41000
+
+# RU DMR TG2503
+2503	p25.r1ik.ru		41000
+
+# 3023 Ontario Crosslink
+3023	ontxlink.hopto.org	41000
+
+# 3142 Pennsylvania
+3142 3.215.215.169 41002
+
+# 5057 VK7 TAS 
+5057	45.248.50.37		41000
+
+# 6935 Indiana Digital Ham Radio P25 Reflector
+6395	p25ref.nf9k.net		41000
+
+# 7225 MULTIPROTOCOLO ARGENTINA
+7225  ysfarg.ddns.net 41000
+
+# 10100 World Wide	http://www.george-smart.co.uk/p25/
+10100	m1geo.com		41000
+
+# 10101 World Wide TAC 1 (Bridged to the P25NX Network).
+10101	44.98.254.131		41000
+
+# 10102 World Wide TAC 2 (Bridged to the P25NX Network).
+10102	44.98.254.131		41001
+
+# 10103 World Wide TAC 3 (Bridged to the P25NX Network).
+10103	44.98.254.131		41002
+
+# 10200 North America
+10200	dvswitch.org		41000
+
+# 10201 North America TAC 1
+10201	dvswitch.org		41010
+
+# 10202 North America TAC 2 (Bridged to the P25NX Network).
+10202	44.98.254.131		41003
+
+# 10203 North America TAC 3 (Bridged to the P25NX Network).
+10203	44.98.254.131		41004
+
+# P25 France
+10208 m55.evxonline.net 41000
+
+# P25 Fun Machine WE0FUN Bridge to C4FM, DMR, DStar, NXDN and AllStarLink (Analog) http://www.we0fun.com
+10209	p25.we0fun.com	41000
+
+# 10216 Northeast Ohio
+10216	xlx216.km8v.com	41000
+
+# 10260 Poland
+10260	80.211.249.221		41000
+
+# 10300 Europe	https://p25-eu.n18.de/
+10300	176.9.1.168		41000
+
+# 10301	Europe TAC 1
 10301	ea5gvk.duckdns.org	41000
 
-# Germany, 10320
-10320	78.47.206.12	41000
+# 10302 Europe TAC 2 (Bridged to the P25NX Network).
+10302	44.98.254.131		41005
 
-# Pacific, 1040x
+# 10303 Europe TAC 3 (Bridged to the P25NX Network).
+10303	44.98.254.131		41006
+
+# 10310 Germany HAMNET (Bridge to 10320)	http://44.148.230.100/
+10310	44.148.230.100		41000
+
+# 10311 Germany HAMNET Multimode (Bridge to 10321)	http://44.148.230.100/
+10311	44.148.230.100		41010
+
+# 10320 Germany INTERNET (Bridge to 10310)	http://xlx-hc.ham-digital.org/
+10320	137.226.79.122		41000
+
+# 10321 Germany INTERNET Multimode (Bridge to 10311)	http://xlx-hc.ham-digital.org/
+10321	137.226.79.122		41010
+
+# 10328 German Pegasus Project
+10328	5.9.59.26		41000
+
+# 10342 UK
+10342	P25R.northwestdigital.club	41000
+
+# 10350 GB WARC
+10350	warc.ddns.net		41000
+
+# 10400 Pacific	http://pacificp25.repeaters.info/
 10400	pacificp25.repeaters.info	41000
+
+# 10401 Pacific	TAC 1 http://pacifictac1.repeaters.info/
 10401	pacifictac1.repeaters.info	41010
-10402	47.104.177.248				41000
-10403	120.234.41.144				41000
+
+# 10402	Pacific	TAC 2
+10402	47.104.177.248		41000
+
+# 10403	Pacific	TAC 3 http://ysf.sz790.com:8082/
+10403	ysf.sz790.com		41000
+
+# 10401	Pacific	TAC 4
+10404	p25tw338.ddns.net	41000
 
 # 10700 Australia NSW Bridge to AU NSW YSF
-10700 p25nsw.gustotech.net  41000
+10700	p25nsw.gustotech.net	41000
 
-# America-Ragchew, 28299
-28299	65.101.7.51	41000
+# 10888 Texas
+10888 29520.asnode.org 41000
 
-# NorCal-Bridge / Multimode-P25-TG30639
+# 10945 Deutschland DL1BH
+10945	dl1bh.ddns.net	41000
+
+# 11069 KK6RQs reflector
+11069	173.26.181.228	41000
+
+# 22200 IT HBLINK REFLECTOR
+22200 p25.hblink.it 41000
+
+# 22212 IT PIEDMONT GDO
+22212	p25gdo.duckdns.org	41000
+
+# 22221 HBLINK IT-DMR REGIONALE LOMBARDIA
+22221 dagobah.hblink.it 41000
+
+# 22252 IT MULTIPROTOCOL NETWORK
+22252 46.226.178.80 41000
+
+# 22258 D2ALP HBLink Italia
+22258 94.177.173.53 41000
+
+# 23225 Austria
+23225	94.199.173.123		41000
+
+# 23551 P25 Scotland
+23551 p25scotland.ddns.net 41000
+
+# 25641 Russia P25 Net
+25641	194.182.85.217		41000
+
+# 28299 America-Ragchew
+28299	65.101.7.51		41000
+
+# 30639 NorCal-Bridge / Multimode-P25-TG30639
 30639	wiresxdigi.dyndns.org	41000
 
-# Alabama Link
+# 31010 Alabama Link
 31010	p25.alabamalink.info	41000
 
-# Colorado HD
-31088 54.191.50.212 41000
+# 31057 AF5XP Sulphur,Louisiana
+31057	af5xp.ddns.net		41000
 
-# 31665 P25-DMR Gateway
-31665	18.223.66.56	41000
+# 31062 Mountain West
+31062	p25.mw-dmr.net		41000
+
+# 31077 PAPA Chat http://papasys.com
+31077	216.240.173.55	41007
+
+# 31078 PAPA Bridge to analog (formerly 7272) http://papasys.com
+31078	216.240.173.55	41000
+
+# 31079 ALERT Radio / Multimode P25/DMR
+31079	927.org			41001
+
+# 31088 Colorado HD
+31088	54.191.50.212		41000
+
+# 31092 Connecticut Chat
+31092	p25.alecwasserman.com	41000
+
+# 31161 Virginia
+31161	24.49.15.69	41000
+
+# 31171 Illinois
+31171	74.208.235.115		41000
+
+# 31188 Southern Indiana
+31188	w9windigital.org	41000
+
+# 31264 XLX625 The BROniverse www.wa8bro.com
+31264 p25.dudetronics.com 41000
+
+# 31340 Central New Jersey
+31340	cnjham.msmts.com	41000
+
+# 31341 South Jersey, http://p25.kc2idb.net
+31341	p25.kc2idb.net		41000
+
+# 31403 Oklahoma Link
+31403	3.208.70.29		41000
+
+# XLX045A P25 <-> DMR/DSTAR/YSF/NXDN <-> BM TG31425 PA Wide Cross Mode
+31425	70.44.20.24	41001
+
+#  PA Cross Mode (alt), 31426
+31426 3.215.215.169 41001
+
+# 31444	RI DIGITAL LINK TG#31444
+31444	149.28.54.153	41000
+
+# 31620 Kings of Digital
+31620 wb5ekup25.duckdns.org 41000
+
+# 31665 TGIF Network, http://tgif.network
+31665	tgif.network		41000
 
 # 31672 P25 Pi-Star chat
-31672 p25-31672.pistar.uk   41000
+31672	p25-31672.pistar.uk	41000
+
+# 31691 US Midwest P25 Reflector
+31691 net.w3axl.com 43169
 
 # 31777 DX-LINK
-31777 45.77.204.214   41000
+31777	8.9.4.102		41000
 
+# 31888 KG4JPL North-Central Florida
+31888	p25.kg4jpl.com		41000
+
+# 31983 K8JTK Hub Multimode ILS/DVMIS (K8JTK.org)
+31983	P25Reflector31983.K8JTK.org	41000
+
+# 32103 CW-Ops Academy
+32103 cwops.dyndns.org 41000
+
+# 33581 OMISS Group
+33581 omiss.dyndns.org 41000
+
+# 40721 Fusion Canada Fr
+40721	38.110.97.161		41000
+
+# 50210 Bridge to BM TG50210/XLX/YSF/WiresX Malaysia-Net
+50210   edone.now.im            41000
+ 
 # 50525 Bridge to YSF, NXDN and DMR
 50525	50525.p25dvm.com	41000
 
+# 50535 VK Multimode Link
+50535	p25tg50535.vkradio.com	41000
+
+# 51575 PH-Dumaguete Link (Multimode)
+51575	140.82.14.24	41000
+
 # 53099 New Zealand bridge to D-Star, DMR and NXDN
-53099 203.86.206.49 41000
+53099	203.86.206.49		41000
