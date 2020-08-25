@@ -6,7 +6,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nxdn-clients
-PKG_REV:=HEAD
+PKG_REV:=029cb93
 PKG_VERSION:=1.2.0
 PKG_RELEASE:=1
 

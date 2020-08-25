@@ -6,7 +6,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ysf-clients
-PKG_REV:=HEAD
+PKG_REV:=4eadb0a
 PKG_VERSION:=1.2.0
 PKG_RELEASE:=1
 
