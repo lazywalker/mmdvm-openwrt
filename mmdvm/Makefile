@@ -11,7 +11,7 @@ PKG_RELEASE:=1
 GIT_REVISION:=$(shell git rev-parse --short HEAD)
 PKG_REVISION:=$(PKG_VERSION)-$(PKG_RELEASE)-$(GIT_REVISION)
 PKG_LICENSE:=GPL-2.0
-PKG_MAINTAINER:=BD7MQB <bd7mqb@qq.com>
+PKG_MAINTAINER:=Michael BD7MQB <bd7mqb@qq.com>
 
 include $(INCLUDE_DIR)/package.mk
 
