@@ -590,7 +590,8 @@ local function get_hearlist(loglines)
 			if mode ~= 'POCSAG' then
 				if string.find(logline, "from") and string.find(logline, "to") then
 					callsign = string.gsub(string.trim(string.sub(logline, string.find(logline, "from")+5, string.find(logline, "to") - 2)), " ", "")
-					target = string.trim(string.sub(logline, string.find(logline, "to") + 3))
+					target = string.sub(logline, string.find(logline, "to") + 3)
+					target = string.gsub(string.trim(string.sub(target, 0, string.find(target, ","))), ",", "")
 				end
 				if string.find(logline, "network") then
 					source = "Net"
