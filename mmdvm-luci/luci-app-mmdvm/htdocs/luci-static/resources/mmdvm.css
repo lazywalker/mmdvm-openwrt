@@ -174,8 +174,7 @@ h2 { font-size: 16px;}
 .plaintext A:active {text-decoration: none; color: #FFFFFF;}
 
 @media screen and (max-width:560px){
-    .auto-display { display:none; }
-    #xhr_poll_status_on, #xhr_poll_status_off { display:none; }
+    .auto-display, #indicators { display:none; }
 
 	#maincontent.container {
 		margin-top: auto;
