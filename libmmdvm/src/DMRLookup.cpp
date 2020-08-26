@@ -59,15 +59,15 @@ user_t CDMRLookup::findUser(string callsign) {
 		const char *buffer = line.c_str();
 		char* s = strdup(buffer);
 		char* p1 = ::strsep(&s, "\t");
-		char* p2 = ::strsep(&s, "\t");
+		// char* p2 = ::strsep(&s, "\t");
 		char* p3 = ::strsep(&s, "\t");
 
 		if (p1 != NULL) {
 			user.name = string(p1);
 		}
-		if (p2 != NULL) {
-			user.city = string(p2);
-		}
+		// if (p2 != NULL) {
+		// 	user.city = string(p2);
+		// }
 		if (p3 != NULL) {
 			user.country = m_cc.at(string(p3));
 		}

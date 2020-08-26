@@ -83,8 +83,8 @@ static int get_user_by_callsign (lua_State *L) {
 
     lua_pushstring(L, user.name.c_str());
     lua_setfield(L, -2, "name");
-    lua_pushstring(L, user.city.c_str());
-    lua_setfield(L, -2, "city");
+    // lua_pushstring(L, user.city.c_str());
+    // lua_setfield(L, -2, "city");
     lua_pushstring(L, user.country.c_str());
     lua_setfield(L, -2, "country");
 
