@@ -12,8 +12,8 @@ This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2.
         #lc {height: 100vh; width: 100vw;}
         html, body {touch-action: manipulation;}
         </style>
-		<script src="<%=resource%>/xhr.js<%# ?v=PKG_REVISION %>"></script>
-        <link rel="stylesheet" href="<%=resource%>/mmdvm.css<%# ?v=PKG_REVISION %>">
+        <script type="text/javascript" src="<%=resource%>/luci.js"></script>
+        <link rel="stylesheet" href="<%=resource%>/mmdvm.css">
         <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
 	</head>
 	<body>
@@ -30,6 +30,7 @@ This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2.
 
             document.getElementById("lc").innerHTML = x.responseText;
         });
+        document.addEventListener('DOMContentLoaded', XHR.run);
 
         //disabled handle pinch/double-tap view zooming for mobile device
         window.onload = () => {
