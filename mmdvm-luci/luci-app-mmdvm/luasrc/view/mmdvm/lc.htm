@@ -15,7 +15,7 @@ This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2.
         end
 
         local user = luci.util.ubus("dmrid", "get_by_callsign", {callsign = callsign}) or {
-            name="Unknown", city="Somewhere", country="Nowhere"
+            name="Unknown", country="Somewhere"
         }
 
         local modes = {
@@ -38,8 +38,7 @@ This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2.
         </td>
         <td width="40%">
             <p><%=user.name or "Unknown"%></p>
-            <p><%=user.city or "Somewhere"%></p>
-            <p><%=user.country or "Nowhere"%></p>
+            <p><%=user.country or "Somewhere"%></p>
         </td>
         </tr>
     <tr>

@@ -20,7 +20,7 @@ This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2.
         end
 
         local user = luci.util.ubus("dmrid", "get_by_callsign", {callsign = callsign}) or {
-            name="Unknown", city="Somewhere", country="Nowhere"
+            name="Unknown", country="Somewhere"
         }
 
         if string.find(lh.mode, "DMR") then
@@ -40,8 +40,7 @@ This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2.
         </td>
         <td class="lh_detail_callsign">
             <p><%=user.name or "Unknown" %></p>
-            <p><%=user.city or "Somewhere" %></p>
-            <p><%=user.country or "Nowhere" %></p>
+            <p><%=user.country or "Somewhere" %></p>
         </td>
         </tr>
     <tr>
