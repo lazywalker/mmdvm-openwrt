@@ -8,7 +8,7 @@ include $(TOPDIR)/rules.mk
 PKG_NAME:=nxdn-clients
 PKG_REV:=029cb93
 PKG_VERSION:=1.2.0
-PKG_RELEASE:=1
+PKG_RELEASE:=3
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
 PKG_SOURCE_URL:=https://github.com/g4klx/NXDNClients.git
@@ -27,6 +27,7 @@ define Package/${PKG_NAME}
 	TITLE:=MMDVM NXDNClients
 	URL:=$(PKG_SOURCE_URL)
 	DEPENDS:=+libpthread +libstdcpp
+	USERID:=mmdvm:mmdvm
 endef
 
 define Package/${PKG_NAME}/description
