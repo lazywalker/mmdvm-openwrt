@@ -6,8 +6,8 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=dapnet-gateway
-PKG_REV:=HEAD
-PKG_VERSION:=1.0.2
+PKG_REV:=f00807f
+PKG_VERSION:=1.2.0
 PKG_RELEASE:=0
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
