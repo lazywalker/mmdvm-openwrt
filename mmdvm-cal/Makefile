@@ -6,8 +6,8 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=mmdvm-cal
-PKG_REV:=HEAD
-PKG_VERSION:=1.0.0
+PKG_REV:=441ac34
+PKG_VERSION:=1.2.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
