@@ -185,6 +185,9 @@ msgstr "重写UID检查"
 msgid "P25 Settings"
 msgstr "P25设置"
 
+msgid "POCSAG"
+msgstr "寻呼"
+
 msgid "Personal hotspots typically use color code 1"
 msgstr "个人热点一般使用色码1"
 
