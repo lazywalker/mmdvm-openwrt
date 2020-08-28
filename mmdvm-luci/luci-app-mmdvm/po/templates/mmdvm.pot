@@ -120,6 +120,9 @@ msgstr ""
 msgid "Loss"
 msgstr ""
 
+msgid "Radio"
+msgstr ""
+
 msgid "MMDVM"
 msgstr ""
 

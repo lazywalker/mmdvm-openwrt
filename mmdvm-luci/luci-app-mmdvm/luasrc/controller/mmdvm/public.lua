@@ -15,7 +15,7 @@ function index()
 	if not nixio.fs.access("/etc/MMDVM.ini") then
 		return
 	end
-	entry({"mmdvm"}, firstchild(), _("MMDVM"), 1).dependent = false
+	entry({"mmdvm"}, firstchild(), _("Radio"), 1).dependent = false
 	entry({"mmdvm", "dashboard"}, call("action_dashboard"), _("Dashboard"), 10).leaf = true
 	entry({"mmdvm", "log"}, firstchild(), _("Live Log"), 20)
 	entry({"mmdvm", "log", "mmdvmhost"}, call("action_livelog", {title="MMDVMHost", log="host"}), _("MMDVMHost"), 21).leaf = true

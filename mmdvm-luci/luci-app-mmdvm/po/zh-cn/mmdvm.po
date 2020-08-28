@@ -140,6 +140,9 @@ msgstr "经度"
 msgid "Loss"
 msgstr "丢失"
 
+msgid "Radio"
+msgstr "电台"
+
 msgid "MMDVM"
 msgstr ""
 
