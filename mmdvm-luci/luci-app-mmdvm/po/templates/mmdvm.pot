@@ -120,9 +120,6 @@ msgstr ""
 msgid "Loss"
 msgstr ""
 
-msgid "Radio"
-msgstr ""
-
 msgid "MMDVM"
 msgstr ""
 
@@ -192,6 +189,9 @@ msgstr ""
 msgid "Port"
 msgstr ""
 
+msgid "Radio"
+msgstr ""
+
 msgid "RFModeHang"
 msgstr ""
 
@@ -217,6 +217,9 @@ msgid "SelfOnly"
 msgstr ""
 
 msgid "Server"
+msgstr ""
+
+msgid "Settings"
 msgstr ""
 
 msgid "Simplex"

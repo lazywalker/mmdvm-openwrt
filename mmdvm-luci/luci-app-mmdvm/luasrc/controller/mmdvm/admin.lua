@@ -15,7 +15,7 @@ function index()
 		return
 	end
 	entry({"admin", "mmdvm"}, firstchild(), _("Radio"), 30).dependent = false
-	entry({"admin", "mmdvm", "config"}, firstchild(), _("Configuration"), 40).index = true
+	entry({"admin", "mmdvm", "config"}, firstchild(), _("Settings"), 40).index = true
 	entry({"admin", "mmdvm", "config", "general"}, cbi("mmdvm/config_general"), _("General"), 41)
 	entry({"admin", "mmdvm", "config", "dvmode"}, cbi("mmdvm/config_dvmode"), _("Digital Modes"), 42)
 	if nixio.fs.access("/etc/init.d/dapnetgateway") then
