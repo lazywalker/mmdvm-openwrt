@@ -3,7 +3,7 @@
 [ ! -f /etc/config/mmdvm ] && touch /etc/config/mmdvm
 [ -z `uci -q get mmdvm.System_Fusion.Enable` ] && {
 	uci set mmdvm.System_Fusion=mmdvmhost
-	uci set mmdvm.System_Fusion.Enable=1
+	uci set mmdvm.System_Fusion.Enable=0
 	uci commit mmdvm
 }
 

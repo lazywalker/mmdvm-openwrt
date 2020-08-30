@@ -3,7 +3,7 @@
 [ ! -f /etc/config/mmdvm ] && touch /etc/config/mmdvm
 [ -z `uci -q get mmdvm.P25.Enable` ] && {
 	uci set mmdvm.P25=mmdvmhost
-	uci set mmdvm.P25.Enable=1
+	uci set mmdvm.P25.Enable=0
 	uci commit mmdvm
 }
 
