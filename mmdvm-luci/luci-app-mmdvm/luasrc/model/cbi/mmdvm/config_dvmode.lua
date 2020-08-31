@@ -74,11 +74,11 @@ function o.write(self, section, value)
     if value == self.enabled then
         sys.init.enable("ysfgateway")
         sys.init.enable("ysfparrot")
-        sys.call("env -i /etc/init.d/ysfgateway restart >/dev/null")
-        sys.call("env -i /etc/init.d/ysfparrot start >/dev/null")
+        sys.init.restart("ysfgateway")
+        sys.init.restart("ysfparrot")
     else
-        sys.call("env -i /etc/init.d/ysfgateway stop >/dev/null")
-        sys.call("env -i /etc/init.d/ysfparrot stop >/dev/null")
+        sys.init.stop("ysfgateway")
+        sys.init.stop("ysfparrot")
         sys.init.disable("ysfgateway")
         sys.init.disable("ysfparrot")
     end
@@ -121,11 +121,11 @@ function o.write(self, section, value)
     if value == self.enabled then
         sys.init.enable("p25gateway")
         sys.init.enable("p25parrot")
-        sys.call("env -i /etc/init.d/p25gateway restart >/dev/null")
-        sys.call("env -i /etc/init.d/p25parrot start >/dev/null")
+        sys.init.restart("p25gateway")
+        sys.init.restart("p25parrot")
     else
-        sys.call("env -i /etc/init.d/p25gateway stop >/dev/null")
-        sys.call("env -i /etc/init.d/p25parrot stop >/dev/null")
+        sys.init.stop("p25gateway")
+        sys.init.stop("p25parrot")
         sys.init.disable("p25gateway")
         sys.init.disable("p25parrot")
     end
@@ -175,11 +175,11 @@ function o.write(self, section, value)
     if value == self.enabled then
         sys.init.enable("nxdngateway")
         sys.init.enable("nxdnparrot")
-        sys.call("env -i /etc/init.d/nxdngateway restart >/dev/null")
-        sys.call("env -i /etc/init.d/nxdnparrot start >/dev/null")
+        sys.init.restart("nxdngateway")
+        sys.init.restart("nxdnparrot")
     else
-        sys.call("env -i /etc/init.d/nxdngateway stop >/dev/null")
-        sys.call("env -i /etc/init.d/nxdnparrot stop >/dev/null")
+        sys.init.stop("nxdngateway")
+        sys.init.stop("nxdnparrot")
         sys.init.disable("nxdngateway")
         sys.init.disable("nxdnparrot")
     end
@@ -220,11 +220,11 @@ function o.write(self, section, value)
     if value == self.enabled then
         sys.init.enable("ircddbgateway")
         sys.init.enable("timeserver")
-        sys.call("env -i /etc/init.d/ircddbgateway restart >/dev/null")
-        sys.call("env -i /etc/init.d/timeserver start >/dev/null")
+        sys.init.restart("ircddbgateway")
+        sys.init.restart("timeserver")
     else
-        sys.call("env -i /etc/init.d/ircddbgateway stop >/dev/null")
-        sys.call("env -i /etc/init.d/timeserver stop >/dev/null")
+        sys.init.stop("ircddbgateway")
+        sys.init.stop("timeserver")
         sys.init.disable("ircddbgateway")
         sys.init.disable("timeserver")
     end

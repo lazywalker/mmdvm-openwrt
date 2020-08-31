@@ -200,7 +200,7 @@ function uci2ini(changes)
 			if section:find("YSFG ") then
 				local s = section:sub(6)
 				local ysfgateway_conf = ini_load(YSFGATEWAY_CONFFILE)
-				if ysfgateway_conf[s][option] then
+				if ysfgateway_conf[s] and ysfgateway_conf[s][option] then
 					ysfgateway_conf[s][option] = value
 					ini_save(YSFGATEWAY_CONFFILE, ysfgateway_conf)
 					log("YSFGateway.ini update - " .. json.stringify(change))
@@ -208,7 +208,7 @@ function uci2ini(changes)
 			elseif section:find("P25G ") then
 				local s = section:sub(6)
 				local p25gateway_conf = ini_load(P25GATEWAY_CONFFILE)
-				if p25gateway_conf[s][option] then
+				if p25gateway_conf[s] and p25gateway_conf[s][option] then
 					p25gateway_conf[s][option] = value
 					ini_save(P25GATEWAY_CONFFILE, p25gateway_conf)
 					log("P25Gateway.ini update - " .. json.stringify(change))
@@ -216,7 +216,7 @@ function uci2ini(changes)
 			elseif section:find("NXDNG ") then
 				local s = section:sub(7)
 				local nxdngateway_conf = ini_load(NXDNGATEWAY_CONFFILE)
-				if nxdngateway_conf[s][option] then
+				if nxdngateway_conf[s] and nxdngateway_conf[s][option] then
 					nxdngateway_conf[s][option] = value
 					ini_save(NXDNGATEWAY_CONFFILE, nxdngateway_conf)
 					log("NXDNGateway.ini update - " .. json.stringify(change))
@@ -224,7 +224,7 @@ function uci2ini(changes)
 			elseif section:find("DAPNET ") and file_exists(DAPNETGATEWAY_CONFFILE) and file_exists("/etc/init.d/dapnetgateway") then
 				local s = section:sub(8)
 				local dapnetgateway_conf = ini_load(DAPNETGATEWAY_CONFFILE)
-				if dapnetgateway_conf[s][option] then
+				if dapnetgateway_conf[s] and dapnetgateway_conf[s][option] then
 					dapnetgateway_conf[s][option] = value
 					ini_save(DAPNETGATEWAY_CONFFILE, dapnetgateway_conf)
 					log("DAPNETGateway.ini update - " .. json.stringify(change))
@@ -238,7 +238,7 @@ function uci2ini(changes)
 				end
 			else
 				local mmdvmhost_conf = ini_load(MMDVMHOST_CONFFILE)
-				if mmdvmhost_conf[section][option] then
+				if mmdvmhost_conf[section] and mmdvmhost_conf[section][option] then
 					mmdvmhost_conf[section][option] = value
 					ini_save(MMDVMHOST_CONFFILE, mmdvmhost_conf)
 					log("MMDVM.ini update - " .. json.stringify(change))
