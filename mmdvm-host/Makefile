@@ -8,13 +8,13 @@ include $(TOPDIR)/rules.mk
 PKG_NAME:=mmdvm-host
 PKG_REV:=f71c8ce
 PKG_VERSION:=1.2.0
-PKG_RELEASE:=5
+PKG_RELEASE:=7
 
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
-PKG_SOURCE_URL:=https://github.com/g4klx/MMDVMHost.git
-PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
-PKG_SOURCE_VERSION:=$(PKG_REV)
-PKG_SOURCE_PROTO:=git
+# PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
+# PKG_SOURCE_URL:=https://github.com/g4klx/MMDVMHost.git
+# PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
+# PKG_SOURCE_VERSION:=$(PKG_REV)
+# PKG_SOURCE_PROTO:=git
 PKG_LICENSE:=GPL-2.0
 PKG_MAINTAINER:=Michael BD7MQB <bd7mqb@qq.com>
 
@@ -25,7 +25,7 @@ define Package/${PKG_NAME}
 	CATEGORY:=MMDVM
 	TITLE:=MMDVM Host
 	URL:=https://github.com/g4klx/MMDVMHost/
-	DEPENDS:=+libpthread +libstdcpp +ysf-clients +p25-clients +nxdn-clients +ircddb-gateway +dapnet-gateway
+	DEPENDS:=+libpthread +libstdcpp +ysf-clients +p25-clients +nxdn-clients +ircddb-gateway +dapnet-gateway +libaruipioled
 	USERID:=mmdvm:mmdvm
 endef
 
@@ -33,7 +33,8 @@ define Package/${PKG_NAME}/description
 The host program for the MMDVM
 endef
 
-TARGET_CFLAGS += -std=c++0x -DOPENWRT=1
+TARGET_CFLAGS = -std=c++0x -DOPENWRT -DOLED
+TARGET_LIBS = -lArduiPi_OLED -lpthread
 
 ifeq ($(ARCH),mips)
 	TARGET_CFLAGS += -DWORDS_BIGENDIAN=1
@@ -46,6 +47,12 @@ TARGET_LDFLAGS += \
 MAKE_FLAGS +=\
     CFLAGS="$(TARGET_CFLAGS) $(TARGET_CPPFLAGS)" \
     LDFLAGS="$(TARGET_LDFLAGS)" \
+	LIBS="$(TARGET_LIBS)" \
+
+define Build/Prepare
+	$(Build/Prepare/Default)
+	$(CP) $(PKG_BUILD_DIR)/Makefile.Pi.OLED $(PKG_BUILD_DIR)/Makefile
+endef
 
 define Package/${PKG_NAME}/install
 	$(INSTALL_DIR) $(1)/usr/sbin
