@@ -13,7 +13,7 @@ DMRIDFILE_TMP=/tmp/DMRIds.dat
 # curl 'https://www.radioid.net/static/users.csv' 2>/dev/null | awk -F ',' '{print $1"\t"$2"\t"$3"\t"$4"\t"$6}'  > ${DMRIDFILE}
 
 # Pre-formatted version to speedup the update process
-wget -O ${DMRIDFILE_TMP}.gz http://pkg.openwrt.bd7mqb.com:8088/radioid/DMRIds.dat.gz
+wget -O ${DMRIDFILE_TMP}.gz http://downloads.ostar.me/radioid/DMRIds.dat.gz
 gzip -d ${DMRIDFILE_TMP}.gz
 mv ${DMRIDFILE_TMP} ${DMRIDFILE}
 
