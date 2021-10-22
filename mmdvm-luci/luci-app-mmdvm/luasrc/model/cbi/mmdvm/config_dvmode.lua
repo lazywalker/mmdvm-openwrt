@@ -96,7 +96,10 @@ s = m:section(NamedSection, "YSFG_Network", "ysfgateway")
 s.anonymous   = true
 o = s:option(ListValue, "Startup", translate("Startup Reflector"))
 for _, r in ipairs(mmdvm.get_ysf_list()) do
-    o:value(r[2], r[1] .. " - " .. r[2])
+    if(string.find(r[1],"#")~=1 and r[1]~=nil and r[1]~='')
+    then
+    	o:value(r[2], r[1] .. " - " .. r[2])
+    end	
 end
 
 o = s:option(Value, "InactivityTimeout", translate("InactivityTimeout"), translate("Minutes to disconect when idle"))
