@@ -7,6 +7,6 @@ LUCI_TITLE:=LuCI support for MMDVM
 LUCI_DEPENDS:=+luci-theme-bootstrap-mmdvm +mmdvm-host
 LUCI_PKGARCH:=all
 
-include ../../luci.mk
+include $(TOPDIR)/feeds/luci/luci.mk
 
 # call BuildPackage - OpenWrt buildroot signature
