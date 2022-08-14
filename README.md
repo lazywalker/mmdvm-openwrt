@@ -31,3 +31,14 @@ make package/{mmdvm,mmdvm-host,p25-clients,ysf-clients,nxdn-clients,mmdvm-luci,d
 ## Build with OSTAR
 
 Follow the intro at https://github.com/lazywalker/openwrt
+
+
+## License 
+
+This software is licenced under the GPL v2 and is primarily intended for amateur and educational use.
+
+Disclaimer: This software was written as a personal hobby and I am not responsible for products that use this software. Contributions from anyone are welcome.
+
+免责声明：编写此软件纯属个人爱好，我不对使用此软件的产品负责
+
+73, Michael BD7MQB
