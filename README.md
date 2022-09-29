@@ -30,7 +30,7 @@ make package/{mmdvm,mmdvm-host,p25-clients,ysf-clients,nxdn-clients,mmdvm-luci,d
 
 ## Build with OSTAR
 
-Follow the intro at https://github.com/lazywalker/openwrt
+Follow the intro at https://github.com/lazywalker/ostar
 
 
 ## License 
