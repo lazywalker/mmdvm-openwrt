@@ -5,7 +5,7 @@
 # This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2.0
 # 
 
-wget -O /etc/mmdvm/NXDNHosts.txt -q "http://github.com/g4klx/NXDNClients/raw/master/NXDNGateway/NXDNHosts.txt"
-wget -O /etc/mmdvm/NXDN.csv -q "http://github.com/g4klx/NXDNClients/raw/master/NXDNGateway/NXDN.csv"
+wget -O /etc/mmdvm/NXDNHosts.txt -q "http://downloads.ostar.me/hosts/NXDNHosts.txt"
+wget -O /etc/mmdvm/NXDN.csv -q "http://downloads.ostar.me/hosts/NXDN.csv"
 
 # TODO: a way to fetch formated NXDN.csv from radioid.net

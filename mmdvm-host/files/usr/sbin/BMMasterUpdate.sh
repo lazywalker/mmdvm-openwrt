@@ -5,4 +5,4 @@
 # This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2.0
 # 
 
-wget -O /etc/mmdvm/BMMasters.txt -q "http://registry.brandmeister.network/dmr/nodes.php"
+wget -O /etc/mmdvm/BMMasters.txt -q "http://downloads.ostar.me/hosts/BMMasters.txt"
