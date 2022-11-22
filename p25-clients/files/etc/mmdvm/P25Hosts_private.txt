@@ -4,4 +4,4 @@
 #
 
 # Your private reflector servers
-1	14.116.159.221		41000
+# 1	14.116.159.221		41000
