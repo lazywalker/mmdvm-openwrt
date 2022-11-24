@@ -62,7 +62,7 @@ function ini2uci(muci)
 			Info = {"RXFrequency", "TXFrequency", "Latitude", "Longitude", "Power", "Height", "Location", "Description", "URL"}, 
 			Modem = {"Port", "RXOffset", "TXOffset", "RSSIMappingFile"}, 
 			DMR = {"Enable", "ColorCode", "SelfOnly", "DumpTAData"}, 
-			DMR_Network = {"Address"}, 
+			DMR_Network = {"Address", "Password"}, 
 			System_Fusion = {"Enable", "SelfOnly"}, 
 			System_Fusion_Network = {"Enable"},
 			P25 = {"Enable", "NAC", "SelfOnly", "OverrideUIDCheck"},
