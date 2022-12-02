@@ -3,9 +3,13 @@
 # This is free software, licensed under the GNU GENERAL PUBLIC LICENSE, Version 2.0
 #
 
+# for lua 5.4
+LUAVER = 5.4
+LUAPATH = /usr/local/Cellar/lua/5.4.4_1/
+
 # for lua 5.3
-LUAVER = 5.3
-LUAPATH = /usr/local/Cellar/lua/5.3.5_1
+# LUAVER = 5.3
+# LUAPATH = /usr/local/Cellar/lua/5.3.5_1
 
 # for lua 5.1
 # LUAVER = 5.1
