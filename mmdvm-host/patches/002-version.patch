@@ -7,6 +7,6 @@ index 4d2faa4..7a2657a 100644
  #define        VERSION_H
 
 -const char* VERSION = "20200809";
-+const char* VERSION = "20200809-OSTAR";
++const char* VERSION = "20221211-OSTAR";
 
  #endif
