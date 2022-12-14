@@ -26,7 +26,7 @@ define Package/${PKG_NAME}
 	CATEGORY:=MMDVM
 	TITLE:=MMDVM Host
 	URL:=https://github.com/g4klx/MMDVMHost/
-	DEPENDS:=+libpthread +libstdcpp +ysf-clients +p25-clients +nxdn-clients +ircddb-gateway +dapnet-gateway +libaruipioled
+	DEPENDS:=+libpthread +libstdcpp +ysf-clients +p25-clients +nxdn-clients +ircddb-gateway +dapnet-gateway
 	USERID:=mmdvm:mmdvm
 endef
 
@@ -34,8 +34,7 @@ define Package/${PKG_NAME}/description
 The host program for the MMDVM
 endef
 
-TARGET_CFLAGS = -std=c++0x -DOPENWRT -DOLED
-TARGET_LIBS = -lArduiPi_OLED -lpthread
+TARGET_CFLAGS += -std=c++0x -DOPENWRT
 
 ifeq ($(ARCH),mips)
 	TARGET_CFLAGS += -DWORDS_BIGENDIAN=1
@@ -48,12 +47,6 @@ TARGET_LDFLAGS += \
 MAKE_FLAGS +=\
     CFLAGS="$(TARGET_CFLAGS) $(TARGET_CPPFLAGS)" \
     LDFLAGS="$(TARGET_LDFLAGS)" \
-	LIBS="$(TARGET_LIBS)" \
-
-define Build/Prepare
-	$(Build/Prepare/Default)
-	$(CP) $(PKG_BUILD_DIR)/Makefile.Pi.OLED $(PKG_BUILD_DIR)/Makefile
-endef
 
 define Package/${PKG_NAME}/install
 	$(INSTALL_DIR) $(1)/usr/sbin
