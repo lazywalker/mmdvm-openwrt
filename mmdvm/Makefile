@@ -6,7 +6,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=mmdvm
-PKG_VERSION:=1.0.6
+PKG_VERSION:=1.0.7
 PKG_RELEASE:=1
 GIT_REVISION:=$(shell git rev-parse --short HEAD)
 PKG_REVISION:=$(PKG_VERSION)-$(PKG_RELEASE)-$(GIT_REVISION)
@@ -20,7 +20,7 @@ define Package/${PKG_NAME}
 	CATEGORY:=MMDVM
 	TITLE:=MMDVM Suite
 	URL:=
-	DEPENDS:=+mmdvm-luci +mmdvm-host +mmdvm-cal
+	DEPENDS:=+mmdvm-luci +mmdvm-host
 endef
 
 define Package/${PKG_NAME}/description
