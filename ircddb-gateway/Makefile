@@ -6,7 +6,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ircddb-gateway
-PKG_VERSION:=1.3.0
+PKG_VERSION:=1.3.1
 PKG_RELEASE:=1
 PKG_REV:=380c094
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
