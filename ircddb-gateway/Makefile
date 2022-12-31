@@ -6,12 +6,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ircddb-gateway
-PKG_VERSION:=1.3.0
-PKG_RELEASE:=2
+PKG_VERSION:=1.3.1
+PKG_RELEASE:=1
 PKG_REV:=380c094
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
 PKG_SOURCE_URL:=https://github.com/lazywalker/ircDDBGateway
-PKG_MIRROR_HASH:=4e1d1c900a6a5068fb6841c32c7df67382f824474fd9bb05e437c2d8e6dfe5f0
+PKG_MIRROR_HASH:=e5f30c6cf166aaafdcfe52417bc1f5349ab6a3724692337ac955d8a08b8cbcc7
 PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
 PKG_SOURCE_VERSION:=$(PKG_REV)
 PKG_SOURCE_PROTO:=git
@@ -27,7 +27,7 @@ define Package/${PKG_NAME}
 	SECTION:=net
 	CATEGORY:=MMDVM
 	TITLE:=ircDDBGateway
-	URL:=https://github.com/g4klx/ircDDBGateway
+	URL:=https://github.com/lazywalker/ircDDBGateway
 	DEPENDS:=+libwxwidgets
 endef
 
